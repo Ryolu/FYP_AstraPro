@@ -10,7 +10,7 @@ public class BodyMaskHitTester : MonoBehaviour
     private void Start()
     {
         _bodyMask = new byte[320 * 240];
-        GetComponent<Renderer>().enabled = false;
+        GetComponent<Text>().enabled = false;
     }
 
     public void OnNewFrame(Astra.BodyMask bodyMask)
@@ -25,7 +25,7 @@ public class BodyMaskHitTester : MonoBehaviour
 
             bool isUserInSpot = IsUserInSpot(width, height);
 
-            GetComponent<Renderer>().enabled = isUserInSpot;
+            GetComponent<Text>().enabled = isUserInSpot;
         }
     }
 
@@ -33,7 +33,7 @@ public class BodyMaskHitTester : MonoBehaviour
     {
         if (ToggleBodyMaskHitTest != null && !ToggleBodyMaskHitTest.isOn)
         {
-            GetComponent<Renderer>().enabled = false;
+            GetComponent<Text>().enabled = false;
         }
     }
 

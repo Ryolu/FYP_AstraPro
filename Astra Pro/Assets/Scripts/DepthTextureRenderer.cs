@@ -14,7 +14,7 @@ public class DepthTextureRenderer : MonoBehaviour
         _textureBuffer = new Color[320 * 240];
         _depthFrameData = new short[320 * 240];
         _texture = new Texture2D(320, 240);
-        GetComponent<Renderer>().material.mainTexture = _texture;
+        GetComponent<Image>().material.mainTexture = _texture;
     }
 
     public void OnNewFrame(Astra.DepthFrame frame)

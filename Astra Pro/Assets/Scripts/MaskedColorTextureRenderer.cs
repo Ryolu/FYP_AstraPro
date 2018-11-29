@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class MaskedColorTextureRenderer : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class MaskedColorTextureRenderer : MonoBehaviour
     private void Start()
     {
         _texture = new Texture2D(320, 240, Format, false);
-        GetComponent<Renderer>().material.mainTexture = _texture;
+        GetComponent<Image>().material.mainTexture = _texture;
     }
 
     public void OnNewFrame(Astra.MaskedColorFrame frame)
@@ -38,7 +39,7 @@ public class MaskedColorTextureRenderer : MonoBehaviour
         if (_texture == null)
         {
             _texture = new Texture2D(width, height, Format, false);
-            GetComponent<Renderer>().material.mainTexture = _texture;
+            GetComponent<Image>().material.mainTexture = _texture;
             return;
         }
 
