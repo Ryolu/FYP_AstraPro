@@ -68,8 +68,8 @@ public class SkeletonRenderer : MonoBehaviour
 
                 for (int i = 0; i < joints.Length; i++)
                 {
-                    joints[i] = (GameObject)Instantiate(JointPrefab, Vector3.zero, Quaternion.identity);
-                    joints[i].transform.SetParent(JointRoot);
+                    joints[i] = Instantiate(JointPrefab, Vector3.zero, Quaternion.identity);
+                    //joints[i].transform.SetParent(JointRoot);
                 }
 
                 _bodySkeletons.Add(body.Id, joints);
