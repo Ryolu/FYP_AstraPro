@@ -121,7 +121,8 @@ public class Pointer : MonoBehaviour
             }
 
             if (press)
-                selectedButton.OnDrag(eventData);
+                Menu_Manager.OnGameMenu();
+                //selectedButton.OnDrag(eventData);
         }
     }
 }
