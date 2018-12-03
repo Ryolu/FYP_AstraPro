@@ -94,7 +94,7 @@ public class Pointer1 : MonoBehaviour
         raycastResults.Clear();
         EventSystem.current.RaycastAll(eventData, raycastResults);
 
-        ImageItem1 newButton = null;
+        ImageItem newButton = null;
 
         for (int i = 0; i < raycastResults.Count && newButton == null; i++)
             newButton = raycastResults[i].gameObject.GetComponent<ImageItem>();
