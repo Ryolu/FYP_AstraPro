@@ -11,4 +11,9 @@ public class Menu_Manager : MonoBehaviour {
         Debug.Log("TEST");
         SceneManager.LoadScene("Scenes/TestScene3");
     }
+
+    static public void OnReturn()
+    {
+
+    }
 }

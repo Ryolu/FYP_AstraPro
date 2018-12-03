@@ -121,8 +121,14 @@ public class Pointer : MonoBehaviour
             }
 
             if (press)
-                Menu_Manager.OnGameMenu();
-                //selectedButton.OnDrag(eventData);
+            {
+                if (GameObject.Find("Start"))
+                {
+                    Menu_Manager.OnGameMenu();
+                }
+                else
+                selectedButton.OnDrag(eventData);
+            }
         }
     }
 }
