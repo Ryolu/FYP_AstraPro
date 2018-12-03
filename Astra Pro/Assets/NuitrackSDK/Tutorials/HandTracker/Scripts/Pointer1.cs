@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Pointer_Menu : MonoBehaviour
+public class Pointer1 : MonoBehaviour
 {
     public enum Hands { left = 0, right = 1 };
 
@@ -30,6 +30,7 @@ public class Pointer_Menu : MonoBehaviour
 
     [SerializeField]
     Camera cam;
+    public Transform hand;
 
     ImageItem selectedButton;
 
@@ -38,6 +39,8 @@ public class Pointer_Menu : MonoBehaviour
 
     [SerializeField]
     float dragSensitivity = 5f;
+
+    [SerializeField] private GameObject ProjectilePrefab;
 
     private void Start()
     {      
@@ -76,11 +79,13 @@ public class Pointer_Menu : MonoBehaviour
             }
         }
 
+        // Show Image
         background.enabled = active;
         background.sprite = active && press ? pressSprite : defaultSprite;
-        
+
         if (!active)
             return;
+
 
         Vector2 pointOnScreenPosition = cam.WorldToScreenPoint(transform.position);
         eventData.delta = pointOnScreenPosition - eventData.position;
@@ -89,46 +94,46 @@ public class Pointer_Menu : MonoBehaviour
         raycastResults.Clear();
         EventSystem.current.RaycastAll(eventData, raycastResults);
 
-        ImageItem newButton = null;
+        ImageItem1 newButton = null;
 
         for (int i = 0; i < raycastResults.Count && newButton == null; i++)
             newButton = raycastResults[i].gameObject.GetComponent<ImageItem>();
 
-        if (newButton != selectedButton)
-        {
-            if (selectedButton != null)
-                selectedButton.OnPointerExit(eventData);
-
-            selectedButton = newButton;
-
-            if (selectedButton != null)
-                selectedButton.OnPointerEnter(eventData);
-        }
-        else if (selectedButton != null)
+        // Calls event override functions in imageitem1.cs
+        //if (newButton != selectedButton)
+        //{
+        //    if (selectedButton != null)
+        //        selectedButton.OnPointerExit(eventData);
+        //
+        //    selectedButton = newButton;
+        //
+        //    if (selectedButton != null)
+        //        selectedButton.OnPointerEnter(eventData);
+        //}
+        //else if (selectedButton != null)
         {
             if (press)
             {
-                if (eventData.delta.sqrMagnitude < dragSensitivity && !eventData.dragging)
-                {
-                    eventData.dragging = true;
-                    selectedButton.OnPointerDown(eventData);
-                }
-            }
-            else if (eventData.dragging)
-            {
-                eventData.dragging = false;
-                selectedButton.OnPointerUp(eventData);
-            }
+                //if (eventData.delta.sqrMagnitude < dragSensitivity && !eventData.dragging)
+                //{
+                //    eventData.dragging = true;
+                //    selectedButton.OnPointerDown(eventData);
+                //}
 
-            if (press)
-            {
-                if (selectedButton.gameObject.name == "Start")
-                {
-                    Menu_Manager.OnGameMenu();
-                }
-                else
-                selectedButton.OnDrag(eventData);
+                // Shoot bullet towards hand icon
+                GameObject Projectile = Instantiate(ProjectilePrefab, hand.position, Quaternion.identity, hand);
+                Projectile.GetComponent<Projectile>().dir = (background.transform.position - hand.position).normalized;
+                Destroy(Projectile, 2);
             }
+           //else if (eventData.dragging)
+           //{
+           //    eventData.dragging = false;
+           //    selectedButton.OnPointerUp(eventData);
+           //}
+
+            //if (press)
+            //    Menu_Manager.OnGameMenu();
+                //selectedButton.OnDrag(eventData);
         }
     }
 }
