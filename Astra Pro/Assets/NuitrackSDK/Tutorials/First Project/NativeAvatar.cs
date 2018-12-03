@@ -17,13 +17,18 @@ public class NativeAvatar : MonoBehaviour
     public nuitrack.JointType[] typeJoint;
     GameObject[] CreatedJoint;
     public GameObject PrefabJoint;
+    public GameObject PrefabJoint2;
 
     void Start()
     {
         CreatedJoint = new GameObject[typeJoint.Length];
         for (int q = 0; q < typeJoint.Length; q++)
         {
-            CreatedJoint[q] = Instantiate(PrefabJoint);
+            if(typeJoint[q] == nuitrack.JointType.LeftWrist || typeJoint[q] == nuitrack.JointType.RightWrist)
+                CreatedJoint[q] = Instantiate(PrefabJoint2);
+            else
+                CreatedJoint[q] = Instantiate(PrefabJoint);
+
             CreatedJoint[q].transform.SetParent(transform);
         }
         message = "Skeleton created";
