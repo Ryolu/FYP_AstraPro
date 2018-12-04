@@ -2,9 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChopTrigger : MonoBehaviour {
+public class GestureTrigger : MonoBehaviour {
 
-    public bool isHere = false;
+    public enum GestureType
+    {
+        none,
+        chop,
+        stir
+    }
+
+    [HideInInspector] public bool isHere = false;
+    public GestureType type;
 
     void OnTriggerEnter(Collider other)
     {

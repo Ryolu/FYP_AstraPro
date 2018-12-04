@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ChopDetection : MonoBehaviour {
 
-    [HideInInspector] public ChopTrigger top;
-    [HideInInspector] public ChopTrigger bottom;
+    [HideInInspector] public GestureTrigger top;
+    [HideInInspector] public GestureTrigger bottom;
 
     int counter;
 
@@ -23,11 +23,17 @@ public class ChopDetection : MonoBehaviour {
             counter++;
         
         if (counter >= 10)
-            AmazeBalls();
+            Chop();
     }
 
-    void AmazeBalls()
+    /// <summary>
+    /// This function is called when the player
+    /// does a certain number of chopping actions
+    /// </summary>
+    void Chop()
     {
+        // Do chop stuff here
+
         Debug.Log("Chopping");
         counter = 0;
     }

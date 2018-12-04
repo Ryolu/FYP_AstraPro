@@ -19,8 +19,8 @@ public class NativeAvatar : MonoBehaviour
     public GameObject PrefabJoint;
     public GameObject PrefabJoint2;
 
-    public ChopTrigger top;
-    public ChopTrigger bottom;
+    public GestureTrigger chopTop;
+    public GestureTrigger chopBottom;
 
     void Start()
     {
@@ -36,8 +36,8 @@ public class NativeAvatar : MonoBehaviour
                 if (typeJoint[q] == nuitrack.JointType.Torso)
                 {
                     ChopDetection detector = GetComponent<ChopDetection>();
-                    detector.top = Instantiate(top, CreatedJoint[q].transform.position + new Vector3(0, .02f, 0), Quaternion.identity, CreatedJoint[q].transform);
-                    detector.bottom = Instantiate(bottom, CreatedJoint[q].transform.position - new Vector3(0, .04f, 0), Quaternion.identity, CreatedJoint[q].transform);
+                    detector.top = Instantiate(chopTop, CreatedJoint[q].transform.position + new Vector3(0, .02f, 0), Quaternion.identity, CreatedJoint[q].transform);
+                    detector.bottom = Instantiate(chopBottom, CreatedJoint[q].transform.position - new Vector3(0, .04f, 0), Quaternion.identity, CreatedJoint[q].transform);
                 }
             }
         }
