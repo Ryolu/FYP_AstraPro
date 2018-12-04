@@ -31,7 +31,7 @@ public class Pointer_Menu : MonoBehaviour
     [SerializeField]
     Camera cam;
 
-    ImageItem selectedButton;
+    GameObject selectedButton;
 
     PointerEventData eventData = new PointerEventData(null);
     List<RaycastResult> raycastResults = new List<RaycastResult>();
@@ -89,20 +89,37 @@ public class Pointer_Menu : MonoBehaviour
         raycastResults.Clear();
         EventSystem.current.RaycastAll(eventData, raycastResults);
 
-        ImageItem newButton = null;
+        //ImageItem newButton = null;
+
+        //for (int i = 0; i < raycastResults.Count && newButton == null; i++)
+        //    newButton = raycastResults[i].gameObject.GetComponent<ImageItem>();
+        
+        GameObject newButton = null;
 
         for (int i = 0; i < raycastResults.Count && newButton == null; i++)
-            newButton = raycastResults[i].gameObject.GetComponent<ImageItem>();
+        {
+            if (raycastResults[i].gameObject.GetComponent<ImageItem>())
+            {
+                newButton = raycastResults[i].gameObject;
+                //Debug.Log("Hit");
+            }
+        }
 
         if (newButton != selectedButton)
         {
             if (selectedButton != null)
-                selectedButton.OnPointerExit(eventData);
+            {
+                selectedButton.GetComponent<ImageItem>().OnPointerExit(eventData);
+                Debug.Log("Exit");
+            }
 
             selectedButton = newButton;
 
             if (selectedButton != null)
-                selectedButton.OnPointerEnter(eventData);
+            {
+                selectedButton.GetComponent<ImageItem>().OnPointerEnter(eventData);
+                Debug.Log("Enter");
+            }
         }
         else if (selectedButton != null)
         {
@@ -111,36 +128,46 @@ public class Pointer_Menu : MonoBehaviour
                 if (eventData.delta.sqrMagnitude < dragSensitivity && !eventData.dragging)
                 {
                     eventData.dragging = true;
-                    selectedButton.OnPointerDown(eventData);
+                    selectedButton.GetComponent<ImageItem>().OnPointerDown(eventData);
                 }
             }
             else if (eventData.dragging)
             {
                 eventData.dragging = false;
-                selectedButton.OnPointerUp(eventData);
+                selectedButton.GetComponent<ImageItem>().OnPointerUp(eventData);
             }
 
             if (press)
             {
-                if (selectedButton.gameObject.name == "Start")
+                if (selectedButton.name == "Start")
                 {
                     Menu_Manager.OnGameMenu();
                 }
-                else if (selectedButton.gameObject.name == "BGM")
+                else if (selectedButton.name == "Image")
                 {
-                    if (selectedButton.gameObject.GetComponent<Toggle>())
+                    if (selectedButton.GetComponentInParent<Toggle>().isOn == true)
                     {
-                        if (selectedButton.gameObject.GetComponent<Toggle>().isOn == true)
-                        {
-                            selectedButton.gameObject.GetComponent<Toggle>().isOn = false;
-                        }
-                        else
-                            selectedButton.gameObject.GetComponent<Toggle>().isOn = true;
+                        selectedButton.GetComponentInParent<Toggle>().isOn = false;
+                        Debug.Log("Off");
+                    }
+                    else
+                    {
+                        selectedButton.GetComponentInParent<Toggle>().isOn = true;
+                        Debug.Log("On");
                     }
                     //selectedButton.OnDrag(eventData);
                 }
+                else if (selectedButton.name == "Handle_2")
+                {
+                    if (selectedButton.GetComponentInParent<Slider>())
+                    {
+                        selectedButton.GetComponent<ImageItem>().interactable = false;
+                        selectedButton.GetComponent<ImageItem>().OnDrag(eventData);
+                        Debug.Log("handleeeeeeeeeeeeeeeeeeeeeeeee");
+                    }
+                }
                 else
-                    selectedButton.OnDrag(eventData);
+                    selectedButton.GetComponent<ImageItem>().OnDrag(eventData);
             }
         }
     }

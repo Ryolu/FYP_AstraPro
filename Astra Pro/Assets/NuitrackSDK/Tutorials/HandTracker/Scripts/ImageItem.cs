@@ -43,7 +43,7 @@ public class ImageItem : Selectable, IDragHandler
         touches.Remove(eventData);
         UpdateInitialState();
 
-        OnClick(this);
+        //OnClick(this);
         InstantClearState();
 
         base.OnPointerUp(eventData);
@@ -57,7 +57,15 @@ public class ImageItem : Selectable, IDragHandler
         if(OneTouch)
         {
             Vector3 currentCenter = touches[0].position;
-            transform.localPosition = startPosition + (currentCenter - startCenter);
+            //transform.localPosition = startPosition + (currentCenter - startCenter);
+
+            //Debug.Log("Start" + startCenter.x);
+            //Debug.Log("");
+            //Debug.Log("Now" + currentCenter.x);
+            if (startCenter.x - currentCenter.x > 5)
+                transform.parent.GetComponentInParent<Slider>().value += 0.1f;
+            else
+                transform.parent.GetComponentInParent<Slider>().value -= 0.1f;
         }
         else if(MultiTouch)
         {
