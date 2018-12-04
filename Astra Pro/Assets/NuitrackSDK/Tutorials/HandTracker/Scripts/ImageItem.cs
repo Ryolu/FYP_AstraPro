@@ -43,7 +43,7 @@ public class ImageItem : Selectable, IDragHandler
         touches.Remove(eventData);
         UpdateInitialState();
 
-        //OnClick(this);
+        OnClick(this);
         InstantClearState();
 
         base.OnPointerUp(eventData);

@@ -126,8 +126,21 @@ public class Pointer_Menu : MonoBehaviour
                 {
                     Menu_Manager.OnGameMenu();
                 }
+                else if (selectedButton.gameObject.name == "BGM")
+                {
+                    if (selectedButton.gameObject.GetComponent<Toggle>())
+                    {
+                        if (selectedButton.gameObject.GetComponent<Toggle>().isOn == true)
+                        {
+                            selectedButton.gameObject.GetComponent<Toggle>().isOn = false;
+                        }
+                        else
+                            selectedButton.gameObject.GetComponent<Toggle>().isOn = true;
+                    }
+                    //selectedButton.OnDrag(eventData);
+                }
                 else
-                selectedButton.OnDrag(eventData);
+                    selectedButton.OnDrag(eventData);
             }
         }
     }
