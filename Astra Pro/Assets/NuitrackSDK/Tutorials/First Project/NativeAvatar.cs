@@ -17,10 +17,10 @@ public class NativeAvatar : MonoBehaviour
     public nuitrack.JointType[] typeJoint;
     GameObject[] CreatedJoint;
     public GameObject PrefabJoint;
-    public GameObject PrefabJoint2;
+    public GameObject JointWithCollider;
 
-    public GestureTrigger chopTop;
-    public GestureTrigger chopBottom;
+    public GestureTrigger chop;
+    public GestureTrigger stir;
 
     void Start()
     {
@@ -28,16 +28,20 @@ public class NativeAvatar : MonoBehaviour
         for (int q = 0; q < typeJoint.Length; q++)
         {
             if(typeJoint[q] == nuitrack.JointType.LeftWrist || typeJoint[q] == nuitrack.JointType.RightWrist)
-                CreatedJoint[q] = Instantiate(PrefabJoint2, transform);
+                CreatedJoint[q] = Instantiate(JointWithCollider, transform);
             else
             {
                 CreatedJoint[q] = Instantiate(PrefabJoint, transform);
 
                 if (typeJoint[q] == nuitrack.JointType.Torso)
                 {
-                    ChopDetection detector = GetComponent<ChopDetection>();
-                    detector.top = Instantiate(chopTop, CreatedJoint[q].transform.position + new Vector3(0, .02f, 0), Quaternion.identity, CreatedJoint[q].transform);
-                    detector.bottom = Instantiate(chopBottom, CreatedJoint[q].transform.position - new Vector3(0, .04f, 0), Quaternion.identity, CreatedJoint[q].transform);
+                    GestureDetection detector = GetComponent<ChopDetection>();
+                    detector.first = Instantiate(chop, CreatedJoint[q].transform.position + new Vector3(0, .02f, 0), Quaternion.identity, CreatedJoint[q].transform);
+                    detector.second = Instantiate(chop, CreatedJoint[q].transform.position - new Vector3(0, .04f, 0), Quaternion.identity, CreatedJoint[q].transform);
+
+                    detector = GetComponent<StirDetection>();
+                    detector.first = Instantiate(stir, CreatedJoint[q].transform.position - new Vector3(0, 0, 0.225f), Quaternion.identity, CreatedJoint[q].transform);
+                    detector.second = Instantiate(stir, CreatedJoint[q].transform.position - new Vector3(0, 0, 0.225f), Quaternion.Euler(0, 90, 0), CreatedJoint[q].transform);
                 }
             }
         }

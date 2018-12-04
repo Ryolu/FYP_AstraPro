@@ -2,25 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StirDetection : MonoBehaviour {
+public class StirDetection : GestureDetection {
 
-    [HideInInspector] public GestureTrigger vert;
-    [HideInInspector] public GestureTrigger hori;
-
-    int counter;
-
-    // Use this for initialization
-    void Start () {
-        counter = 0;
-	}
+    int counter2 = 0;
 	
 	// Update is called once per frame
 	void Update () {
 
-        if (vert.isHere && !hori.isHere)
+        if (first.isHere && !second.isHere)
             counter++;
+        else if (!first.isHere && second.isHere)
+            counter2++;
 
-        if (counter >= 10)
+        if (counter >= 5 && counter2 >= 5)
             Stir();
 
     }
@@ -34,6 +28,7 @@ public class StirDetection : MonoBehaviour {
         // Do stir stuff here
 
         Debug.Log("Stirring");
-        counter = 0;
+        counter2 = 0;
+        DoGesture();
     }
 }

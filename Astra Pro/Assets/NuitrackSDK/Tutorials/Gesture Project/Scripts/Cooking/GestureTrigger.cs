@@ -18,7 +18,7 @@ public class GestureTrigger : MonoBehaviour {
     {
         isHere = true;
     }
-    private void LateUpdate()
+    void LateUpdate()
     {
         isHere = false;
     }
