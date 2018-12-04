@@ -19,17 +19,27 @@ public class NativeAvatar : MonoBehaviour
     public GameObject PrefabJoint;
     public GameObject PrefabJoint2;
 
+    public ChopTrigger top;
+    public ChopTrigger bottom;
+
     void Start()
     {
         CreatedJoint = new GameObject[typeJoint.Length];
         for (int q = 0; q < typeJoint.Length; q++)
         {
             if(typeJoint[q] == nuitrack.JointType.LeftWrist || typeJoint[q] == nuitrack.JointType.RightWrist)
-                CreatedJoint[q] = Instantiate(PrefabJoint2);
+                CreatedJoint[q] = Instantiate(PrefabJoint2, transform);
             else
-                CreatedJoint[q] = Instantiate(PrefabJoint);
+            {
+                CreatedJoint[q] = Instantiate(PrefabJoint, transform);
 
-            CreatedJoint[q].transform.SetParent(transform);
+                if (typeJoint[q] == nuitrack.JointType.Torso)
+                {
+                    ChopDetection detector = GetComponent<ChopDetection>();
+                    detector.top = Instantiate(top, CreatedJoint[q].transform.position + new Vector3(0, .02f, 0), Quaternion.identity, CreatedJoint[q].transform);
+                    detector.bottom = Instantiate(bottom, CreatedJoint[q].transform.position - new Vector3(0, .04f, 0), Quaternion.identity, CreatedJoint[q].transform);
+                }
+            }
         }
         message = "Skeleton created";
     }
