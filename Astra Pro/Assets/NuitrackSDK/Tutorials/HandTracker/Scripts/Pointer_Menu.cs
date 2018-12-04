@@ -143,7 +143,7 @@ public class Pointer_Menu : MonoBehaviour
                 {
                     Menu_Manager.OnGameMenu();
                 }
-                else if (selectedButton.name == "Image")
+                else if (selectedButton.name == "SFX_Check" || selectedButton.name == "BGM_Check")
                 {
                     if (selectedButton.GetComponentInParent<Toggle>().isOn == true)
                     {
@@ -157,15 +157,28 @@ public class Pointer_Menu : MonoBehaviour
                     }
                     //selectedButton.OnDrag(eventData);
                 }
-                else if (selectedButton.name == "Handle_2")
-                {
-                    if (selectedButton.GetComponentInParent<Slider>())
-                    {
-                        selectedButton.GetComponent<ImageItem>().interactable = false;
-                        selectedButton.GetComponent<ImageItem>().OnDrag(eventData);
-                        Debug.Log("handleeeeeeeeeeeeeeeeeeeeeeeee");
-                    }
-                }
+                //else if (selectedButton.name == "BGM_Check")
+                //{
+                //    if (selectedButton.GetComponentInParent<Toggle>().isOn == true)
+                //    {
+                //        selectedButton.GetComponentInParent<Toggle>().isOn = false;
+                //        Debug.Log("Off");
+                //    }
+                //    else
+                //    {
+                //        selectedButton.GetComponentInParent<Toggle>().isOn = true;
+                //        Debug.Log("On");
+                //    }
+                //}
+                //else if (selectedButton.name == "Handle_2")
+                //{
+                //    if (selectedButton.GetComponentInParent<Slider>())
+                //    {
+                //        selectedButton.GetComponent<ImageItem>().interactable = false;
+                //        selectedButton.GetComponent<ImageItem>().OnDrag(eventData);
+                //        Debug.Log("handleeeeeeeeeeeeeeeeeeeeeeeee");
+                //    }
+                //}
                 else
                     selectedButton.GetComponent<ImageItem>().OnDrag(eventData);
             }
