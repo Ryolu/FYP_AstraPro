@@ -139,7 +139,7 @@ public class Pointer_Menu : MonoBehaviour
 
             if (press)
             {
-                if (selectedButton.name == "Start")
+                if (selectedButton.name == "Start" || selectedButton.name == "Return_MainMenu")
                 {
                     Menu_Manager.OnGameMenu();
                 }
@@ -148,6 +148,7 @@ public class Pointer_Menu : MonoBehaviour
                     if (selectedButton.GetComponentInParent<Toggle>().isOn == true)
                     {
                         selectedButton.GetComponentInParent<Toggle>().isOn = false;
+
                         Debug.Log("Off");
                     }
                     else
@@ -157,19 +158,6 @@ public class Pointer_Menu : MonoBehaviour
                     }
                     //selectedButton.OnDrag(eventData);
                 }
-                //else if (selectedButton.name == "BGM_Check")
-                //{
-                //    if (selectedButton.GetComponentInParent<Toggle>().isOn == true)
-                //    {
-                //        selectedButton.GetComponentInParent<Toggle>().isOn = false;
-                //        Debug.Log("Off");
-                //    }
-                //    else
-                //    {
-                //        selectedButton.GetComponentInParent<Toggle>().isOn = true;
-                //        Debug.Log("On");
-                //    }
-                //}
                 //else if (selectedButton.name == "Handle_2")
                 //{
                 //    if (selectedButton.GetComponentInParent<Slider>())
