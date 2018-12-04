@@ -158,6 +158,22 @@ public class Pointer_Menu : MonoBehaviour
                     }
                     //selectedButton.OnDrag(eventData);
                 }
+                else if (selectedButton.name == "Increase_SFX" || selectedButton.name == "Increase_BGM")
+                {
+                    selectedButton.GetComponentInParent<Slider>().value += 0.1f;
+                    if (selectedButton.GetComponentInParent<Slider>().value >= 1)
+                    {
+                        selectedButton.GetComponentInParent<Slider>().value = 1;
+                    }
+                }
+                else if (selectedButton.name == "Decrease_SFX" || selectedButton.name == "Decrease_BGM")
+                {
+                    selectedButton.GetComponentInParent<Slider>().value -= 0.1f;
+                    if (selectedButton.GetComponentInParent<Slider>().value <= 0)
+                    {
+                        selectedButton.GetComponentInParent<Slider>().value = 0;
+                    }
+                }
                 //else if (selectedButton.name == "Handle_2")
                 //{
                 //    if (selectedButton.GetComponentInParent<Slider>())
