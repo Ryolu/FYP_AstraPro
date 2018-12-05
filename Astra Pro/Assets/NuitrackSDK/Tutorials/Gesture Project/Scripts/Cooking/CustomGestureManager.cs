@@ -9,7 +9,7 @@ public class CustomGestureManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+        DisableAll();
 	}
 	
 	// Update is called once per frame
@@ -21,5 +21,15 @@ public class CustomGestureManager : MonoBehaviour {
     {
         chop.enabled = false;
         stir.enabled = false;
+    }
+
+    void OnChop()
+    {
+        chop.enabled = true;
+    }
+
+    void OnStir()
+    {
+        stir.enabled = true;
     }
 }
