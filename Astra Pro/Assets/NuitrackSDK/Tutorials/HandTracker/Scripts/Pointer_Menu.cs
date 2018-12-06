@@ -160,7 +160,11 @@ public class Pointer_Menu : MonoBehaviour
                 }
                 else if (selectedButton.name == "HighScore")
                 {
-
+                    Menu_Manager.HighScore();
+                }
+                else if (selectedButton.name == "Credits")
+                {
+                    Menu_Manager.Credits();
                 }
                 else if (selectedButton.name == "SFX_Check")
                 {
