@@ -8,14 +8,31 @@ public class Menu_Manager : MonoBehaviour {
 
     static public void OnGameMenu()
     {
-        Debug.Log("TEST");
-        SceneManager.LoadScene("Scenes/TestScene3");
+        SceneManager.LoadScene("Scenes/Main_Menu");
     }
 
-    static public void OnReturn()
+    static public void OnOptions()
     {
-
+        SceneManager.LoadScene("Scenes/Options", LoadSceneMode.Additive);
     }
 
-    
+    static public void Resume()
+    {
+        SceneManager.UnloadSceneAsync("Scenes/Options");
+    }
+
+    static public void HighScore()
+    {
+        SceneManager.LoadScene("Scenes/HighScore");
+    }
+
+    static public void Credits()
+    {
+        SceneManager.LoadScene("Scenes/Credits");
+    }
+
+    static public void In_Game()
+    {
+        SceneManager.LoadScene("Scenes/GameLevel");
+    }
 }

@@ -150,7 +150,19 @@ public class Pointer_Menu : MonoBehaviour
                 {
                     Menu_Manager.OnGameMenu();
                 }
-                else if (selectedButton.name == "SFX_Check" )
+                else if (selectedButton.name == "Options")
+                {
+                    Menu_Manager.OnOptions();
+                }
+                else if (selectedButton.name == "Back")
+                {
+                    Menu_Manager.Resume();
+                }
+                else if (selectedButton.name == "HighScore")
+                {
+
+                }
+                else if (selectedButton.name == "SFX_Check")
                 {
                     ElapsedTime += Time.deltaTime;
                     if (ElapsedTime > EndTime)
@@ -177,7 +189,7 @@ public class Pointer_Menu : MonoBehaviour
                     ElapsedTime += Time.deltaTime;
                     if (ElapsedTime > EndTime)
                     {
-                        
+
                         if (selectedButton.GetComponentInParent<Toggle>().isOn == true)
                         {
                             selectedButton.GetComponentInParent<Toggle>().isOn = false;
@@ -193,8 +205,8 @@ public class Pointer_Menu : MonoBehaviour
                             Debug.Log("On");
                         }
                     }
-                 }
-            else if (selectedButton.name == "Increase_SFX" || selectedButton.name == "Increase_BGM")
+                }
+                else if (selectedButton.name == "Increase_SFX" || selectedButton.name == "Increase_BGM")
                 {
                     if (selectedButton.name == "Increase_BGM")
                         TemptBGM = selectedButton.GetComponentInParent<Slider>().value;
