@@ -36,7 +36,7 @@ public class NativeAvatar : MonoBehaviour
                 if (typeJoint[q] == nuitrack.JointType.Torso)
                 {
                     GestureDetection detector = GetComponent<ChopDetection>();
-                    detector.first = Instantiate(chop, CreatedJoint[q].transform.position + new Vector3(0, .02f, 0), Quaternion.identity, CreatedJoint[q].transform);
+                    detector.first = Instantiate(chop, CreatedJoint[q].transform.position + new Vector3(0, 0.02f, 0), Quaternion.identity, CreatedJoint[q].transform);
                     detector.second = Instantiate(chop, CreatedJoint[q].transform.position - new Vector3(0, .04f, 0), Quaternion.identity, CreatedJoint[q].transform);
 
                     detector = GetComponent<StirDetection>();
