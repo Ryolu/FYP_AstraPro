@@ -9,7 +9,7 @@ public class CustomGestureManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        DisableAll();
+        //DisableAll();
 	}
 	
 	// Update is called once per frame

@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class ChopDetection : GestureDetection {
 
-	// Update is called once per frame
-	void Update () {
+    public GameObject chopCanvas;
+
+    // Update is called once per frame
+    void Update () {
 
 		if (first.isHere && !second.isHere)
             counter++;
@@ -21,8 +23,8 @@ public class ChopDetection : GestureDetection {
     void Chop()
     {
         // Do chop stuff here
-
-        Debug.Log("Chopping");
+        
+        chopCanvas.SetActive(true);
         DoGesture();
     }
 }

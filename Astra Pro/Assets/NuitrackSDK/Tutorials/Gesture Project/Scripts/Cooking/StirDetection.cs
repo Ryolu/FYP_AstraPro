@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class StirDetection : GestureDetection {
 
+    public GameObject stirCanvas;
     int counter2 = 0;
 	
 	// Update is called once per frame
@@ -26,9 +27,9 @@ public class StirDetection : GestureDetection {
     void Stir()
     {
         // Do stir stuff here
-
-        Debug.Log("Stirring");
+        
         counter2 = 0;
+        stirCanvas.SetActive(true);
         DoGesture();
     }
 }
