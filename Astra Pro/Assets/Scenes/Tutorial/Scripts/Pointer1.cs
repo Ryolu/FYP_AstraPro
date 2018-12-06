@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Pointer : MonoBehaviour
+public class Pointer1 : MonoBehaviour
 {
     public enum Hands { left = 0, right = 1 };
 
@@ -30,14 +30,17 @@ public class Pointer : MonoBehaviour
 
     [SerializeField]
     Camera cam;
+    public Transform hand;
 
-    ImageItem selectedButton;
+    ImageItem1 selectedButton;
 
     PointerEventData eventData = new PointerEventData(null);
     List<RaycastResult> raycastResults = new List<RaycastResult>();
 
     [SerializeField]
     float dragSensitivity = 5f;
+
+    [SerializeField] private GameObject ProjectilePrefab;
 
     private void Start()
     {      
@@ -76,11 +79,13 @@ public class Pointer : MonoBehaviour
             }
         }
 
+        // Show Image
         background.enabled = active;
         background.sprite = active && press ? pressSprite : defaultSprite;
-        
+
         if (!active)
             return;
+
 
         Vector2 pointOnScreenPosition = cam.WorldToScreenPoint(transform.position);
         eventData.delta = pointOnScreenPosition - eventData.position;
@@ -89,39 +94,49 @@ public class Pointer : MonoBehaviour
         raycastResults.Clear();
         EventSystem.current.RaycastAll(eventData, raycastResults);
 
-        ImageItem newButton = null;
+        //ImageItem1 newButton = null;
 
-        for (int i = 0; i < raycastResults.Count && newButton == null; i++)
-            newButton = raycastResults[i].gameObject.GetComponent<ImageItem>();
+        //for (int i = 0; i < raycastResults.Count && newButton == null; i++)
+        //    newButton = raycastResults[i].gameObject.GetComponent<ImageItem1>();
 
-        if (newButton != selectedButton)
-        {
-            if (selectedButton != null)
-                selectedButton.OnPointerExit(eventData);
-
-            selectedButton = newButton;
-
-            if (selectedButton != null)
-                selectedButton.OnPointerEnter(eventData);
-        }
-        else if (selectedButton != null)
-        {
+        // Calls event override functions in imageitem1.cs
+        //if (newButton != selectedButton)
+        //{
+        //    if (selectedButton != null)
+        //        selectedButton.OnPointerExit(eventData);
+        //
+        //    selectedButton = newButton;
+        //
+        //    if (selectedButton != null)
+        //        selectedButton.OnPointerEnter(eventData);
+        //}
+        //else if (selectedButton != null)
+        //{
             if (press)
             {
-                if (eventData.delta.sqrMagnitude < dragSensitivity && !eventData.dragging)
-                {
-                    eventData.dragging = true;
-                    selectedButton.OnPointerDown(eventData);
-                }
-            }
-            else if (eventData.dragging)
-            {
-                eventData.dragging = false;
-                selectedButton.OnPointerUp(eventData);
-            }
+            //if (eventData.delta.sqrMagnitude < dragSensitivity && !eventData.dragging)
+            //{
+            //    eventData.dragging = true;
+            //    selectedButton.OnPointerDown(eventData);
+            //}
 
-            if (press)
-                selectedButton.OnDrag(eventData);
+            // Shoot bullet towards hand icon
+            GameObject Projectile = CObjectPool.m_sInstance.GetPooledObject(ProjectilePrefab);
+
+            if (!Projectile) return;
+            
+            Projectile.transform.position = hand.position;
+            Projectile.transform.rotation = Quaternion.identity;
+            Projectile.GetComponent<CProjectile>().m_Dir = (background.transform.position - hand.position).normalized;
+            
         }
+           //else if (eventData.dragging)
+           //{
+           //    eventData.dragging = false;
+           //    selectedButton.OnPointerUp(eventData);
+           //}
+
+           //selectedButton.OnDrag(eventData);
+        //}
     }
 }

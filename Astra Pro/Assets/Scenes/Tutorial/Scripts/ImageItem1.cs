@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 using System.Collections.Generic;
 
-public class ImageItem : Selectable, IDragHandler
+public class ImageItem1 : Selectable, IDragHandler
 {
-    public delegate void Click(ImageItem currentItem);
+    public delegate void Click(ImageItem1 currentItem);
     public event Click OnClick;
 
     List<PointerEventData> touches = new List<PointerEventData>();
@@ -43,7 +43,7 @@ public class ImageItem : Selectable, IDragHandler
         touches.Remove(eventData);
         UpdateInitialState();
 
-        //OnClick(this);
+        OnClick(this);
         InstantClearState();
 
         base.OnPointerUp(eventData);
@@ -54,19 +54,13 @@ public class ImageItem : Selectable, IDragHandler
         if (interactable || !eventData.dragging)
             return;
 
+        // Drag picture around
         if(OneTouch)
         {
             Vector3 currentCenter = touches[0].position;
-            //transform.localPosition = startPosition + (currentCenter - startCenter);
-
-            //Debug.Log("Start" + startCenter.x);
-            //Debug.Log("");
-            //Debug.Log("Now" + currentCenter.x);
-            if (startCenter.x - currentCenter.x > 5)
-                transform.parent.GetComponentInParent<Slider>().value += 0.1f;
-            else
-                transform.parent.GetComponentInParent<Slider>().value -= 0.1f;
+            transform.localPosition = startPosition + (currentCenter - startCenter);
         }
+        // Drag to zoom in/out picture or to rotate picture
         else if(MultiTouch)
         {
             Vector3 currentCenter = (touches[0].position + touches[1].position) / 2;
@@ -82,6 +76,7 @@ public class ImageItem : Selectable, IDragHandler
         }
     }
 
+    // Reset picture information
     void UpdateInitialState()
     {
         if (OneTouch)
