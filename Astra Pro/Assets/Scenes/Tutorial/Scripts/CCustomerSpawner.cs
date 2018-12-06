@@ -2,20 +2,12 @@
 
 public class CCustomerSpawner : MonoBehaviour
 {
-    //public static CCustomerSpawner m_sInstance;
-
     [Tooltip("Queue Point of Customer")] public Transform m_QueuePoint;
 
     [Tooltip("Spawn Point of Customer")] [SerializeField] private Transform m_SpawnPoint;
     [Tooltip("Prefab of Customer")] [SerializeField] private GameObject m_CustomerPrefab;
 
     private int m_iCustomerCount = 0;
-
-    //private void Awake()
-    //{
-    //    // Set m_sInstance for other Scripts to access
-    //    m_sInstance = this;
-    //}
 
     private void Start ()
     {

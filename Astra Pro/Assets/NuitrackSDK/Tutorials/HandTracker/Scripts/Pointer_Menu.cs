@@ -170,14 +170,21 @@ public class Pointer_Menu : MonoBehaviour
                         if (selectedButton.GetComponentInParent<Toggle>().isOn == true)
                         {
                             selectedButton.GetComponentInParent<Toggle>().isOn = false;
-                            Set_Audio.SFXMinAudio();
+                            if (TemptSFX == 0.0f)
+                            {
+                                TemptSFX = 0.5f;
+                                Set_Audio.SFXMaxAudio(TemptSFX);
+                            }
+                            else 
+                            Set_Audio.SFXMaxAudio(TemptSFX);
+
                             ElapsedTime = 0;
                             Debug.Log("Off");
                         }
                         else
                         {
                             selectedButton.GetComponentInParent<Toggle>().isOn = true;
-                            Set_Audio.SFXMaxAudio(TemptSFX);
+                            Set_Audio.SFXMinAudio();
                             ElapsedTime = 0;
                             Debug.Log("On");
                         }
@@ -189,18 +196,25 @@ public class Pointer_Menu : MonoBehaviour
                     ElapsedTime += Time.deltaTime;
                     if (ElapsedTime > EndTime)
                     {
-
                         if (selectedButton.GetComponentInParent<Toggle>().isOn == true)
                         {
                             selectedButton.GetComponentInParent<Toggle>().isOn = false;
-                            Set_Audio.BGMMinAudio();
+                            if (TemptBGM == 0.0f)
+                            {
+                                TemptBGM = 0.5f;
+                                Set_Audio.BGMMaxAudio(TemptBGM);
+                            }
+                            else
+                                Set_Audio.BGMMaxAudio(TemptBGM);
+
+
                             ElapsedTime = 0;
                             Debug.Log("Off");
                         }
                         else
                         {
                             selectedButton.GetComponentInParent<Toggle>().isOn = true;
-                            Set_Audio.BGMMaxAudio(TemptBGM);
+                            Set_Audio.BGMMinAudio();
                             ElapsedTime = 0;
                             Debug.Log("On");
                         }
