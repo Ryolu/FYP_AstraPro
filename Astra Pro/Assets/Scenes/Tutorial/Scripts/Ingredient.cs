@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CIngredient : ScriptableObject {
+public class Ingredient : ScriptableObject {
     
     public float cost = 0;
 

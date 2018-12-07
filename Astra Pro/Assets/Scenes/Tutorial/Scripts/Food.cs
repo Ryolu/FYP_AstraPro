@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CFood {
+public class Food {
 
     public string name = "Default";
-    public CFood[] ingredientList;
+    public List<Ingredient> ingredientList;
 
 }
