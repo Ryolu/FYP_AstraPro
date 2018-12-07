@@ -150,6 +150,11 @@ public class Pointer_Menu : MonoBehaviour
                 {
                     Menu_Manager.OnGameMenu();
                 }
+                else if (selectedButton.name == "Tutorial")
+                {
+                    Menu_Manager.Tutorial_Mode = true;
+                    Menu_Manager.OnGameMenu();
+                }
                 else if (selectedButton.name == "Options")
                 {
                     Menu_Manager.OnOptions();
@@ -179,8 +184,8 @@ public class Pointer_Menu : MonoBehaviour
                                 TemptSFX = 0.5f;
                                 Set_Audio.SFXMaxAudio(TemptSFX);
                             }
-                            else 
-                            Set_Audio.SFXMaxAudio(TemptSFX);
+                            else
+                                Set_Audio.SFXMaxAudio(TemptSFX);
 
                             ElapsedTime = 0;
                             Debug.Log("Off");

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class Menu_Manager : MonoBehaviour {
+    static public bool Tutorial_Mode = false;
 
     static public void OnGameMenu()
     {
@@ -33,6 +34,13 @@ public class Menu_Manager : MonoBehaviour {
 
     static public void In_Game()
     {
-        SceneManager.LoadScene("Scenes/GameLevel");
+        if (Tutorial_Mode == true)
+        {
+            SceneManager.LoadScene("Scenes/Tutorial/Tutorial");
+        }
+        else
+        {
+            SceneManager.LoadScene("Scenes/GameLevel");
+        }
     }
 }
