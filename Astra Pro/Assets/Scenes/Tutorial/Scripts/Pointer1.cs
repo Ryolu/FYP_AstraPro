@@ -121,13 +121,13 @@ public class Pointer1 : MonoBehaviour
             //}
 
             // Shoot bullet towards hand icon
-            GameObject Projectile = CObjectPool.m_sInstance.GetPooledObject(ProjectilePrefab);
+            GameObject Projectile = ObjectPool.instance.GetPooledObject(ProjectilePrefab);
 
             if (!Projectile) return;
             
             Projectile.transform.position = hand.position;
             Projectile.transform.rotation = Quaternion.identity;
-            Projectile.GetComponent<CProjectile>().m_Dir = (background.transform.position - hand.position).normalized;
+            Projectile.GetComponent<Projectile>().dir = (background.transform.position - hand.position).normalized;
             
         }
            //else if (eventData.dragging)

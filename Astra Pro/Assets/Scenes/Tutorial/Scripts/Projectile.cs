@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class CProjectile : MonoBehaviour
+public class Projectile : MonoBehaviour
 {
-    [HideInInspector] public Vector3 m_Dir;
+    [HideInInspector] public Vector3 dir;
 
     // Disable itself after 2 seconds of being active
     private void OnEnable()
@@ -23,6 +23,6 @@ public class CProjectile : MonoBehaviour
     // Travel according to the Dir(Direction) stated when spawn
     private void Update()
     {
-        transform.position += m_Dir;
+        transform.position += dir;
     }
 }

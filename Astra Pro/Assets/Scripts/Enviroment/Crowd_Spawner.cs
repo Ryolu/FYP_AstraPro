@@ -12,7 +12,7 @@ public class Crowd_Spawner : MonoBehaviour {
 
     private void onSpawnCrowd()
     {
-        GameObject Spawner = CObjectPool.m_sInstance.GetPooledObject(People_1);
+        GameObject Spawner = ObjectPool.instance.GetPooledObject(People_1);
 
         Spawner.transform.position = C_Spawner.transform.position;
     }
