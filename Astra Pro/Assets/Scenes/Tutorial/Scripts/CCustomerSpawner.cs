@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class CCustomerSpawner : MonoBehaviour
 {
@@ -48,18 +49,18 @@ public class CCustomerSpawner : MonoBehaviour
     private void Update()
     {
         // Customers order food 1 by 1 as they reached counter
-        foreach (CCustomer customer in m_CustomerQ)
+        for(int i = 0; i < m_CustomerQ.Count; i++) // (CCustomer customer in m_CustomerQ)
         {
-            if (customer.m_bReachedTarget)
+            if ( m_CustomerQ.ElementAt(i).m_bReachedTarget)
             {
-                if (!customer.m_bOrderedFood)
+                if (!m_CustomerQ.ElementAt(i).m_bOrderedFood)
                 {
                     m_fWaitingTime += Time.deltaTime;
                     
                     // Wait for a few seconds(Let Customer "Think" before Ordering food)
                     if (m_fWaitingTime > m_fOrderTiming)
                     {
-                        customer.OrderFood();
+                        m_CustomerQ.ElementAt(i).OrderFood();
                         m_fWaitingTime = 0f;
                         m_CustomerQ.Dequeue();
                     }
