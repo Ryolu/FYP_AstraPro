@@ -6,8 +6,8 @@ public class RecipeBook : MonoBehaviour {
 
     public bool Completed = false;
 
-    public Dictionary<string, Food> foodList;
-    public Food[] foods;
+    public Dictionary<string, FoodSO> foodList;
+    public FoodSO[] foods;
 
     public bool[] otah;
     public bool[] fishHeadCurry;
