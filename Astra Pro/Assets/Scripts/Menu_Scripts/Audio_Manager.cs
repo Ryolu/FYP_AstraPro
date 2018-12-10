@@ -2,29 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
+
 public class Audio_Manager : MonoBehaviour {
-
+    
     public Slider BGM, SFX;
-    public AudioSource BGMSet, SFXSet;
+    public AudioMixer masterMixer;
 
+    private void Awake()
+    {
+        DontDestroyOnLoad(this);
+    }
     public void BGMMaxAudio(float Volume)
     {
         BGM.value = Volume;
-        BGMSet.GetComponent<AudioSource>().volume = Volume;
+        masterMixer.SetFloat("BackgroundMusic", 0);
     }
     public void BGMMinAudio()
     {
-        BGM.value = 0;
-        BGMSet.GetComponent<AudioSource>().volume = 0;
+        BGM.value = -80;
+        masterMixer.SetFloat("BackgroundMusic", -80);
     }
     public void SFXMaxAudio(float Volume)
     {
         SFX.value = Volume;
-        SFXSet.GetComponent<AudioSource>().volume = Volume;
+        masterMixer.SetFloat("SoundEffects", 0);
     }
     public void SFXMinAudio()
     {
-        SFX.value = 0;
-        SFXSet.GetComponent<AudioSource>().volume = 0;
+        SFX.value = -80;
+        masterMixer.SetFloat("SoundEffects", -80);
+    }
+
+    public void SetSfxLvl(float sfxLvl)
+    {
+        masterMixer.SetFloat("SoundEffects", sfxLvl);
+    }
+    public void SetBgmLvl(float bgmLvl)
+    {
+        masterMixer.SetFloat("BackgroundMusic", bgmLvl);
     }
 }

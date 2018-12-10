@@ -46,7 +46,6 @@ public class Pointer_Menu : MonoBehaviour
     float EndTime = 0.5f;
     float TemptBGM, TemptSFX;
 
-    public AudioSource BGMSet, SFXSet;
 
     private void Start()
     {      
@@ -236,18 +235,18 @@ public class Pointer_Menu : MonoBehaviour
                     if (selectedButton.name == "Increase_BGM")
                     {
                         TemptBGM = selectedButton.GetComponentInParent<Slider>().value;
-                        BGMSet.GetComponent<AudioSource>().volume = TemptBGM;
+                        Set_Audio.SetBgmLvl(selectedButton.GetComponentInParent<Slider>().value);
                     }
                     if (selectedButton.name == "Increase_SFX")
                     {
                         TemptSFX = selectedButton.GetComponentInParent<Slider>().value;
-                        SFXSet.GetComponent<AudioSource>().volume = TemptSFX;
+                        Set_Audio.SetSfxLvl(selectedButton.GetComponentInParent<Slider>().value);
                     }
 
-                    selectedButton.GetComponentInParent<Slider>().value += 0.6f * Time.deltaTime;
-                    if (selectedButton.GetComponentInParent<Slider>().value >= 1)
+                    selectedButton.GetComponentInParent<Slider>().value += 40 * Time.deltaTime;
+                    if (selectedButton.GetComponentInParent<Slider>().value >= 0)
                     {
-                        selectedButton.GetComponentInParent<Slider>().value = 1;
+                        selectedButton.GetComponentInParent<Slider>().value = 0;
                     }
                 }
                 else if (selectedButton.name == "Decrease_SFX" || selectedButton.name == "Decrease_BGM")
@@ -255,17 +254,17 @@ public class Pointer_Menu : MonoBehaviour
                     if (selectedButton.name == "Decrease_BGM")
                     {
                         TemptBGM = selectedButton.GetComponentInParent<Slider>().value;
-                        BGMSet.GetComponent<AudioSource>().volume = TemptBGM;
+                        Set_Audio.SetBgmLvl(selectedButton.GetComponentInParent<Slider>().value);
                     }
                     if (selectedButton.name == "Decrease_SFX")
                     { 
                         TemptSFX = selectedButton.GetComponentInParent<Slider>().value;
-                        SFXSet.GetComponent<AudioSource>().volume = TemptSFX;
+                        Set_Audio.SetSfxLvl(selectedButton.GetComponentInParent<Slider>().value);
                     }
-                    selectedButton.GetComponentInParent<Slider>().value -= 0.6f * Time.deltaTime;
-                    if (selectedButton.GetComponentInParent<Slider>().value <= 0)
+                    selectedButton.GetComponentInParent<Slider>().value -= 40 * Time.deltaTime;
+                    if (selectedButton.GetComponentInParent<Slider>().value <= -80)
                     {
-                        selectedButton.GetComponentInParent<Slider>().value = 0;
+                        selectedButton.GetComponentInParent<Slider>().value = -80;
                     }
                 }
                 //else if (selectedButton.name == "Handle_2")
