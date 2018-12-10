@@ -16,7 +16,10 @@ public class Sign : MonoBehaviour {
 	void Update () {
 
         if (lines.Count == numLines)
+        {
             DoSign();
+            lines.Clear();
+        }
 	}
 
     void DoSign()
