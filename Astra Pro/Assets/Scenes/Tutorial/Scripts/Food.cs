@@ -7,4 +7,5 @@ public class Food : ScriptableObject {
     public string name = "Default";
     public Ingredient[] ingredientList;
 
+    public bool[] cookingSteps;
 }
