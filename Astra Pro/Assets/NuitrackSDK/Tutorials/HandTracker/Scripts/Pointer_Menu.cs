@@ -46,6 +46,8 @@ public class Pointer_Menu : MonoBehaviour
     float EndTime = 0.5f;
     float TemptBGM, TemptSFX;
 
+    public AudioSource BGMSet, SFXSet;
+
     private void Start()
     {      
         NuitrackManager.onHandsTrackerUpdate += NuitrackManager_onHandsTrackerUpdate;
@@ -232,9 +234,15 @@ public class Pointer_Menu : MonoBehaviour
                 else if (selectedButton.name == "Increase_SFX" || selectedButton.name == "Increase_BGM")
                 {
                     if (selectedButton.name == "Increase_BGM")
+                    {
                         TemptBGM = selectedButton.GetComponentInParent<Slider>().value;
+                        BGMSet.GetComponent<AudioSource>().volume = TemptBGM;
+                    }
                     if (selectedButton.name == "Increase_SFX")
+                    {
                         TemptSFX = selectedButton.GetComponentInParent<Slider>().value;
+                        SFXSet.GetComponent<AudioSource>().volume = TemptSFX;
+                    }
 
                     selectedButton.GetComponentInParent<Slider>().value += 0.6f * Time.deltaTime;
                     if (selectedButton.GetComponentInParent<Slider>().value >= 1)
@@ -245,10 +253,15 @@ public class Pointer_Menu : MonoBehaviour
                 else if (selectedButton.name == "Decrease_SFX" || selectedButton.name == "Decrease_BGM")
                 {
                     if (selectedButton.name == "Decrease_BGM")
+                    {
                         TemptBGM = selectedButton.GetComponentInParent<Slider>().value;
+                        BGMSet.GetComponent<AudioSource>().volume = TemptBGM;
+                    }
                     if (selectedButton.name == "Decrease_SFX")
+                    { 
                         TemptSFX = selectedButton.GetComponentInParent<Slider>().value;
-
+                        SFXSet.GetComponent<AudioSource>().volume = TemptSFX;
+                    }
                     selectedButton.GetComponentInParent<Slider>().value -= 0.6f * Time.deltaTime;
                     if (selectedButton.GetComponentInParent<Slider>().value <= 0)
                     {
