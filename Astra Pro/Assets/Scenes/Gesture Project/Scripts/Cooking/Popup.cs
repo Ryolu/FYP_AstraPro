@@ -22,6 +22,7 @@ public class Popup : MonoBehaviour {
 
     private void OnEnable()
     {
+        // Resets the display countdown
         countdown = 3;
     }
 }

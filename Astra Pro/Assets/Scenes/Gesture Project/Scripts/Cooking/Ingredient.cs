@@ -7,26 +7,16 @@ using UnityEngine;
 /// to use the data inside
 /// </summary>
 
-public class Food : MonoBehaviour {
+public class Ingredient : MonoBehaviour {
 
-    public FoodSO foodSO;
+    public IngredientSO ingredientSO;
 
     // Use this for initialization
     void Start () {
-		
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
-
-    /// <summary>
-    /// Attached to buttons to generate food
-    /// </summary>
-    /// <param name="foodSO"></param>
-    public void GenerateFood(FoodSO foodSO)
-    {
-        GameObject food = ObjectPool.instance.GetPooledObject(foodSO);
-    }
 }

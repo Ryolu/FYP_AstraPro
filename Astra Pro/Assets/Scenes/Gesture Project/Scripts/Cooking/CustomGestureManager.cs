@@ -17,17 +17,26 @@ public class CustomGestureManager : MonoBehaviour {
 		
 	}
 
+    /// <summary>
+    /// Called in Start() so that no detection is switched on
+    /// </summary>
     private void DisableAll()
     {
         chop.enabled = false;
         stir.enabled = false;
     }
 
+    /// <summary>
+    /// Called to switch on chopping gesture detection
+    /// </summary>
     void OnChop()
     {
         chop.enabled = true;
     }
 
+    /// <summary>
+    /// Called to switch on stirring gesture detection
+    /// </summary>
     void OnStir()
     {
         stir.enabled = true;

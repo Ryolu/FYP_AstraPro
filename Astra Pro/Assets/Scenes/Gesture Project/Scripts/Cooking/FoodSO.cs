@@ -13,7 +13,7 @@ using UnityEditor;
 public class FoodSO : ScriptableObject {
 
     public string foodName = "Default";
-    public Ingredient[] ingredientList;
+    public IngredientSO[] ingredientList;
     public bool[] cookingSteps;
     public Sprite sprite;
 
