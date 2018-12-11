@@ -2,22 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Food : MonoBehaviour {
+public class Food : ScriptableObject {
 
-    public FoodSO foodSO;
+    public string name = "Default";
+    public Ingredient[] ingredientList;
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-    public void GenerateFood(FoodSO foodSO)
-    {
-        GameObject food = ObjectPool.instance.GetPooledObject(foodSO);
-    }
+    public bool[] cookingSteps;
 }
