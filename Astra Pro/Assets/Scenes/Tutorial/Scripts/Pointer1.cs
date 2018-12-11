@@ -41,6 +41,8 @@ public class Pointer1 : MonoBehaviour
     float dragSensitivity = 5f;
 
     [SerializeField] private GameObject ProjectilePrefab;
+    [SerializeField] private GameObject pauseUI;
+    [SerializeField] private GameObject pauseButton;
 
     private void Start()
     {      
@@ -94,49 +96,62 @@ public class Pointer1 : MonoBehaviour
         raycastResults.Clear();
         EventSystem.current.RaycastAll(eventData, raycastResults);
 
-        //ImageItem1 newButton = null;
+        ImageItem1 newButton = null;
 
-        //for (int i = 0; i < raycastResults.Count && newButton == null; i++)
-        //    newButton = raycastResults[i].gameObject.GetComponent<ImageItem1>();
+        for (int i = 0; i < raycastResults.Count && newButton == null; i++)
+            newButton = raycastResults[i].gameObject.GetComponent<ImageItem1>();
 
         // Calls event override functions in imageitem1.cs
-        //if (newButton != selectedButton)
-        //{
-        //    if (selectedButton != null)
-        //        selectedButton.OnPointerExit(eventData);
-        //
-        //    selectedButton = newButton;
-        //
-        //    if (selectedButton != null)
-        //        selectedButton.OnPointerEnter(eventData);
-        //}
-        //else if (selectedButton != null)
-        //{
+        if (newButton != selectedButton)
+        {
+            if (selectedButton != null)
+                selectedButton.OnPointerExit(eventData);
+        
+            selectedButton = newButton;
+        
+            if (selectedButton != null)
+                selectedButton.OnPointerEnter(eventData);
+        }
+        else if (selectedButton != null)
+        {
             if (press)
             {
-            //if (eventData.delta.sqrMagnitude < dragSensitivity && !eventData.dragging)
-            //{
-            //    eventData.dragging = true;
-            //    selectedButton.OnPointerDown(eventData);
-            //}
+                if (eventData.delta.sqrMagnitude < dragSensitivity && !eventData.dragging)
+                {
+                    eventData.dragging = true;
+                    selectedButton.OnPointerDown(eventData);
+                }
 
-            // Shoot bullet towards hand icon
-            GameObject Projectile = ObjectPool.instance.GetPooledObject(ProjectilePrefab);
+                // Shoot bullet towards hand icon
+                GameObject Projectile = ObjectPool.instance.GetPooledObject(ProjectilePrefab);
 
-            if (!Projectile) return;
+                if (!Projectile) return;
             
-            Projectile.transform.position = hand.position;
-            Projectile.transform.rotation = Quaternion.identity;
-            Projectile.GetComponent<Projectile>().dir = (background.transform.position - hand.position).normalized;
+                Projectile.transform.position = hand.position;
+                Projectile.transform.rotation = Quaternion.identity;
+                Projectile.GetComponent<Projectile>().dir = (background.transform.position - hand.position).normalized;
             
+                // Pause Button
+                if(selectedButton.gameObject.name == "Pause" && !PauseManager.isPaused)
+                {
+                    pauseUI.SetActive(true);
+                    pauseButton.SetActive(false);
+                    PauseManager.Pause();
+                }
+                else if (selectedButton.gameObject.name == "Resume" && PauseManager.isPaused)
+                {
+                    pauseUI.SetActive(false);
+                    pauseButton.SetActive(true);
+                    PauseManager.Resume();
+                }
+            }
+            else if (eventData.dragging)
+            {
+                eventData.dragging = false;
+                selectedButton.OnPointerUp(eventData);
+            }
+
+            selectedButton.OnDrag(eventData);
         }
-           //else if (eventData.dragging)
-           //{
-           //    eventData.dragging = false;
-           //    selectedButton.OnPointerUp(eventData);
-           //}
-
-           //selectedButton.OnDrag(eventData);
-        //}
     }
 }

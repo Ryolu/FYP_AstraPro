@@ -32,7 +32,7 @@ public class ImageItem1 : Selectable, IDragHandler
         if (!touches.Contains(eventData))
         {
             touches.Add(eventData);
-            UpdateInitialState();
+            //UpdateInitialState();
         }
 
         base.OnPointerDown(eventData);
@@ -41,9 +41,9 @@ public class ImageItem1 : Selectable, IDragHandler
     public override void OnPointerUp(PointerEventData eventData)
     {
         touches.Remove(eventData);
-        UpdateInitialState();
+        //UpdateInitialState();
 
-        OnClick(this);
+        //OnClick(this);
         InstantClearState();
 
         base.OnPointerUp(eventData);
