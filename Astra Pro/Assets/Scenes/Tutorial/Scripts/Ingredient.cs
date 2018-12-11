@@ -6,6 +6,9 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
+/// <summary>
+/// A ScriptableObject class for storing ingredient information
+/// </summary>
 public class Ingredient : ScriptableObject {
 
     public string ingredientName = "Default";
@@ -13,6 +16,9 @@ public class Ingredient : ScriptableObject {
     public Sprite sprite;
 
 #if UNITY_EDITOR
+    /// <summary>
+    /// Creates the ingredient from Unity Editor
+    /// </summary>
     [MenuItem("Assets/Create/Custom/Ingredient")]
     public static void CreateIngredient()
     {

@@ -17,7 +17,7 @@ public class GestureDetection : MonoBehaviour {
 	}
 
     /// <summary>
-    /// Resets any variable which is consistent throughout children
+    /// Resets any variable which is consistent throughout children.
     /// </summary>
     protected void DoGesture()
     {

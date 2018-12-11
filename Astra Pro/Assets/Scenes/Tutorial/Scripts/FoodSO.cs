@@ -6,6 +6,10 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
+/// <summary>
+/// A ScriptableObject for food containing
+/// its data
+/// </summary>
 public class FoodSO : ScriptableObject {
 
     public string foodName = "Default";
@@ -14,6 +18,10 @@ public class FoodSO : ScriptableObject {
     public Sprite sprite;
 
 #if UNITY_EDITOR
+
+    /// <summary>
+    /// Creates the food asset
+    /// </summary>
     [MenuItem("Assets/Create/Custom/Food")]
     public static void CreateFood()
     {

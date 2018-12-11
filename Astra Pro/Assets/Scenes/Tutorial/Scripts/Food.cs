@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// The class that takes in a FoodSO ScriptableObject
+/// to use the data inside
+/// </summary>
+
 public class Food : MonoBehaviour {
 
     public FoodSO foodSO;
@@ -16,6 +21,10 @@ public class Food : MonoBehaviour {
 		
 	}
 
+    /// <summary>
+    /// Attached to buttons to generate food
+    /// </summary>
+    /// <param name="foodSO"></param>
     public void GenerateFood(FoodSO foodSO)
     {
         GameObject food = ObjectPool.instance.GetPooledObject(foodSO);
