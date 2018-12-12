@@ -8,7 +8,7 @@ public class Audio_Manager : MonoBehaviour {
     
     public Slider BGM, SFX;
     public AudioMixer masterMixer;
-    public static Audio_Manager Instance;
+    public static Audio_Manager Instance = null;
 
     public Dictionary<string,AudioClip> audioDictionary;
     public AudioClip[] audioList;
@@ -17,10 +17,10 @@ public class Audio_Manager : MonoBehaviour {
     {
         if (Instance == null)
             Instance = this;
-        else
-            Destroy(this);
+        else if (Instance != this)
+            Destroy(gameObject);
 
-        DontDestroyOnLoad(this);
+        DontDestroyOnLoad(gameObject);
     }
     void Start()
     {

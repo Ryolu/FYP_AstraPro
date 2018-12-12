@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
 public class Menu_Manager : MonoBehaviour {
+
     static public bool Tutorial_Mode = false;
     public GameObject usingAudio;
     public static Menu_Manager Instance;
@@ -13,21 +14,24 @@ public class Menu_Manager : MonoBehaviour {
     {
         if (Instance == null)
             Instance = this;
-        else
-            Destroy(this);
+        else if (Instance != this)
+            Destroy(gameObject);
 
         DontDestroyOnLoad(this);
     }
 
     public void OnGameMenu()
     {
-        Audio_Manager.Instance.transform.GetChild(0).GetComponent<AudioSource>().clip = Audio_Manager.Instance.audioDictionary["MainMenu"];
+        Audio_Manager.Instance.GetComponent<AudioSource>().clip = Audio_Manager.Instance.audioDictionary["MainMenu"];
+        Audio_Manager.Instance.GetComponent<AudioSource>().Play();
         SceneManager.LoadSceneAsync("Scenes/Main_Menu");
     }
 
     public void OnOptions()
     {
-        SceneManager.LoadSceneAsync("Scenes/Options", LoadSceneMode.Additive);
+        Audio_Manager.Instance.GetComponent<AudioSource>().clip = Audio_Manager.Instance.audioDictionary["Score_Board"];
+        Audio_Manager.Instance.GetComponent<AudioSource>().Play();
+        SceneManager.LoadScene("Scenes/Options");
     }
 
     public void Resume()
@@ -37,7 +41,7 @@ public class Menu_Manager : MonoBehaviour {
 
     public void HighScore()
     {
-        Audio_Manager.Instance.transform.GetChild(0).GetComponent<AudioSource>().clip = Audio_Manager.Instance.audioDictionary["Score_Board"];
+        Audio_Manager.Instance.GetComponent<AudioSource>().clip = Audio_Manager.Instance.audioDictionary["Score_Board"];
         SceneManager.LoadSceneAsync("Scenes/HighScore");
     }
 

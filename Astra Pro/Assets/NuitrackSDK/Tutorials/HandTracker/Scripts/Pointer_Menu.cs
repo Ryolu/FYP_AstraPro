@@ -31,9 +31,6 @@ public class Pointer_Menu : MonoBehaviour
     [SerializeField]
     Camera cam;
 
-    [SerializeField]
-    Audio_Manager Set_Audio;
-
     GameObject selectedButton;
 
     PointerEventData eventData = new PointerEventData(null);
@@ -183,10 +180,10 @@ public class Pointer_Menu : MonoBehaviour
                             if (TemptSFX == 0.0f)
                             {
                                 TemptSFX = 0.5f;
-                                Set_Audio.SFXMaxAudio(TemptSFX);
+                                Audio_Manager.Instance.SFXMaxAudio(TemptSFX);
                             }
                             else
-                                Set_Audio.SFXMaxAudio(TemptSFX);
+                                Audio_Manager.Instance.SFXMaxAudio(TemptSFX);
 
                             ElapsedTime = 0;
                             Debug.Log("Off");
@@ -194,7 +191,7 @@ public class Pointer_Menu : MonoBehaviour
                         else
                         {
                             selectedButton.GetComponentInParent<Toggle>().isOn = true;
-                            Set_Audio.SFXMinAudio();
+                            Audio_Manager.Instance.SFXMinAudio();
                             ElapsedTime = 0;
                             Debug.Log("On");
                         }
@@ -212,10 +209,10 @@ public class Pointer_Menu : MonoBehaviour
                             if (TemptBGM == 0.0f)
                             {
                                 TemptBGM = 0.5f;
-                                Set_Audio.BGMMaxAudio(TemptBGM);
+                                Audio_Manager.Instance.BGMMaxAudio(TemptBGM);
                             }
                             else
-                                Set_Audio.BGMMaxAudio(TemptBGM);
+                                Audio_Manager.Instance.BGMMaxAudio(TemptBGM);
 
 
                             ElapsedTime = 0;
@@ -224,7 +221,7 @@ public class Pointer_Menu : MonoBehaviour
                         else
                         {
                             selectedButton.GetComponentInParent<Toggle>().isOn = true;
-                            Set_Audio.BGMMinAudio();
+                            Audio_Manager.Instance.BGMMinAudio();
                             ElapsedTime = 0;
                             Debug.Log("On");
                         }
@@ -235,12 +232,12 @@ public class Pointer_Menu : MonoBehaviour
                     if (selectedButton.name == "Increase_BGM")
                     {
                         TemptBGM = selectedButton.GetComponentInParent<Slider>().value;
-                        Set_Audio.SetBgmLvl(selectedButton.GetComponentInParent<Slider>().value);
+                        Audio_Manager.Instance.SetBgmLvl(selectedButton.GetComponentInParent<Slider>().value);
                     }
                     if (selectedButton.name == "Increase_SFX")
                     {
                         TemptSFX = selectedButton.GetComponentInParent<Slider>().value;
-                        Set_Audio.SetSfxLvl(selectedButton.GetComponentInParent<Slider>().value);
+                        Audio_Manager.Instance.SetSfxLvl(selectedButton.GetComponentInParent<Slider>().value);
                     }
 
                     selectedButton.GetComponentInParent<Slider>().value += 40 * Time.deltaTime;
@@ -254,12 +251,12 @@ public class Pointer_Menu : MonoBehaviour
                     if (selectedButton.name == "Decrease_BGM")
                     {
                         TemptBGM = selectedButton.GetComponentInParent<Slider>().value;
-                        Set_Audio.SetBgmLvl(selectedButton.GetComponentInParent<Slider>().value);
+                        Audio_Manager.Instance.SetBgmLvl(selectedButton.GetComponentInParent<Slider>().value);
                     }
                     if (selectedButton.name == "Decrease_SFX")
                     { 
                         TemptSFX = selectedButton.GetComponentInParent<Slider>().value;
-                        Set_Audio.SetSfxLvl(selectedButton.GetComponentInParent<Slider>().value);
+                        Audio_Manager.Instance.SetSfxLvl(selectedButton.GetComponentInParent<Slider>().value);
                     }
                     selectedButton.GetComponentInParent<Slider>().value -= 40 * Time.deltaTime;
                     if (selectedButton.GetComponentInParent<Slider>().value <= -80)
