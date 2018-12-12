@@ -149,28 +149,28 @@ public class Pointer_Menu : MonoBehaviour
             {
                 if (selectedButton.name == "Start" || selectedButton.name == "Return_MainMenu")
                 {
-                    Menu_Manager.OnGameMenu();
+                    Menu_Manager.Instance.OnGameMenu();
                 }
                 else if (selectedButton.name == "Tutorial")
                 {
                     Menu_Manager.Tutorial_Mode = true;
-                    Menu_Manager.OnGameMenu();
+                    Menu_Manager.Instance.OnGameMenu();
                 }
                 else if (selectedButton.name == "Options")
                 {
-                    Menu_Manager.OnOptions();
+                    Menu_Manager.Instance.OnOptions();
                 }
                 else if (selectedButton.name == "Back")
                 {
-                    Menu_Manager.Resume();
+                    Menu_Manager.Instance.Resume();
                 }
                 else if (selectedButton.name == "HighScore")
                 {
-                    Menu_Manager.HighScore();
+                    Menu_Manager.Instance.HighScore();
                 }
                 else if (selectedButton.name == "Credits")
                 {
-                    Menu_Manager.Credits();
+                    Menu_Manager.Instance.Credits();
                 }
                 else if (selectedButton.name == "SFX_Check")
                 {

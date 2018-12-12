@@ -8,10 +8,29 @@ public class Audio_Manager : MonoBehaviour {
     
     public Slider BGM, SFX;
     public AudioMixer masterMixer;
+    public static Audio_Manager Instance;
+
+    public Dictionary<string,AudioClip> audioDictionary;
+    public AudioClip[] audioList;
 
     private void Awake()
     {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(this);
+
         DontDestroyOnLoad(this);
+    }
+    void Start()
+    {
+        audioDictionary = new Dictionary<string, AudioClip>();
+
+        foreach (var clip in audioList)
+        {
+            audioDictionary.Add(clip.name, clip);
+        }
+
     }
     public void BGMMaxAudio(float Volume)
     {
