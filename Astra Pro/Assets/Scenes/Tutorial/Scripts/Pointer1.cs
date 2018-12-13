@@ -43,6 +43,8 @@ public class Pointer1 : MonoBehaviour
     [SerializeField] private GameObject ProjectilePrefab;
     [SerializeField] private GameObject pauseUI;
     [SerializeField] private GameObject pauseButton;
+    [SerializeField] private GameObject rightHandModel;
+    [SerializeField] private GameObject leftHandModel;
 
     private void Start()
     {      
@@ -71,12 +73,50 @@ public class Pointer1 : MonoBehaviour
                     baseRect.anchoredPosition = new Vector2(userHands.RightHand.Value.X * Screen.width, -userHands.RightHand.Value.Y * Screen.height);
                     active = true;
                     press = userHands.RightHand.Value.Click;
+
+                    if(rightHandModel.activeSelf)
+                    {
+                        // Place Model on Icon when active
+                        rightHandModel.transform.position = transform.position;
+
+                        // When player's right hand is too high, hide the model (For easier menu interaction)
+                        if(userHands.RightHand.Value.Y <= 0.25f)
+                        {
+                            rightHandModel.SetActive(false);
+                        }
+                    }
+                    else
+                    {
+                        if(userHands.RightHand.Value.Y > 0.25f)
+                        {
+                            rightHandModel.SetActive(true);
+                        }
+                    }
                 }
                 else if (currentHand == Hands.left && userHands.LeftHand != null)
                 {                    
                     baseRect.anchoredPosition = new Vector2(userHands.LeftHand.Value.X * Screen.width, -userHands.LeftHand.Value.Y * Screen.height);
                     active = true;
                     press = userHands.LeftHand.Value.Click;
+
+                    if (leftHandModel.activeSelf)
+                    {
+                        // Place Model on Icon when active
+                        leftHandModel.transform.position = transform.position;
+
+                        // When player's left hand is too high, hide the model (For easier menu interaction)
+                        if (userHands.LeftHand.Value.Y <= 0.25f)
+                        {
+                            leftHandModel.SetActive(false);
+                        }
+                    }
+                    else
+                    {
+                        if (userHands.LeftHand.Value.Y > 0.25f)
+                        {
+                            leftHandModel.SetActive(true);
+                        }
+                    }
                 }
             }
         }
