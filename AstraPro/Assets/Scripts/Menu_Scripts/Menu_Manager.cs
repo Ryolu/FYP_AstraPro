@@ -3,62 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.Audio;
+
 public class Menu_Manager : MonoBehaviour {
-
     static public bool Tutorial_Mode = false;
-    public GameObject usingAudio;
-    public static Menu_Manager Instance;
 
-    private void Awake()
+    static public void OnGameMenu()
     {
-        if (Instance == null)
-            Instance = this;
-        else if (Instance != this)
-            Destroy(gameObject);
-
-        DontDestroyOnLoad(this);
+        SceneManager.LoadScene("Scenes/Main_Menu");
     }
 
-    public void OnGameMenu()
+    static public void OnOptions()
     {
-        Audio_Manager.Instance.GetComponent<AudioSource>().clip = Audio_Manager.Instance.audioDictionary["MainMenu"];
-        Audio_Manager.Instance.GetComponent<AudioSource>().Play();
-        SceneManager.LoadSceneAsync("Scenes/Main_Menu");
+        SceneManager.LoadScene("Scenes/Options", LoadSceneMode.Additive);
     }
 
-    public void OnOptions()
-    {
-        Audio_Manager.Instance.GetComponent<AudioSource>().clip = Audio_Manager.Instance.audioDictionary["Score_Board"];
-        Audio_Manager.Instance.GetComponent<AudioSource>().Play();
-        SceneManager.LoadScene("Scenes/Options");
-    }
-
-    public void Resume()
+    static public void Resume()
     {
         SceneManager.UnloadSceneAsync("Scenes/Options");
     }
 
-    public void HighScore()
+    static public void HighScore()
     {
-        Audio_Manager.Instance.GetComponent<AudioSource>().clip = Audio_Manager.Instance.audioDictionary["Score_Board"];
-        SceneManager.LoadSceneAsync("Scenes/HighScore");
+        SceneManager.LoadScene("Scenes/HighScore");
     }
 
-    public void Credits()
+    static public void Credits()
     {
-        SceneManager.LoadSceneAsync("Scenes/Credits");
+        SceneManager.LoadScene("Scenes/Credits");
     }
 
-    public void In_Game()
+    static public void In_Game()
     {
         if (Tutorial_Mode == true)
         {
-            SceneManager.LoadSceneAsync("Scenes/Tutorial/Tutorial");
+            SceneManager.LoadScene("Scenes/Tutorial/Tutorial");
         }
         else
         {
-            SceneManager.LoadSceneAsync("Scenes/GameLevel");
+            SceneManager.LoadScene("Scenes/GameLevel");
         }
     }
 }
