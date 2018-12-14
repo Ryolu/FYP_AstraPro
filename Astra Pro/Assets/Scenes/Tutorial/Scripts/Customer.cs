@@ -41,7 +41,7 @@ public class Customer : MonoBehaviour
             movementSpeed = movementSpeed - (4f * (customerId - 1));
 
             // Later customer stand behind the earlier customer/s
-            var NewQueuePosition = new Vector3(queuePosition.x - (customerSizeX * (customerId - 1)), queuePosition.y, queuePosition.z);
+            var NewQueuePosition = new Vector3(queuePosition.x, queuePosition.y, queuePosition.z + (customerSizeX * (customerId - 1)));
 
             targetPosition = NewQueuePosition;
             dir = (NewQueuePosition - transform.position).normalized;
@@ -70,6 +70,8 @@ public class Customer : MonoBehaviour
         else
         {
             reachedTarget = true;
+            transform.Rotate(Vector3.up, -90f);
+            //transform.rotat = Vector3.Lerp(new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z), new Vector3(transform.eulerAngles.x,-90f,transform.eulerAngles.z), movementSpeed * Time.deltaTime);
         }
 	}
 }

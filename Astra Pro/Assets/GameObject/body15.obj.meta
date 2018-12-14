@@ -1,17 +1,16 @@
 fileFormatVersion: 2
-guid: beebe31088fc9ea4699c50bc49cd3ada
+guid: 92e99dc28cfb22349992b87e8a6d126f
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
-    100002: polySurface1
+    100002: pPlane4
     400000: //RootNode
-    400002: polySurface1
-    2100000: polySurface1Mat
-    2300000: polySurface1
-    3300000: polySurface1
-    4300000: polySurface1
-    6400000: polySurface1
+    400002: pPlane4
+    2100000: pPlane4Mat
+    2300000: pPlane4
+    3300000: pPlane4
+    4300000: pPlane4
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -45,7 +44,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 1
+    addColliders: 0
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
