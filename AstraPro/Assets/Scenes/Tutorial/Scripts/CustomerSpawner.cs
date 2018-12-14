@@ -40,7 +40,7 @@ public class CustomerSpawner : MonoBehaviour
         if (!obj) return;
         
         obj.transform.position = spawnPoint.position;
-        obj.transform.rotation = Quaternion.identity;
+        obj.transform.rotation = Quaternion.Euler(0, 180, 0);
 
         customerCount += 1;
 

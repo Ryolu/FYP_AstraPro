@@ -2,7 +2,8 @@
 
 public class Customer : MonoBehaviour
 {
-    [Tooltip("Movement Speed of Customer")] public float movementSpeed = 10f;
+    [Tooltip("Movement Speed of Customer")] public float movementSpeed = 25f;
+    [Tooltip("Movement Speed of Customer")] public float rotateSpeed = 80f;
 
     [HideInInspector] public Vector3 queuePosition;
     [HideInInspector] public int customerId;
@@ -15,8 +16,7 @@ public class Customer : MonoBehaviour
 
 	private void Start ()
     {
-        customerSizeX = transform.lossyScale.x * 1.5f;
-
+        customerSizeX = transform.lossyScale.x * 25f;
         CalculateDir();
 	}
 	
@@ -24,10 +24,10 @@ public class Customer : MonoBehaviour
     public void CalculateDir()
     {
         // Force to false, to allow movement towards target
-        if(reachedTarget && movementSpeed < 10f)
+        if(reachedTarget && movementSpeed < 25f)
         {
             reachedTarget = false;
-            movementSpeed = 10f;
+            movementSpeed = 25f;
         }
 
         if(customerId == 1)
@@ -38,7 +38,7 @@ public class Customer : MonoBehaviour
         else
         {
             // Later customer walk slower
-            movementSpeed = movementSpeed - (4f * (customerId - 1));
+            movementSpeed = movementSpeed - (6.5f * (customerId - 1));
 
             // Later customer stand behind the earlier customer/s
             var NewQueuePosition = new Vector3(queuePosition.x, queuePosition.y, queuePosition.z + (customerSizeX * (customerId - 1)));
@@ -51,7 +51,7 @@ public class Customer : MonoBehaviour
     public void OrderFood()
     {
         // Show Food Bubble Image
-        transform.GetChild(0).gameObject.SetActive(true);
+        transform.Find("Canvas").gameObject.SetActive(true);
         orderedFood = true;
     }
 
@@ -65,13 +65,26 @@ public class Customer : MonoBehaviour
         // Move towards the Target position
         if(!reachedTarget && Vector3.Distance(transform.position, targetPosition) >= 1f)
         {
-            transform.position += dir * movementSpeed * Time.deltaTime;
+            // Rotate to face Wall
+            if (orderedFood && transform.eulerAngles.y > 180f)
+            {
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(transform.rotation.x, 180f, transform.rotation.z), rotateSpeed * Time.deltaTime);
+                return;
+            }
+            else
+            {
+                transform.position += dir * movementSpeed * Time.deltaTime;
+            }
         }
         else
         {
             reachedTarget = true;
-            transform.Rotate(Vector3.up, -90f);
-            //transform.rotat = Vector3.Lerp(new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z), new Vector3(transform.eulerAngles.x,-90f,transform.eulerAngles.z), movementSpeed * Time.deltaTime);
+
+            // Rotate to face Player(Chef)
+            if(transform.eulerAngles.y >= -90f)
+            {
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(transform.rotation.x, -90f,transform.rotation.z), rotateSpeed * Time.deltaTime);
+            }
         }
 	}
 }
