@@ -161,6 +161,10 @@ public class Pointer_Menu : MonoBehaviour
                 {
                     Menu_Manager.Instance.Resume();
                 }
+                else if (selectedButton.name == "Exit")
+                {
+                    Menu_Manager.Instance.Exit();
+                }
                 else if (selectedButton.name == "HighScore")
                 {
                     Menu_Manager.Instance.HighScore();

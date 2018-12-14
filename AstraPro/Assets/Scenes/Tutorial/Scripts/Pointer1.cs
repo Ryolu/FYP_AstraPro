@@ -30,7 +30,6 @@ public class Pointer1 : MonoBehaviour
 
     [SerializeField]
     Camera cam;
-    public Transform hand;
 
     ImageItem1 selectedButton;
 
@@ -43,6 +42,10 @@ public class Pointer1 : MonoBehaviour
     [SerializeField] private GameObject ProjectilePrefab;
     [SerializeField] private GameObject pauseUI;
     [SerializeField] private GameObject pauseButton;
+    
+    //[SerializeField] private Transform hand;
+    //[SerializeField] private GameObject rightHandModel;
+    //[SerializeField] private GameObject leftHandModel;
 
     private void Start()
     {      
@@ -71,12 +74,50 @@ public class Pointer1 : MonoBehaviour
                     baseRect.anchoredPosition = new Vector2(userHands.RightHand.Value.X * Screen.width, -userHands.RightHand.Value.Y * Screen.height);
                     active = true;
                     press = userHands.RightHand.Value.Click;
+
+                    //if(rightHandModel.activeSelf)
+                    //{
+                    //    // Place Model on Icon when active
+                    //    rightHandModel.transform.position = transform.position;
+
+                    //    // When player's right hand is too high, hide the model (For easier menu interaction)
+                    //    if(userHands.RightHand.Value.Y <= 0.25f)
+                    //    {
+                    //        rightHandModel.SetActive(false);
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    if(userHands.RightHand.Value.Y > 0.25f)
+                    //    {
+                    //        rightHandModel.SetActive(true);
+                    //    }
+                    //}
                 }
                 else if (currentHand == Hands.left && userHands.LeftHand != null)
                 {                    
                     baseRect.anchoredPosition = new Vector2(userHands.LeftHand.Value.X * Screen.width, -userHands.LeftHand.Value.Y * Screen.height);
                     active = true;
                     press = userHands.LeftHand.Value.Click;
+
+                    //if (leftHandModel.activeSelf)
+                    //{
+                    //    // Place Model on Icon when active
+                    //    leftHandModel.transform.position = transform.position;
+
+                    //    // When player's left hand is too high, hide the model (For easier menu interaction)
+                    //    if (userHands.LeftHand.Value.Y <= 0.25f)
+                    //    {
+                    //        leftHandModel.SetActive(false);
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    if (userHands.LeftHand.Value.Y > 0.25f)
+                    //    {
+                    //        leftHandModel.SetActive(true);
+                    //    }
+                    //}
                 }
             }
         }
@@ -122,14 +163,14 @@ public class Pointer1 : MonoBehaviour
                     selectedButton.OnPointerDown(eventData);
                 }
 
-                // Shoot bullet towards hand icon
-                GameObject Projectile = ObjectPool.instance.GetPooledObject(ProjectilePrefab);
+                //// Shoot bullet towards hand icon
+                //GameObject Projectile = ObjectPool.instance.GetPooledObject(ProjectilePrefab);
 
-                if (!Projectile) return;
+                //if (!Projectile) return;
             
-                Projectile.transform.position = hand.position;
-                Projectile.transform.rotation = Quaternion.identity;
-                Projectile.GetComponent<Projectile>().dir = (background.transform.position - hand.position).normalized;
+                //Projectile.transform.position = hand.position;
+                //Projectile.transform.rotation = Quaternion.identity;
+                //Projectile.GetComponent<Projectile>().dir = (background.transform.position - hand.position).normalized;
             
                 // Pause Button
                 if(selectedButton.gameObject.name == "Pause" && !PauseManager.isPaused)

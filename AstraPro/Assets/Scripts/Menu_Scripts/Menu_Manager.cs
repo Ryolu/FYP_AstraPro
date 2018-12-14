@@ -61,4 +61,9 @@ public class Menu_Manager : MonoBehaviour {
             SceneManager.LoadSceneAsync("Scenes/GameLevel");
         }
     }
+
+    public void Exit()
+    {
+        Application.Quit();
+    }
 }
