@@ -18,6 +18,6 @@ public class IngredientSpawner : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        Instantiate(ingredient.ingredientSO.go, other.transform.GetChild(0).gameObject.transform);
+        Instantiate(ingredient.ingredientSO.prefab, other.transform.GetChild(0).gameObject.transform);
     }
 }

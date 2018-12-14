@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RecipeBook : MonoBehaviour {
+/// <summary>
+/// The class that takes in a FoodSO ScriptableObject
+/// to use the data inside
+/// </summary>
 
-    public Dictionary<string, Food> foodList;
-    public List<Food> foods;
-    
+public class Food : MonoBehaviour {
+
+    public FoodSO foodSO;
+
 	// Use this for initialization
 	void Start () {
 		

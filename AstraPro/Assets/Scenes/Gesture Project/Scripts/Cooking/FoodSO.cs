@@ -13,9 +13,26 @@ using UnityEditor;
 public class FoodSO : ScriptableObject {
 
     public string foodName = "Default";
-    public IngredientSO[] ingredientList;
-    public bool[] cookingSteps;
+    /// <summary>
+    /// List of ingredients
+    /// </summary>
+    public List<IngredientSO> ingredientList;
+    /// <summary>
+    /// Time taken to cook this food
+    /// </summary>
+    public int timer;
+    /// <summary>
+    /// Time taken to clean up for the next food to be cooked
+    /// </summary>
+    public int cleanTimer;
+    /// <summary>
+    /// The food's sprite
+    /// </summary>
     public Sprite sprite;
+    /// <summary>
+    /// The prefab containing the model and the other necessary data for this food
+    /// </summary>
+    public GameObject prefab;
 
 #if UNITY_EDITOR
 

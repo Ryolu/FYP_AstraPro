@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// The class that takes in a FoodSO ScriptableObject
+/// The class that takes in a IngredientSO ScriptableObject
 /// to use the data inside
 /// </summary>
 
