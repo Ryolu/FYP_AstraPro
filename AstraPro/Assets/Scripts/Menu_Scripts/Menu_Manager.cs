@@ -42,11 +42,14 @@ public class Menu_Manager : MonoBehaviour {
     public void HighScore()
     {
         Audio_Manager.Instance.GetComponent<AudioSource>().clip = Audio_Manager.Instance.audioDictionary["Score_Board"];
+        Audio_Manager.Instance.GetComponent<AudioSource>().Play();
         SceneManager.LoadSceneAsync("Scenes/HighScore");
     }
 
     public void Credits()
     {
+        Audio_Manager.Instance.GetComponent<AudioSource>().clip = Audio_Manager.Instance.audioDictionary["Score_Board"];
+        Audio_Manager.Instance.GetComponent<AudioSource>().Play();
         SceneManager.LoadSceneAsync("Scenes/Credits");
     }
 
@@ -54,10 +57,14 @@ public class Menu_Manager : MonoBehaviour {
     {
         if (Tutorial_Mode == true)
         {
+            Audio_Manager.Instance.GetComponent<AudioSource>().clip = Audio_Manager.Instance.audioDictionary["Tutorial"];
+            Audio_Manager.Instance.GetComponent<AudioSource>().Play();
             SceneManager.LoadSceneAsync("Scenes/Tutorial/Tutorial");
         }
         else
         {
+            Audio_Manager.Instance.GetComponent<AudioSource>().clip = Audio_Manager.Instance.audioDictionary["RunningOutOfTime_BGM"];
+            Audio_Manager.Instance.GetComponent<AudioSource>().Play();
             SceneManager.LoadSceneAsync("Scenes/GameLevel");
         }
     }
