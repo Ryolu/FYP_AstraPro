@@ -18,6 +18,7 @@ public class IngredientSpawner : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!other.gameObject.GetComponent<CookingAppliance>())
         Instantiate(ingredient.ingredientSO.prefab, other.transform.GetChild(0).gameObject.transform);
     }
 }

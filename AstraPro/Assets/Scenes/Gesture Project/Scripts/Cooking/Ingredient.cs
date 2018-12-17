@@ -10,13 +10,4 @@ using UnityEngine;
 public class Ingredient : MonoBehaviour {
 
     public IngredientSO ingredientSO;
-
-    // Use this for initialization
-    void Start () {
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

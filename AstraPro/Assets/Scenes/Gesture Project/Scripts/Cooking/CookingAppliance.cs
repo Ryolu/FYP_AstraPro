@@ -20,7 +20,7 @@ public class CookingAppliance : MonoBehaviour {
     /// <summary>
     /// The list of foods which can be cooked by this appliance
     /// </summary>
-    public List<Food> foodList;
+    public List<FoodSO> foodList;
     /// <summary>
     /// The prefab for displaying the buttons for the list of foods
     /// </summary>
@@ -33,8 +33,8 @@ public class CookingAppliance : MonoBehaviour {
     bool isCooking;
     float timer;
     float cleanTimer;
-    Food selectedFood;
-    List<Ingredient> ingredients;
+    FoodSO selectedFood;
+    List<IngredientSO> ingredients;
 
 	// Use this for initialization
 	void Start () {
@@ -51,7 +51,8 @@ public class CookingAppliance : MonoBehaviour {
 
         if (cleanTimer > 0)
             cleanTimer -= Time.deltaTime;
-
+        else
+            NewFood();
 	}
 
     /// <summary>
@@ -60,19 +61,21 @@ public class CookingAppliance : MonoBehaviour {
     /// <param name="ingredient"></param>
     void Added(Ingredient ingredient)
     {
-        if (!isCooking && cleanTimer < 0)
+        if (!isCooking && cleanTimer <= 0)
         {
             // If the current selected food to cook has this ingredient and 
             // there isn't already the ingredient in the cooking appliance
-            if (selectedFood.foodSO.ingredientList.Contains(ingredient.ingredientSO) && !ingredients.Contains(ingredient))
-                ingredients.Add(ingredient);
+            if (selectedFood.ingredientList.Contains(ingredient.ingredientSO) && !ingredients.Contains(ingredient.ingredientSO))
+                ingredients.Add(ingredient.ingredientSO);
+            else
+                Failed();
 
             // Once there are all the needed ingredients
-            if (ingredients.Count == selectedFood.foodSO.ingredientList.Count)
+            if (ingredients.Count == selectedFood.ingredientList.Count)
             {
                 isCooking = true;
-                timer = selectedFood.foodSO.timer;
-                cleanTimer = selectedFood.foodSO.cleanTimer;
+                timer = selectedFood.timer;
+                cleanTimer = selectedFood.cleanTimer;
             }
         }
     }
@@ -85,7 +88,7 @@ public class CookingAppliance : MonoBehaviour {
         isCooking = false;
         timer = 0;
         cleanTimer = 0;
-        ingredients = new List<Ingredient>();
+        ingredients = new List<IngredientSO>();
         selectedFood = null;
     }
 
@@ -113,12 +116,18 @@ public class CookingAppliance : MonoBehaviour {
         NewFood();
     }
 
-    void ChooseFood(Food food)
+    public void ChooseFood(Food food)
     {
-        selectedFood = food;
+        if (foodList.Contains(food.foodSO))
+            selectedFood = food.foodSO;
 
         // Do other stuff which happens when a food is selected
 
         NewFood();
+    }
+
+    public void OpenList()
+    {
+
     }
 }
