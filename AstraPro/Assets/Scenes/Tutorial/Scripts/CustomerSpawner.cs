@@ -4,8 +4,9 @@ using System.Linq;
 
 public class CustomerSpawner : MonoBehaviour
 {
-    [Tooltip("Queue Point of Customer")] public Transform queuePoint;
+    public static CustomerSpawner Instance;
 
+    [Tooltip("Queue Point of Customer")] [SerializeField] private Transform queuePoint;
     [Tooltip("Spawn Point of Customer")] [SerializeField] private Transform spawnPoint;
     [Tooltip("Prefab of Customer")] [SerializeField] private GameObject customerPrefab;
     [Tooltip("Time to wait before customer ordering food.")] [SerializeField] private float orderTiming = 3f;
@@ -14,13 +15,16 @@ public class CustomerSpawner : MonoBehaviour
     private Queue<Customer> customerQueue;
 
     // Keep Track of current customers in queue(Not the data container, "Queue". But the queue in front of counter)
-    private Dictionary<int, Customer> customerDic;
+    public Dictionary<int, Customer> customerDic;
 
     private float waitingTime = 0f;
-    private int customerCount = 0;
+    public int customerCount = 0;
 
     private void Awake ()
     {
+        // Set instance for other Scripts to access
+        Instance = this;
+
         // Initialise Queue
         customerQueue = new Queue<Customer>();
         customerDic = new Dictionary<int, Customer>();
@@ -35,12 +39,12 @@ public class CustomerSpawner : MonoBehaviour
     // Create/Pull a new Customer
     private void NewCustomer()
     {
-        var obj = ObjectPool.instance.GetPooledObject(customerPrefab);
+        var obj = ObjectPool.Instance.GetPooledObject(customerPrefab);
 
         if (!obj) return;
         
         obj.transform.position = spawnPoint.position;
-        obj.transform.rotation = Quaternion.identity;
+        obj.transform.rotation = Quaternion.Euler(0, 180, 0);
 
         customerCount += 1;
 
@@ -53,7 +57,7 @@ public class CustomerSpawner : MonoBehaviour
         customerDic.Add(customerCount, obj.GetComponent<Customer>());
     }
 
-    private void Serve(int customerId)
+    public void Leave(int customerId)
     {
         // Remove Customer with stated customerId
         customerCount -= 1;
@@ -147,17 +151,17 @@ public class CustomerSpawner : MonoBehaviour
         if(Input.GetKeyUp(KeyCode.Alpha1))
         {
             // serve id 1
-            Serve(1);
+            Leave(1);
         }
         else if (Input.GetKeyUp(KeyCode.Alpha2))
         {
             // serve id 2
-            Serve(2);
+            Leave(2);
         }
         else if (Input.GetKeyUp(KeyCode.Alpha3))
         {
             // serve id 3
-            Serve(3);
+            Leave(3);
         }
 
     }

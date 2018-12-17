@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ObjectPool : MonoBehaviour
 {
-    public static ObjectPool instance;
+    public static ObjectPool Instance;
 
     [Tooltip("Objects that will be add into the pool of GameObjects.")] [SerializeField] private List<GameObject> pooledPrefabs;
     [Tooltip("Initial amount of objects in the pool.")] [SerializeField] private int pooledAmount = 5;
@@ -14,7 +14,7 @@ public class ObjectPool : MonoBehaviour
     private void Awake()
     {
         // Set instance for other Scripts to access
-        instance = this;
+        Instance = this;
         
         // Initiate List
         pooledObjects = new List<GameObject>();
