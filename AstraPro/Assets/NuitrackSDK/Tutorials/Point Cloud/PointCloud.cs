@@ -2,7 +2,7 @@
 
 public class PointCloud : MonoBehaviour
 {
-    [SerializeField] Material depthMat, colorMat; //materials for depth and color output
+    [SerializeField] Material depthMat = null, colorMat = null; //materials for depth and color output
 
     nuitrack.DepthFrame depthFrame = null;
     nuitrack.ColorFrame colorFrame = null;

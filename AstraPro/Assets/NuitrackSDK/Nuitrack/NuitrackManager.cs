@@ -96,7 +96,6 @@ public class NuitrackManager : MonoBehaviour
 
     void Awake()
     {
-     //  NuitrackLoader.
         //  NuitrackLoader.InitNuitrackLibraries();
         initState = NuitrackLoader.InitNuitrackLibraries();
         {
@@ -346,7 +345,6 @@ public class NuitrackManager : MonoBehaviour
         if (!pauseState)
         {
             nuitrack.Nuitrack.Update();
-            //Debug.Log(nuitrack.Nuitrack.GetInstancesJson());
         }
     }
 

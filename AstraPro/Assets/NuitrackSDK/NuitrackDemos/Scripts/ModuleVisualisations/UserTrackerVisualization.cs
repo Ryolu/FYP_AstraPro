@@ -293,8 +293,6 @@ public class UserTrackerVisualization: MonoBehaviour
 
         Color pointColor = Color.white;
 
-        int pointsPerVisTotal = pointsPerVis * vertsPerMesh;
-
         if (userFrame != null)
         {
           if (issuesProcessor.userIssues != null)

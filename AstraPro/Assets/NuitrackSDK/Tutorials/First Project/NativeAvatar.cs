@@ -17,33 +17,14 @@ public class NativeAvatar : MonoBehaviour
     public nuitrack.JointType[] typeJoint;
     GameObject[] CreatedJoint;
     public GameObject PrefabJoint;
-    public GameObject JointWithCollider;
-
-    public GestureTrigger chop;
-    public GestureTrigger stir;
 
     void Start()
     {
         CreatedJoint = new GameObject[typeJoint.Length];
         for (int q = 0; q < typeJoint.Length; q++)
         {
-            if(typeJoint[q] == nuitrack.JointType.LeftWrist || typeJoint[q] == nuitrack.JointType.RightWrist)
-                CreatedJoint[q] = Instantiate(JointWithCollider, transform);
-            else
-            {
-                CreatedJoint[q] = Instantiate(PrefabJoint, transform);
-
-                if (typeJoint[q] == nuitrack.JointType.Torso)
-                {
-                    GestureDetection detector = GetComponent<ChopDetection>();
-                    detector.first = Instantiate(chop, CreatedJoint[q].transform.position + new Vector3(0, 0.02f, 0), Quaternion.identity, CreatedJoint[q].transform);
-                    detector.second = Instantiate(chop, CreatedJoint[q].transform.position - new Vector3(0, .04f, 0), Quaternion.identity, CreatedJoint[q].transform);
-
-                    detector = GetComponent<StirDetection>();
-                    detector.first = Instantiate(stir, CreatedJoint[q].transform.position - new Vector3(0, 0, 0.225f), Quaternion.identity, CreatedJoint[q].transform);
-                    detector.second = Instantiate(stir, CreatedJoint[q].transform.position - new Vector3(0, 0, 0.225f), Quaternion.Euler(0, 90, 0), CreatedJoint[q].transform);
-                }
-            }
+            CreatedJoint[q] = Instantiate(PrefabJoint);
+            CreatedJoint[q].transform.SetParent(transform);
         }
         message = "Skeleton created";
     }

@@ -13,7 +13,7 @@ public class NuitrackModules : MonoBehaviour
 
 	GameObject 
 		depthUserVisualization,
-    depthUserMeshVisualization,
+    //depthUserMeshVisualization,
 		skeletonsVisualization,
 		gesturesVisualization,
 		handTrackerVisualization,
@@ -245,7 +245,8 @@ public class NuitrackModules : MonoBehaviour
 			//*/
 			issuesProcessor = (GameObject)Instantiate(issuesProcessorPrefab);
 			depthUserVisualization = (GameObject)Instantiate(depthUserVisualizationPrefab);
-			depthUserMeshVisualization = (GameObject)Instantiate(depthUserMeshVisualizationPrefab);
+            /*depthUserMeshVisualization = (GameObject)*/
+            Instantiate(depthUserMeshVisualizationPrefab);
 			skeletonsVisualization = (GameObject)Instantiate(skeletonsVisualizationPrefab);
 			handTrackerVisualization = (GameObject)Instantiate(handTrackerVisualizationPrefab);
 			gesturesVisualization = (GameObject)Instantiate(gesturesVisualizationPrefab);

@@ -9,8 +9,8 @@ public class HandTrackerVisualization : MonoBehaviour
 	nuitrack.HandTrackerData handTrackerData = null;
 	[SerializeField]Transform handsContainer;
 	[SerializeField]GameObject handUIPrefab;
-	[SerializeField]float sizeNormal, sizeClick;
-	[SerializeField]Color leftColor, rightColor;
+	[SerializeField]float sizeNormal = 0, sizeClick = 0;
+	[SerializeField]Color leftColor = Color.white, rightColor = Color.red;
 	Dictionary<int, Image[]> hands;
 
 	void Start () 

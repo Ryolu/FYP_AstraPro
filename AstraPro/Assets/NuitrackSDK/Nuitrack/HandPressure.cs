@@ -5,8 +5,8 @@ using UnityEngine;
 [System.Serializable]
 class PressureBone
 {
-    public Transform bone;
-    public Vector3 minAngle, maxAngle;
+    public Transform bone = null;
+    public Vector3 minAngle = Vector3.zero, maxAngle = Vector3.one;
 }
 
 public class HandPressure : MonoBehaviour {

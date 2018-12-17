@@ -116,7 +116,7 @@ public class CamRotation : MonoBehaviour {
 
                 Quaternion currentRotation = Quaternion.Euler(0f, Mathf.Atan2(gazeDirHead.x, gazeDirHead.z) * Mathf.Rad2Deg, 0f);
 
-                Vector3 vicovrDirection = cameraRotation * Vector3.forward; // из п.5
+                Vector3 vicovrDirection = cameraRotation * Vector3.forward;
                 Quaternion yPartRotation = Quaternion.Euler(0f, Mathf.Atan2(vicovrDirection.x, vicovrDirection.z) * Mathf.Rad2Deg, 0f);
 
                 Quaternion correction = yPartRotation * Quaternion.Inverse(currentRotation);

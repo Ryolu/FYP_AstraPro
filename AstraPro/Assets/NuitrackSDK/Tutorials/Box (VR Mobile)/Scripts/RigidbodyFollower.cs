@@ -4,16 +4,16 @@ public class RigidbodyFollower : MonoBehaviour
 {
     [SerializeField] Transform target;
 
-    Rigidbody rigidbody;
+    Rigidbody rb;
 
     void Start()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
     }
 
     void FixedUpdate()
     {
-        rigidbody.MovePosition(target.position);
-        rigidbody.MoveRotation(target.rotation);
+        rb.MovePosition(target.position);
+        rb.MoveRotation(target.rotation);
     }
 }

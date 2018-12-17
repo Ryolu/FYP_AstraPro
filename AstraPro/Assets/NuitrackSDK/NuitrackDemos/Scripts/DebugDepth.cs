@@ -3,7 +3,7 @@ using System.Collections;
 
 public class DebugDepth : MonoBehaviour 
 {
-  [SerializeField]Material _depthMat, _segmentationMat;
+  [SerializeField]Material _depthMat = null, _segmentationMat = null;
 
   public static Material depthMat, segmentationMat;
 

@@ -5,7 +5,7 @@ using System;
 
 public class SkeletonVisualization2 : MonoBehaviour 
 {
-  [SerializeField]GameObject jointPrefab, connectionPrefab;
+  [SerializeField]GameObject jointPrefab = null, connectionPrefab = null;
   NuitrackModules nuitrackModules;
 
   nuitrack.JointType[] jointsInfo = new nuitrack.JointType[]

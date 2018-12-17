@@ -6,7 +6,7 @@ public class UserTrackerVisMesh : MonoBehaviour
 {
   NuitrackModules nuitrackModules;
 
-  nuitrack.DepthSensor sensor;
+  //nuitrack.DepthSensor sensor;
   nuitrack.DepthFrame depthFrame = null;
   nuitrack.ColorFrame colorFrame = null;
   nuitrack.UserFrame userFrame = null;
@@ -29,7 +29,6 @@ public class UserTrackerVisMesh : MonoBehaviour
   Color[] rgbColors;
   Color[] segmColors;
 
-  bool showBackground = true;
   bool active = false;
 
   public void SetActive(bool _active)
@@ -47,11 +46,9 @@ public class UserTrackerVisMesh : MonoBehaviour
   {
     nuitrackModules = FindObjectOfType<NuitrackModules>();
     nuitrack.OutputMode mode = nuitrackModules.DepthSensor.GetOutputMode();
-    sensor = nuitrackModules.DepthSensor;
+    //sensor = nuitrackModules.DepthSensor;
     int xRes = mode.XRes;
     int yRes = mode.YRes;
-
-    int numVerts = xRes * yRes;
 
     InitMeshes(xRes, yRes, mode.HFOV);
 	}
@@ -97,10 +94,6 @@ public class UserTrackerVisMesh : MonoBehaviour
 
     visualizationParts = new GameObject[numMeshes];
     meshes = new Mesh[numMeshes];
-
-    List<int[]> triangles = new List<int[]>();
-    List<Vector3[]> vertices = new List<Vector3[]>();
-    List<Vector2[]> uvs = new List<Vector2[]>();
 
     for (int i = 0; i < numMeshes; i++)
     {
@@ -229,10 +222,10 @@ public class UserTrackerVisMesh : MonoBehaviour
 
     System.DateTime t4 = System.DateTime.Now;
 
-    Debug.Log(
-      "Loop time : " + (t2 - t1).TotalMilliseconds.ToString() + 
-      "; Set pixels: " + (t3 - t2).TotalMilliseconds.ToString() +
-      "; Texture.Apply: " + (t4 - t3).TotalMilliseconds.ToString()
-    );
+    //Debug.Log(
+    //  "Loop time : " + (t2 - t1).TotalMilliseconds.ToString() + 
+    //  "; Set pixels: " + (t3 - t2).TotalMilliseconds.ToString() +
+    //  "; Texture.Apply: " + (t4 - t3).TotalMilliseconds.ToString()
+    //);
   }
 }
