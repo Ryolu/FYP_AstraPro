@@ -9,7 +9,7 @@ public class CustomerSpawner : MonoBehaviour
     [Tooltip("Queue Point of Customer")] [SerializeField] private Transform queuePoint;
     [Tooltip("Spawn Point of Customer")] [SerializeField] private Transform spawnPoint;
     [Tooltip("Prefab of Customer")] [SerializeField] private GameObject customerPrefab;
-    [Tooltip("Time to wait before customer ordering food.")] [SerializeField] private float orderTiming = 3f;
+    [Tooltip("Time to wait before customer ordering food.")] [SerializeField] private float orderTiming = 0f;
 
     // For Ordering food 1 by 1
     private Queue<Customer> customerQueue;
