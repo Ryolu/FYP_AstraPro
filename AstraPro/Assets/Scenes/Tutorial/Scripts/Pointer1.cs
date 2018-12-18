@@ -42,10 +42,11 @@ public class Pointer1 : MonoBehaviour
     [SerializeField] private GameObject ProjectilePrefab;
     [SerializeField] private GameObject pauseUI;
     [SerializeField] private GameObject pauseButton;
-    
+
     //[SerializeField] private Transform hand;
     //[SerializeField] private GameObject rightHandModel;
     //[SerializeField] private GameObject leftHandModel;
+    private Transform hitTransform;
 
     private void Start()
     {      
@@ -129,6 +130,37 @@ public class Pointer1 : MonoBehaviour
         if (!active)
             return;
 
+        RaycastHit hit;
+        Ray landingRay = new Ray(transform.position, (transform.position - cam.transform.position).normalized);
+
+        //// Draw ray in Scene view for Debug
+        //Debug.DrawRay(transform.position, (transform.position - cam.transform.position).normalized * 800f);
+
+        // Raycast 800 units with landingRay
+        if (Physics.Raycast(landingRay, out hit, 800f))
+        {
+            //// Check hit which object
+            //Debug.Log(hit.transform.name);
+
+            // If previously got hit other object
+            if (hitTransform)
+            {
+                // Enable highlight for hit object and its children
+                var o = hitTransform.GetComponentsInChildren<Outline>();
+                foreach (var oL in o)
+                {
+                    oL.enabled = false;
+                }
+            }
+            hitTransform = hit.transform;
+
+            // Enable highlight for hit object and its children
+            var outlines = hitTransform.GetComponentsInChildren<Outline>();
+            foreach (var outline in outlines)
+            {
+                outline.enabled = true;
+            }
+        }
 
         Vector2 pointOnScreenPosition = cam.WorldToScreenPoint(transform.position);
         eventData.delta = pointOnScreenPosition - eventData.position;
