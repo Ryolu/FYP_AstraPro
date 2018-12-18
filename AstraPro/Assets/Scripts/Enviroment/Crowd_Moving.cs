@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Crowd_Moving : MonoBehaviour {
-    float movingSpeed = 1.0f;
+    public float movingSpeed = 1.0f;
 
     private void OnEnable()
     {
