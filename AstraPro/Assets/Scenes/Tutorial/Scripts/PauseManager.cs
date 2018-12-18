@@ -4,13 +4,13 @@ public class PauseManager : MonoBehaviour
 {
     public static bool isPaused = false;
 
-    public static void Pause()
+    public void Pause()
     {
         isPaused = true;
         Time.timeScale = 0f;
     }
 
-    public static void Resume()
+    public void Resume()
     {
         isPaused = false;
         Time.timeScale = 1f;

@@ -31,7 +31,7 @@ public class Pointer1 : MonoBehaviour
     [SerializeField]
     Camera cam;
 
-    ImageItem1 selectedButton;
+    Button selectedButton;
 
     PointerEventData eventData = new PointerEventData(null);
     List<RaycastResult> raycastResults = new List<RaycastResult>();
@@ -134,7 +134,7 @@ public class Pointer1 : MonoBehaviour
         Ray landingRay = new Ray(transform.position, (transform.position - cam.transform.position).normalized);
 
         //// Draw ray in Scene view for Debug
-        //Debug.DrawRay(transform.position, (transform.position - cam.transform.position).normalized * 800f);
+        Debug.DrawRay(transform.position, (transform.position - cam.transform.position).normalized * 800f);
 
         // Raycast 800 units with landingRay
         if (Physics.Raycast(landingRay, out hit, 800f))
@@ -160,6 +160,24 @@ public class Pointer1 : MonoBehaviour
             {
                 outline.enabled = true;
             }
+
+            // Open up Food list to choose "food to cook"
+            CookingAppliance app = hit.transform.GetComponent<CookingAppliance>();
+            if (app)
+            {
+                if(press)
+                {
+                    app.OpenList();
+                }
+            }
+        }
+        else
+        {
+            var o = FindObjectsOfType<Outline>();
+            foreach (var oL in o)
+            {
+                oL.enabled = false;
+            }
         }
 
         Vector2 pointOnScreenPosition = cam.WorldToScreenPoint(transform.position);
@@ -169,10 +187,10 @@ public class Pointer1 : MonoBehaviour
         raycastResults.Clear();
         EventSystem.current.RaycastAll(eventData, raycastResults);
 
-        ImageItem1 newButton = null;
+        Button newButton = null;
 
         for (int i = 0; i < raycastResults.Count && newButton == null; i++)
-            newButton = raycastResults[i].gameObject.GetComponent<ImageItem1>();
+            newButton = raycastResults[i].gameObject.GetComponent<Button>();
 
         // Calls event override functions in imageitem1.cs
         if (newButton != selectedButton)
@@ -189,11 +207,12 @@ public class Pointer1 : MonoBehaviour
         {
             if (press)
             {
-                if (eventData.delta.sqrMagnitude < dragSensitivity && !eventData.dragging)
-                {
-                    eventData.dragging = true;
+                //if (eventData.delta.sqrMagnitude < dragSensitivity && !eventData.dragging)
+                //{
+                    //eventData.dragging = true;
                     selectedButton.OnPointerDown(eventData);
-                }
+                    selectedButton.OnPointerClick(eventData);
+                //}
 
                 //// Shoot bullet towards hand icon
                 //GameObject Projectile = ObjectPool.instance.GetPooledObject(ProjectilePrefab);
@@ -204,27 +223,27 @@ public class Pointer1 : MonoBehaviour
                 //Projectile.transform.rotation = Quaternion.identity;
                 //Projectile.GetComponent<Projectile>().dir = (background.transform.position - hand.position).normalized;
             
-                // Pause Button
-                if(selectedButton.gameObject.name == "Pause" && !PauseManager.isPaused)
-                {
-                    pauseUI.SetActive(true);
-                    pauseButton.SetActive(false);
-                    PauseManager.Pause();
-                }
-                else if (selectedButton.gameObject.name == "Resume" && PauseManager.isPaused)
-                {
-                    pauseUI.SetActive(false);
-                    pauseButton.SetActive(true);
-                    PauseManager.Resume();
-                }
+                //// Pause Button
+                //if(selectedButton.gameObject.name == "Pause" && !PauseManager.isPaused)
+                //{
+                //    pauseUI.SetActive(true);
+                //    pauseButton.SetActive(false);
+                //    PauseManager.Pause();
+                //}
+                //else if (selectedButton.gameObject.name == "Resume" && PauseManager.isPaused)
+                //{
+                //    pauseUI.SetActive(false);
+                //    pauseButton.SetActive(true);
+                //    PauseManager.Resume();
+                //}
             }
-            else if (eventData.dragging)
-            {
-                eventData.dragging = false;
+            //else if (eventData.dragging)
+            //{
+                //eventData.dragging = false;
                 selectedButton.OnPointerUp(eventData);
-            }
+            //}
 
-            selectedButton.OnDrag(eventData);
+            //selectedButton.OnDrag(eventData);
         }
     }
 }
