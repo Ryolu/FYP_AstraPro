@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CookingAppliance : MonoBehaviour {
 
@@ -21,6 +22,10 @@ public class CookingAppliance : MonoBehaviour {
     /// The list of foods which can be cooked by this appliance
     /// </summary>
     public List<FoodSO> foodList;
+    /// <summary>
+    /// Panel containing the list of foods to choose from
+    /// </summary>
+    public GameObject foodListPanel;
     /// <summary>
     /// The prefab for displaying the buttons for the list of foods
     /// </summary>
@@ -44,16 +49,22 @@ public class CookingAppliance : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (timer > 0)
-            timer -= Time.deltaTime;
-        else
-            IsDone();
+        //if (timer > 0)
+        //    timer -= Time.deltaTime;
+        //else
+        //    IsDone();
+        //
+        //if (cleanTimer > 0)
+        //    cleanTimer -= Time.deltaTime;
+        //else
+        //    NewFood();
 
-        if (cleanTimer > 0)
-            cleanTimer -= Time.deltaTime;
-        else
+        if (Input.GetKeyUp(KeyCode.Space))
+            OpenList();
+
+        if (Input.GetKeyUp(KeyCode.R))
             NewFood();
-	}
+    }
 
     /// <summary>
     /// This adds the ingredient to the cooking appliance in preparation for cooking
@@ -116,18 +127,42 @@ public class CookingAppliance : MonoBehaviour {
         NewFood();
     }
 
-    public void ChooseFood(Food food)
+    public void ChooseFood(FoodSO foodSO)
     {
-        if (foodList.Contains(food.foodSO))
-            selectedFood = food.foodSO;
+        foodListPanel.SetActive(false);
+
+        if (selectedFood)
+            return;
+        else
+            selectedFood = foodSO;
 
         // Do other stuff which happens when a food is selected
+        foreach (IngredientSO ingredient in foodSO.ingredientList)
+        {
+            GameObject prefab = Instantiate(ingredientDisplayPrefab, ingredientDisplayParent);
+            Image ingredientImage = prefab.GetComponent<Image>();
+            ingredientImage.sprite = ingredient.sprite;
+        }
 
-        NewFood();
+        ingredientDisplayParent.transform.parent.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(1.2f * foodSO.ingredientList.Count + 0.5f, 1.2f); 
     }
 
     public void OpenList()
     {
+        if (foodListPanel.activeInHierarchy || selectedFood)
+            return;
 
+        foodListPanel.SetActive(true);
+
+        foreach (FoodSO foodSO in foodList)
+        {
+            GameObject prefab = Instantiate(foodButtonPrefab, foodButtonParent);
+            TextMeshProUGUI foodName = prefab.GetComponentInChildren<TextMeshProUGUI>();
+            foodName.text = foodSO.foodName;
+            Image foodImage = prefab.GetComponentInChildren<Image>();
+            foodImage.sprite = foodSO.sprite;
+            Button foodButton = prefab.GetComponentInChildren<Button>();
+            foodButton.onClick.AddListener(() => ChooseFood(foodSO));
+        }
     }
 }

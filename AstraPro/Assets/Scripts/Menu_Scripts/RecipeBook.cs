@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RecipeBook : MonoBehaviour {
 
-    public Dictionary<string, Food> foodList;
-    public List<Food> foods;
+    public CookingAppliance appliance;
     
 	// Use this for initialization
 	void Start () {
@@ -16,4 +16,12 @@ public class RecipeBook : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    /// <summary>
+    /// Sets the food according to cooking appliance
+    /// </summary>
+    /// <param name="appliance"></param>
+    public void Chosen(CookingAppliance appliance)
+    {
+    }
 }
