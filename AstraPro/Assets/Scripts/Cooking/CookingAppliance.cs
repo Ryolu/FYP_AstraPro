@@ -144,7 +144,7 @@ public class CookingAppliance : MonoBehaviour {
             ingredientImage.sprite = ingredient.sprite;
         }
 
-        ingredientDisplayParent.transform.parent.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(1.2f * foodSO.ingredientList.Count + 0.5f, 1.2f); 
+        ingredientDisplayParent.transform.parent.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(2.9f, 1.2f * foodSO.ingredientList.Count / 2); 
     }
 
     public void OpenList()
