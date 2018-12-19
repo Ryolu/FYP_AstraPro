@@ -40,6 +40,7 @@ public class CookingAppliance : MonoBehaviour {
     float cleanTimer;
     FoodSO selectedFood;
     List<IngredientSO> ingredients;
+    List<Image> ingredientDisplayList;
 
 	// Use this for initialization
 	void Start () {
@@ -70,14 +71,27 @@ public class CookingAppliance : MonoBehaviour {
     /// This adds the ingredient to the cooking appliance in preparation for cooking
     /// </summary>
     /// <param name="ingredient"></param>
-    void Added(Ingredient ingredient)
+    public void Added(IngredientSO ingredientSO)
     {
         if (!isCooking && cleanTimer <= 0)
         {
             // If the current selected food to cook has this ingredient and 
             // there isn't already the ingredient in the cooking appliance
-            if (selectedFood.ingredientList.Contains(ingredient.ingredientSO) && !ingredients.Contains(ingredient.ingredientSO))
-                ingredients.Add(ingredient.ingredientSO);
+            if (selectedFood.ingredientList.Contains(ingredientSO) && !ingredients.Contains(ingredientSO))
+            {
+                ingredients.Add(ingredientSO);
+
+                foreach (Image display in ingredientDisplayList)
+                {
+                    if (display.sprite == ingredientSO.sprite)
+                    {
+                        // Blacks out the ingredient the player is putting into the cooking appliance
+                        Color color = display.color;
+                        color = new Color(1, 1, 1);
+                        display.color = color;
+                    }
+                }
+            }
             else
                 Failed();
 
@@ -100,6 +114,7 @@ public class CookingAppliance : MonoBehaviour {
         timer = 0;
         cleanTimer = 0;
         ingredients = new List<IngredientSO>();
+        ingredientDisplayList = new List<Image>();
         selectedFood = null;
     }
 
@@ -142,6 +157,7 @@ public class CookingAppliance : MonoBehaviour {
             GameObject prefab = Instantiate(ingredientDisplayPrefab, ingredientDisplayParent);
             Image ingredientImage = prefab.GetComponent<Image>();
             ingredientImage.sprite = ingredient.sprite;
+            ingredientDisplayList.Add(ingredientImage);
         }
 
         ingredientDisplayParent.transform.parent.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(2.9f, 1.2f * foodSO.ingredientList.Count / 2 + 0.5f); 
