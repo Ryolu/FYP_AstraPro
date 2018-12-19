@@ -80,7 +80,7 @@ public class CookingAppliance : MonoBehaviour {
     /// This adds the ingredient to the cooking appliance in preparation for cooking
     /// </summary>
     /// <param name="ingredient"></param>
-    public void Added(IngredientSO ingredientSO)
+    public void AddIngredient(IngredientSO ingredientSO)
     {
         if (!isCooking && cleanTimer <= 0)
         {
