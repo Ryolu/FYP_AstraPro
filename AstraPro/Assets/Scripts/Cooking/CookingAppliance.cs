@@ -82,6 +82,9 @@ public class CookingAppliance : MonoBehaviour {
     /// <param name="ingredient"></param>
     public void AddIngredient(IngredientSO ingredientSO)
     {
+        if (!selectedFood)
+            return;
+
         if (!isCooking && cleanTimer <= 0)
         {
             // If the current selected food to cook has this ingredient and 
