@@ -7,33 +7,39 @@ using TMPro;
 public class CookingAppliance : MonoBehaviour {
 
     /// <summary>
-    /// The transform to display the buttons which determine which food will be cooked
-    /// </summary>
-    public Transform foodButtonParent;
-    /// <summary>
-    /// The transform to display the ingredients left to put into this appliance
-    /// </summary>
-    public Transform ingredientDisplayParent;
-    /// <summary>
-    /// The image which displays which food is being cooked
-    /// </summary>
-    public Image foodDisplay;
-    /// <summary>
     /// The list of foods which can be cooked by this appliance
     /// </summary>
     public List<FoodSO> foodList;
+
+    /// <summary>
+    /// The transform to display the buttons which determine which food will be cooked
+    /// This panel can be found in the main canvas
+    /// </summary>
+    [Tooltip("This panel can be found in the main canvas")]
+    [SerializeField] Transform foodButtonPanel;
+    /// <summary>
+    /// The transform to display the ingredients left to put into this appliance
+    /// This panel can be found in the canvas attached to this appliance
+    /// </summary>
+    [Tooltip("This panel can be found in the canvas attached to this appliance")]
+    [SerializeField] Transform ingredientDisplayPanel;
+    /// <summary>
+    /// The image which displays which food is being cooked
+    /// </summary>
+    [SerializeField] Image foodDisplay;
     /// <summary>
     /// Panel containing the list of foods to choose from
     /// </summary>
-    public GameObject foodListPanel;
+    [Tooltip("Look for 'Food List Panel' in the main canvas")]
+    [SerializeField] GameObject foodListPanel;
     /// <summary>
     /// The prefab for displaying the buttons for the list of foods
     /// </summary>
-    public GameObject foodButtonPrefab;
+    [SerializeField] GameObject foodButtonPrefab;
     /// <summary>
     /// The prefab for displaying the ingredients left
     /// </summary>
-    public GameObject ingredientDisplayPrefab;
+    [SerializeField] GameObject ingredientDisplayPrefab;
     
     bool isCooking;
     float timer;
@@ -87,7 +93,7 @@ public class CookingAppliance : MonoBehaviour {
                     {
                         // Blacks out the ingredient the player is putting into the cooking appliance
                         Color color = display.color;
-                        color = new Color(1, 1, 1);
+                        color = new Color(0, 0, 0);
                         display.color = color;
                     }
                 }
@@ -154,13 +160,13 @@ public class CookingAppliance : MonoBehaviour {
         // Do other stuff which happens when a food is selected
         foreach (IngredientSO ingredient in foodSO.ingredientList)
         {
-            GameObject prefab = Instantiate(ingredientDisplayPrefab, ingredientDisplayParent);
+            GameObject prefab = Instantiate(ingredientDisplayPrefab, ingredientDisplayPanel);
             Image ingredientImage = prefab.GetComponent<Image>();
             ingredientImage.sprite = ingredient.sprite;
             ingredientDisplayList.Add(ingredientImage);
         }
 
-        ingredientDisplayParent.transform.parent.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(2.9f, 1.2f * foodSO.ingredientList.Count / 2 + 0.5f); 
+        ingredientDisplayPanel.transform.parent.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(2.9f, 1.2f * foodSO.ingredientList.Count / 2 + 0.5f); 
     }
 
     public void OpenList()
@@ -172,7 +178,7 @@ public class CookingAppliance : MonoBehaviour {
 
         foreach (FoodSO foodSO in foodList)
         {
-            GameObject prefab = Instantiate(foodButtonPrefab, foodButtonParent);
+            GameObject prefab = Instantiate(foodButtonPrefab, foodButtonPanel);
             TextMeshProUGUI foodName = prefab.GetComponentInChildren<TextMeshProUGUI>();
             foodName.text = foodSO.foodName;
             Image foodImage = prefab.GetComponentInChildren<Image>();
