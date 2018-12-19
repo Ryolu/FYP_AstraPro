@@ -105,7 +105,10 @@ public class CookingAppliance : MonoBehaviour {
                 }
             }
             else
+            {
                 Failed();
+                return;
+            }
 
             // Once there are all the needed ingredients
             if (ingredients.Count == selectedFood.ingredientList.Count)
