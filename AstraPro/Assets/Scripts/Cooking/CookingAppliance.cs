@@ -10,6 +10,10 @@ public class CookingAppliance : MonoBehaviour {
     /// The list of foods which can be cooked by this appliance
     /// </summary>
     public List<FoodSO> foodList;
+    /// <summary>
+    /// Currently selected food
+    /// </summary>
+    public FoodSO selectedFood;
 
     /// <summary>
     /// The transform to display the buttons which determine which food will be cooked
@@ -44,7 +48,6 @@ public class CookingAppliance : MonoBehaviour {
     bool isCooking;
     float timer;
     float cleanTimer;
-    FoodSO selectedFood;
     List<IngredientSO> ingredients;
     List<Image> ingredientDisplayList;
 
