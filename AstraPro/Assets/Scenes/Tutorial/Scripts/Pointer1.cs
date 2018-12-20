@@ -188,7 +188,6 @@ public class Pointer1 : MonoBehaviour
                             if (app)
                             {
                                 app.OpenList();
-                                Debug.Log("OpenList0");
                             }
                         }
                         // If selecting ingredient
@@ -203,8 +202,12 @@ public class Pointer1 : MonoBehaviour
 
                             ingredient = hit.transform.gameObject;
                             ingredientSO = ingredient.GetComponent<Ingredient>().ingredientSO;
-                            ingredient.GetComponent<Outline>().selected = true;
-                            defaultSprite = ingredientSO.sprite;
+                            var o = ingredient.GetComponentsInChildren<Outline>();
+                            foreach (var oL in o)
+                            {
+                                oL.selected = true;
+                                oL.color = 1;
+                            }
                         }
                     }
                     else
@@ -217,20 +220,20 @@ public class Pointer1 : MonoBehaviour
                             if (app)
                             {
                                 app.AddIngredient(ingredientSO);
-                                ingredient.GetComponent<Outline>().selected = false;
+                                var o = ingredient.GetComponentsInChildren<Outline>();
+                                foreach (var oL in o)
+                                {
+                                    oL.selected = false;
+                                    oL.color = 0;
+                                }
                                 ingredient = null;
                                 ingredientSO = null;
-
                             }
                         }
                     }
-
                     elapsedTime = 0f;
                 }
             }
-
-             
-            
         }
         else
         {
