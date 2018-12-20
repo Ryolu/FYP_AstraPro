@@ -170,11 +170,21 @@ public class highScoreControls : MonoBehaviour
 
     private void NuitrackManager_onNewGesture(nuitrack.Gesture gesture)
     {
-        //if (gesture.Type == nuitrack.GestureType.GestureSwipeUp)
-         
+        Debug.Log("YOU JIAO");
+        if (gesture.Type == nuitrack.GestureType.GestureSwipeUp)
+        {
+            Debug.Log("please work");
+            scrollRect.velocity = new Vector2(0, 1000);
+        }
+        
         //    currentPage = Mathf.Clamp(++currentPage, 0, numberOfPages);
         //
-        //if (gesture.Type == nuitrack.GestureType.GestureSwipeDown)
+        if (gesture.Type == nuitrack.GestureType.GestureSwipeDown)
+        {
+            Debug.Log("please work down");
+            scrollRect.velocity = new Vector2(0, -1000);
+        }
+
         //    currentPage = Mathf.Clamp(--currentPage, 0, numberOfPages);
 
     }
