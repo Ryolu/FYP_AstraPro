@@ -44,6 +44,14 @@ public class CookingAppliance : MonoBehaviour {
     [Tooltip("Look for 'Food List Panel' in the main canvas")]
     [SerializeField] GameObject foodListPanel;
     /// <summary>
+    /// The canvas
+    /// </summary>
+    [SerializeField] GameObject applianceCanvas;
+    /// <summary>
+    /// The gameobject holder timer stuff
+    /// </summary>
+    [SerializeField] GameObject displayTimer;
+    /// <summary>
     /// The prefab for displaying the buttons for the list of foods
     /// </summary>
     [SerializeField] GameObject foodButtonPrefab;
@@ -173,8 +181,11 @@ public class CookingAppliance : MonoBehaviour {
 
         if (selectedFood)
             return;
-        else
-            selectedFood = foodSO;
+
+        selectedFood = foodSO;
+        applianceCanvas.SetActive(true);
+        ingredientDisplayPanel.gameObject.SetActive(true);
+        displayTimer.SetActive(false);
 
         // Do other stuff which happens when a food is selected
         foreach (IngredientSO ingredient in foodSO.ingredientList)
@@ -185,7 +196,8 @@ public class CookingAppliance : MonoBehaviour {
             ingredientDisplayList.Add(ingredientImage);
         }
 
-        ingredientDisplayPanel.transform.parent.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(2.9f, 1.2f * foodSO.ingredientList.Count / 2 + 0.5f); 
+        ingredientDisplayPanel.transform.parent.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(2.9f, 1.2f * foodSO.ingredientList.Count / 2 + 0.5f);
+
     }
 
     public void OpenList()
@@ -209,6 +221,9 @@ public class CookingAppliance : MonoBehaviour {
 
     public void Cook()
     {
+        ingredientDisplayPanel.gameObject.SetActive(false);
+        displayTimer.SetActive(true);
+
         isCooking = true;
         timer = selectedFood.timer;
         cleanTimer = selectedFood.cleanTimer;
