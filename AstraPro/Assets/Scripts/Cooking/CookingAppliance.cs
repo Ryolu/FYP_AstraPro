@@ -80,7 +80,7 @@ public class CookingAppliance : MonoBehaviour {
             if (timer > 0)
             {
                 timer -= Time.deltaTime;
-                foodTimerFront.rectTransform.position += new Vector3(4 / selectedFood.timer * Time.deltaTime, 0, 0);
+                foodTimerFront.rectTransform.position = Vector3.MoveTowards(foodTimerFront.rectTransform.position, foodTimerFront.rectTransform.parent.position, 4 / selectedFood.timer * Time.deltaTime);
                 foodTimerText.text = Mathf.CeilToInt(timer).ToString() + "s";
             }
             else
