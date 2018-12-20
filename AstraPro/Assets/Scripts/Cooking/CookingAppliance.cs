@@ -81,7 +81,7 @@ public class CookingAppliance : MonoBehaviour {
             {
                 timer -= Time.deltaTime;
                 //foodTimerFront.transform.position += new Vector3(Time.deltaTime, 0, 0);
-                foodTimerText.text = "0:0" + Mathf.CeilToInt(timer).ToString() + "s";
+                foodTimerText.text = Mathf.CeilToInt(timer).ToString() + "s";
             }
             else
                 IsDone();
@@ -181,7 +181,7 @@ public class CookingAppliance : MonoBehaviour {
 
     public void ChooseFood(FoodSO foodSO)
     {
-        foodListPanel.SetActive(false);
+        CloseFoodMenu();
 
         if (selectedFood)
             return;
@@ -201,7 +201,6 @@ public class CookingAppliance : MonoBehaviour {
         }
 
         ingredientDisplayPanel.transform.parent.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(2.9f, 1.2f * foodSO.ingredientList.Count / 2 + 0.5f);
-
     }
 
     public void OpenList()
@@ -225,7 +224,7 @@ public class CookingAppliance : MonoBehaviour {
 
     public void Cook()
     {
-        ingredientDisplayPanel.gameObject.SetActive(false);
+        CloseIngredients();
         displayTimer.SetActive(true);
 
         isCooking = true;
@@ -234,8 +233,22 @@ public class CookingAppliance : MonoBehaviour {
         foodDisplay.sprite = selectedFood.sprite;
         foodDisplay.preserveAspect = true;
         foodTimerFront.rectTransform.position = new Vector3(-4, foodTimerFront.rectTransform.position.y);
-        foodTimerText.text = "0:0" + Mathf.CeilToInt(timer).ToString();
+        foodTimerText.text = Mathf.CeilToInt(timer).ToString();
 
         ingredientDisplayPanel.transform.parent.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(6.5f, 1.2f);
+    }
+
+    public void CloseIngredients()
+    {
+        foreach (Transform child in ingredientDisplayPanel)
+            Destroy(child.gameObject);
+        ingredientDisplayPanel.gameObject.SetActive(false);
+    }
+
+    public void CloseFoodMenu()
+    {
+        foreach (Transform child in foodButtonPanel)
+            Destroy(child.gameObject);
+        foodListPanel.SetActive(false);
     }
 }
