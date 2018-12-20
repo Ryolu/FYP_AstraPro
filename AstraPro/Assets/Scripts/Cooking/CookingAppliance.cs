@@ -93,7 +93,10 @@ public class CookingAppliance : MonoBehaviour {
         //    NewFood();
 
         if (Input.GetKeyUp(KeyCode.Space))
-            OpenList();
+        {
+            foreach (IngredientSO ingredient in selectedFood.ingredientList)
+                AddIngredient(ingredient);
+        }
 
         if (Input.GetKeyUp(KeyCode.R))
             NewFood();
