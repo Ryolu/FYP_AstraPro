@@ -232,7 +232,7 @@ public class CookingAppliance : MonoBehaviour {
         cleanTimer = selectedFood.cleanTimer;
         foodDisplay.sprite = selectedFood.sprite;
         foodDisplay.preserveAspect = true;
-        foodTimerFront.rectTransform.position = new Vector3(-4, foodTimerFront.rectTransform.position.y);
+        foodTimerFront.transform.position = new Vector3(-4, foodTimerFront.rectTransform.position.y);
         foodTimerText.text = Mathf.CeilToInt(timer).ToString();
 
         ingredientDisplayPanel.transform.parent.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(6.5f, 1.2f);
