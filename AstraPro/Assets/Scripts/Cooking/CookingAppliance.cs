@@ -80,7 +80,7 @@ public class CookingAppliance : MonoBehaviour {
             if (timer > 0)
             {
                 timer -= Time.deltaTime;
-                //foodTimerFront.transform.position += new Vector3(Time.deltaTime, 0, 0);
+                foodTimerFront.transform.position += new Vector3(4 / selectedFood.timer, 0, 0);
                 foodTimerText.text = Mathf.CeilToInt(timer).ToString() + "s";
             }
             else
@@ -200,7 +200,7 @@ public class CookingAppliance : MonoBehaviour {
             ingredientDisplayList.Add(ingredientImage);
         }
 
-        ingredientDisplayPanel.transform.parent.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(2.9f, 1.2f * foodSO.ingredientList.Count / 2 + 0.5f);
+        ingredientDisplayPanel.transform.parent.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(2.9f, 1.2f * Mathf.CeilToInt(foodSO.ingredientList.Count) / 2 + 0.5f);
     }
 
     public void OpenList()
