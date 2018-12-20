@@ -66,14 +66,17 @@ public class CookingAppliance : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (timer > 0)
+        if (isCooking)
         {
-            timer -= Time.deltaTime;
-            foodTimerFront.transform.position += new Vector3(Time.deltaTime, 0, 0);
-            foodTimerText.text = "0:0" + Mathf.CeilToInt(timer).ToString();
+            if (timer > 0)
+            {
+                timer -= Time.deltaTime;
+                foodTimerFront.transform.position += new Vector3(Time.deltaTime, 0, 0);
+                foodTimerText.text = "0:0" + Mathf.CeilToInt(timer).ToString();
+            }
+            else
+                IsDone();
         }
-        else
-            IsDone();
         //
         //if (cleanTimer > 0)
         //    cleanTimer -= Time.deltaTime;
