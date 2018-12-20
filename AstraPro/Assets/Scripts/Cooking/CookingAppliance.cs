@@ -30,7 +30,14 @@ public class CookingAppliance : MonoBehaviour {
     /// <summary>
     /// The image which displays which food is being cooked
     /// </summary>
+    [Tooltip("This image can be found in the canvas attached to this appliance under the Display Timer panel")]
     [SerializeField] Image foodDisplay;
+
+    [Tooltip("This image can be found in the canvas attached to this appliance under the Display Timer panel")]
+    [SerializeField] Image foodTimerFront;
+
+    [Tooltip("This text can be found in the canvas attached to this appliance under the Display Timer panel")]
+    [SerializeField] TextMeshProUGUI foodTimerText;
     /// <summary>
     /// Panel containing the list of foods to choose from
     /// </summary>
@@ -59,10 +66,14 @@ public class CookingAppliance : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        //if (timer > 0)
-        //    timer -= Time.deltaTime;
-        //else
-        //    IsDone();
+        if (timer > 0)
+        {
+            timer -= Time.deltaTime;
+            foodTimerFront.transform.position += new Vector3(Time.deltaTime, 0, 0);
+            foodTimerText.text = "0:0" + Mathf.CeilToInt(timer).ToString();
+        }
+        else
+            IsDone();
         //
         //if (cleanTimer > 0)
         //    cleanTimer -= Time.deltaTime;
@@ -112,11 +123,7 @@ public class CookingAppliance : MonoBehaviour {
 
             // Once there are all the needed ingredients
             if (ingredients.Count == selectedFood.ingredientList.Count)
-            {
-                isCooking = true;
-                timer = selectedFood.timer;
-                cleanTimer = selectedFood.cleanTimer;
-            }
+                Cook();
         }
     }
 
@@ -195,5 +202,15 @@ public class CookingAppliance : MonoBehaviour {
             Button foodButton = prefab.GetComponentInChildren<Button>();
             foodButton.onClick.AddListener(() => ChooseFood(foodSO));
         }
+    }
+
+    public void Cook()
+    {
+        isCooking = true;
+        timer = selectedFood.timer;
+        cleanTimer = selectedFood.cleanTimer;
+        foodDisplay.sprite = selectedFood.sprite;
+        foodTimerFront.rectTransform.position = new Vector3(-4, foodTimerFront.rectTransform.position.y);
+        foodTimerText.text = "0:0" + Mathf.CeilToInt(timer).ToString();
     }
 }
