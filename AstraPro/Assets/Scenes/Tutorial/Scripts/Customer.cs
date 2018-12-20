@@ -7,17 +7,20 @@ public class Customer : MonoBehaviour
     [Tooltip("Rotate Speed of Customer")] [SerializeField] private float rotateSpeed = 80f;
     [Tooltip("How long the Customer will wait for food")] [SerializeField] private float waitTiming = 30f;
     [Tooltip("Timer Filler Image")] [SerializeField] private Image timerImage;
+    [Tooltip("Order Images")] [SerializeField] private Sprite[] orderSprites;
 
     [HideInInspector] public Vector3 queuePosition;
     [HideInInspector] public int customerId;
     [HideInInspector] public bool reachedTarget = false;
     [HideInInspector] public bool orderedFood = false;
+    [HideInInspector] public enum FoodOrder { Otah = 1, FishHeadCurry = 2, MeeSiam = 3, Laksa = 4};
 
     private Vector3 dir;
     private Vector3 targetPosition;
     private float customerSizeX;
     private Gradient greenYellowGradient;
     private Gradient yellowRedGradient;
+
 
     private void Start ()
     {
@@ -83,10 +86,13 @@ public class Customer : MonoBehaviour
         }
     }
 
-    public void OrderFood()
+    public void OrderFood(FoodOrder foodOrder)
     {
         // Show Food Bubble Image
-        transform.Find("Canvas").gameObject.SetActive(true);
+        GameObject canvas = transform.GetChild(1).gameObject;
+        canvas.SetActive(true);
+        canvas.transform.GetChild(1).GetComponent<Image>().sprite = orderSprites[(int)foodOrder - 1];
+        canvas.transform.GetChild(1).GetComponent<Image>().preserveAspect = true;
         orderedFood = true;
     }
 
@@ -139,10 +145,16 @@ public class Customer : MonoBehaviour
             reachedTarget = true;
 
             // Rotate to face Player(Chef)
-            if(transform.eulerAngles.y >= -90f)
+            if(transform.eulerAngles.y > -90f)
             {
+                if (transform.eulerAngles.y >= 269f && !orderedFood)
+                {
+                    OrderFood((FoodOrder)Random.Range(1, 5));
+                }
+
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(transform.rotation.x, -90f,transform.rotation.z), rotateSpeed * Time.deltaTime);
             }
+            
         }
 	}
 }

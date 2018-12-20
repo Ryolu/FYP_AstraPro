@@ -9,16 +9,15 @@ public class CustomerSpawner : MonoBehaviour
     [Tooltip("Queue Point of Customer")] [SerializeField] private Transform queuePoint;
     [Tooltip("Spawn Point of Customer")] [SerializeField] private Transform spawnPoint;
     [Tooltip("Prefab of Customer")] [SerializeField] private GameObject customerPrefab;
-    [Tooltip("Time to wait before customer ordering food.")] [SerializeField] private float orderTiming = 0f;
+    //[Tooltip("Time to wait before customer ordering food.")] [SerializeField] private float orderTiming = 0f;
 
     // For Ordering food 1 by 1
-    private Queue<Customer> customerQueue;
+    //private Queue<Customer> customerQueue;
+    //private float waitingTime = 0f;
 
     // Keep Track of current customers in queue(Not the data container, "Queue". But the queue in front of counter)
-    public Dictionary<int, Customer> customerDic;
-
-    private float waitingTime = 0f;
-    public int customerCount = 0;
+    [HideInInspector] public Dictionary<int, Customer> customerDic;
+    [HideInInspector] public int customerCount = 0;
 
     private void Awake ()
     {
@@ -26,7 +25,7 @@ public class CustomerSpawner : MonoBehaviour
         Instance = this;
 
         // Initialise Queue
-        customerQueue = new Queue<Customer>();
+        //customerQueue = new Queue<Customer>();
         customerDic = new Dictionary<int, Customer>();
 
         // Spawn 3 customers at start of game
@@ -53,7 +52,7 @@ public class CustomerSpawner : MonoBehaviour
         obj.GetComponent<Customer>().queuePosition = queuePoint.position;
 
         // Customer Queue Up
-        customerQueue.Enqueue(obj.GetComponent<Customer>());
+        //customerQueue.Enqueue(obj.GetComponent<Customer>());
         customerDic.Add(customerCount, obj.GetComponent<Customer>());
     }
 
@@ -123,32 +122,35 @@ public class CustomerSpawner : MonoBehaviour
 
     private void Update()
     {
-        // Customers order food 1 by 1 as they reached counter
-        for(int i = 0; i < customerQueue.Count; i++)
-        {
-            if ( customerQueue.ElementAt(i).reachedTarget)
-            {
-                if (!customerQueue.ElementAt(i).orderedFood)
-                {
-                    waitingTime += Time.deltaTime;
-                    
-                    // Wait for a few seconds(Let Customer "Think" before Ordering food)
-                    if (waitingTime > orderTiming)
-                    {
-                        customerQueue.ElementAt(i).OrderFood();
-                        waitingTime = 0f;
-                        customerQueue.Dequeue();
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            }
-        }
+        //// Customers order food 1 by 1 as they reached counter
+        //for (int i = 0; i < customerQueue.Count; i++)
+        //{
+        //    if (customerQueue.ElementAt(i).reachedTarget)
+        //    {
+        //        if (!customerQueue.ElementAt(i).orderedFood)
+        //        {
+        //            customerQueue.ElementAt(i).OrderFood((Customer.FoodOrder)Random.Range(1, 5));
+        //            customerQueue.Dequeue();
+
+        //            //waitingTime += Time.deltaTime;
+
+        //            //// Wait for a few seconds(Let Customer "Think" before Ordering food)
+        //            //if (waitingTime > orderTiming)
+        //            //{
+        //            //    customerQueue.ElementAt(i).OrderFood();
+        //            //    waitingTime = 0f;
+        //            //    customerQueue.Dequeue();
+        //            //}
+        //            //else
+        //            //{
+        //            //    break;
+        //            //}
+        //        }
+        //    }
+        //}
 
         // Debug KeyPress for serve customer
-        if(Input.GetKeyUp(KeyCode.Alpha1))
+        if (Input.GetKeyUp(KeyCode.Alpha1))
         {
             // serve id 1
             Leave(1);

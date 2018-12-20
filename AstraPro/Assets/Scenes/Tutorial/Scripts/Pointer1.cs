@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System.Linq;
 
 public class Pointer1 : MonoBehaviour
 {
@@ -31,7 +32,7 @@ public class Pointer1 : MonoBehaviour
     [SerializeField]
     Camera cam;
 
-    ImageItem1 selectedButton;
+    Button selectedButton;
 
     PointerEventData eventData = new PointerEventData(null);
     List<RaycastResult> raycastResults = new List<RaycastResult>();
@@ -47,6 +48,10 @@ public class Pointer1 : MonoBehaviour
     //[SerializeField] private GameObject rightHandModel;
     //[SerializeField] private GameObject leftHandModel;
     private Transform hitTransform;
+    private GameObject ingredient;
+    private IngredientSO ingredientSO;
+    private float elapsedTime;
+    private float endTime = 0.5f;
 
     private void Start()
     {      
@@ -134,7 +139,7 @@ public class Pointer1 : MonoBehaviour
         Ray landingRay = new Ray(transform.position, (transform.position - cam.transform.position).normalized);
 
         //// Draw ray in Scene view for Debug
-        //Debug.DrawRay(transform.position, (transform.position - cam.transform.position).normalized * 800f);
+        Debug.DrawRay(transform.position, (transform.position - cam.transform.position).normalized * 800f);
 
         // Raycast 800 units with landingRay
         if (Physics.Raycast(landingRay, out hit, 800f))
@@ -142,23 +147,104 @@ public class Pointer1 : MonoBehaviour
             //// Check hit which object
             //Debug.Log(hit.transform.name);
 
-            // If previously got hit other object
-            if (hitTransform)
+            // Highlight Code Segment
             {
+                // If previously got hit other object
+                if (hitTransform)
+                {
+                    // Disable highlight for hit object and its children
+                    var o = hitTransform.GetComponentsInChildren<Outline>();
+                    foreach (var oL in o)
+                    {
+                        if (!oL.selected)
+                        {
+                            oL.enabled = false;
+                        }
+                    }
+                }
+                hitTransform = hit.transform;
+
                 // Enable highlight for hit object and its children
-                var o = hitTransform.GetComponentsInChildren<Outline>();
-                foreach (var oL in o)
+                var outlines = hitTransform.GetComponentsInChildren<Outline>();
+                foreach (var outline in outlines)
+                {
+                    outline.enabled = true;
+                }
+            }
+
+            if (press)
+            {
+                elapsedTime += Time.deltaTime;
+
+                if (elapsedTime >= endTime)
+                {
+                    if (!ingredientSO)
+                    {
+                        // Open up Food list to choose "food to cook"
+                        if (LevelManager.Instance.cookingAppliances.Select(x => x.gameObject.GetInstanceID()).Contains(hit.transform.gameObject.GetInstanceID()))
+                        {
+                            CookingAppliance app = hit.transform.GetComponent<CookingAppliance>();
+
+                            if (app)
+                            {
+                                app.OpenList();
+                            }
+                        }
+                        // If selecting ingredient
+                        else if (LevelManager.Instance.ingredients.Select(x => x.gameObject.GetInstanceID()).Contains(hit.transform.gameObject.GetInstanceID()))
+                        {
+                            bool chosenFood = false;
+                            if (LevelManager.Instance.cookingAppliances.Select(x => x.selectedFood).Distinct().Any())
+                                chosenFood = true;
+
+                            if (!chosenFood)
+                                return;
+
+                            ingredient = hit.transform.gameObject;
+                            ingredientSO = ingredient.GetComponent<Ingredient>().ingredientSO;
+                            var o = ingredient.GetComponentsInChildren<Outline>();
+                            foreach (var oL in o)
+                            {
+                                oL.selected = true;
+                                oL.color = 1;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // Add food into the appliance stated above
+                        if (LevelManager.Instance.cookingAppliances.Select(x => x.gameObject.GetInstanceID()).Contains(hit.transform.gameObject.GetInstanceID()))
+                        {
+                            CookingAppliance app = hit.transform.GetComponent<CookingAppliance>();
+
+                            if (app)
+                            {
+                                app.AddIngredient(ingredientSO);
+                                var o = ingredient.GetComponentsInChildren<Outline>();
+                                foreach (var oL in o)
+                                {
+                                    oL.selected = false;
+                                    oL.color = 0;
+                                }
+                                ingredient = null;
+                                ingredientSO = null;
+                            }
+                        }
+                    }
+                    elapsedTime = 0f;
+                }
+            }
+        }
+        else
+        {
+            // Disable highlight for every objects that have outline
+            var o = FindObjectsOfType<Outline>();
+            foreach (var oL in o)
+            {
+                if (!oL.selected)
                 {
                     oL.enabled = false;
                 }
-            }
-            hitTransform = hit.transform;
-
-            // Enable highlight for hit object and its children
-            var outlines = hitTransform.GetComponentsInChildren<Outline>();
-            foreach (var outline in outlines)
-            {
-                outline.enabled = true;
             }
         }
 
@@ -169,10 +255,10 @@ public class Pointer1 : MonoBehaviour
         raycastResults.Clear();
         EventSystem.current.RaycastAll(eventData, raycastResults);
 
-        ImageItem1 newButton = null;
+        Button newButton = null;
 
         for (int i = 0; i < raycastResults.Count && newButton == null; i++)
-            newButton = raycastResults[i].gameObject.GetComponent<ImageItem1>();
+            newButton = raycastResults[i].gameObject.GetComponent<Button>();
 
         // Calls event override functions in imageitem1.cs
         if (newButton != selectedButton)
@@ -189,42 +275,49 @@ public class Pointer1 : MonoBehaviour
         {
             if (press)
             {
-                if (eventData.delta.sqrMagnitude < dragSensitivity && !eventData.dragging)
+                elapsedTime += Time.deltaTime;
+
+                if (elapsedTime >= endTime)
                 {
-                    eventData.dragging = true;
+                    //if (eventData.delta.sqrMagnitude < dragSensitivity && !eventData.dragging)
+                    //{
+                    //eventData.dragging = true;
                     selectedButton.OnPointerDown(eventData);
-                }
+                    selectedButton.OnPointerClick(eventData);
+                    //}
 
-                //// Shoot bullet towards hand icon
-                //GameObject Projectile = ObjectPool.instance.GetPooledObject(ProjectilePrefab);
+                    //// Shoot bullet towards hand icon
+                    //GameObject Projectile = ObjectPool.instance.GetPooledObject(ProjectilePrefab);
 
-                //if (!Projectile) return;
-            
-                //Projectile.transform.position = hand.position;
-                //Projectile.transform.rotation = Quaternion.identity;
-                //Projectile.GetComponent<Projectile>().dir = (background.transform.position - hand.position).normalized;
-            
-                // Pause Button
-                if(selectedButton.gameObject.name == "Pause" && !PauseManager.isPaused)
-                {
-                    pauseUI.SetActive(true);
-                    pauseButton.SetActive(false);
-                    PauseManager.Pause();
-                }
-                else if (selectedButton.gameObject.name == "Resume" && PauseManager.isPaused)
-                {
-                    pauseUI.SetActive(false);
-                    pauseButton.SetActive(true);
-                    PauseManager.Resume();
+                    //if (!Projectile) return;
+
+                    //Projectile.transform.position = hand.position;
+                    //Projectile.transform.rotation = Quaternion.identity;
+                    //Projectile.GetComponent<Projectile>().dir = (background.transform.position - hand.position).normalized;
+
+                    //// Pause Button
+                    //if(selectedButton.gameObject.name == "Pause" && !PauseManager.isPaused)
+                    //{
+                    //    pauseUI.SetActive(true);
+                    //    pauseButton.SetActive(false);
+                    //    PauseManager.Pause();
+                    //}
+                    //else if (selectedButton.gameObject.name == "Resume" && PauseManager.isPaused)
+                    //{
+                    //    pauseUI.SetActive(false);
+                    //    pauseButton.SetActive(true);
+                    //    PauseManager.Resume();
+                    //}
+                    elapsedTime = 0f;
                 }
             }
-            else if (eventData.dragging)
-            {
-                eventData.dragging = false;
+            //else if (eventData.dragging)
+            //{
+                //eventData.dragging = false;
                 selectedButton.OnPointerUp(eventData);
-            }
+            //}
 
-            selectedButton.OnDrag(eventData);
+            //selectedButton.OnDrag(eventData);
         }
     }
 }

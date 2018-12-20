@@ -39,10 +39,13 @@ public class Outline : MonoBehaviour
     public int originalLayer;
     [HideInInspector]
     public Material[] originalMaterials;
+    [HideInInspector]
+    public bool selected;
 
     private void Awake()
     {
         Renderer = GetComponent<Renderer>();
+        selected = false;
     }
 
     void OnEnable()
