@@ -80,7 +80,9 @@ public class CookingAppliance : MonoBehaviour {
             if (timer > 0)
             {
                 timer -= Time.deltaTime;
-                foodTimerFront.rectTransform.localPosition = Vector3.MoveTowards(foodTimerFront.rectTransform.localPosition, Vector3.zero, 4 / selectedFood.timer * Time.deltaTime);
+                float speed = foodTimerFront.rectTransform.rect.width / selectedFood.timer;
+                float step = speed * Time.deltaTime;
+                foodTimerFront.rectTransform.localPosition = Vector3.MoveTowards(foodTimerFront.rectTransform.localPosition, Vector3.zero, step);
                 foodTimerText.text = Mathf.CeilToInt(timer).ToString() + "s";
             }
             else
@@ -235,7 +237,7 @@ public class CookingAppliance : MonoBehaviour {
         foodTimerFront.rectTransform.localPosition = new Vector3(-4, 0);
         foodTimerText.text = Mathf.CeilToInt(timer).ToString();
 
-        ingredientDisplayPanel.transform.parent.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(6.5f, 1.2f);
+        ingredientDisplayPanel.transform.parent.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(5.2f, 1.2f);
     }
 
     public void CloseIngredients()
