@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class Customer : MonoBehaviour
 {
-    [Tooltip("Movement Speed of Customer")] [SerializeField] private float movementSpeed = 25f;
+    [Tooltip("Movement Speed of Customer")] [SerializeField] private float movementSpeed = 2.5f;
     [Tooltip("Rotate Speed of Customer")] [SerializeField] private float rotateSpeed = 80f;
     [Tooltip("How long the Customer will wait for food")] [SerializeField] private float waitTiming = 30f;
     [Tooltip("Timer Filler Image")] [SerializeField] private Image timerImage;
@@ -25,8 +25,9 @@ public class Customer : MonoBehaviour
     private void Start ()
     {
         customerSizeX = transform.lossyScale.x * 25f;
-        CalculateDir();
+        waitTiming = Random.Range((waitTiming / 3), waitTiming);
 
+        CalculateDir();
         InitiateColor();
     }
 	
@@ -62,10 +63,10 @@ public class Customer : MonoBehaviour
     public void CalculateDir()
     {
         // Force to false, to allow movement towards target
-        if(reachedTarget && movementSpeed < 25f)
+        if(reachedTarget && movementSpeed < 2.5f)
         {
             reachedTarget = false;
-            movementSpeed = 25f;
+            movementSpeed = 2.5f;
         }
 
         if(customerId == 1)
@@ -76,7 +77,7 @@ public class Customer : MonoBehaviour
         else
         {
             // Later customer walk slower
-            movementSpeed = movementSpeed - (6.5f * (customerId - 1));
+            movementSpeed = movementSpeed - (0.5f * (customerId - 1));
 
             // Later customer stand behind the earlier customer/s
             var NewQueuePosition = new Vector3(queuePosition.x, queuePosition.y, queuePosition.z + (customerSizeX * (customerId - 1)));
@@ -127,7 +128,7 @@ public class Customer : MonoBehaviour
         }
 
         // Move towards the Target position
-        if(!reachedTarget && Vector3.Distance(transform.position, targetPosition) >= 1f)
+        if(!reachedTarget && Vector3.Distance(transform.position, targetPosition) >= 0.1f)
         {
             // Rotate to face Wall
             if (orderedFood && transform.eulerAngles.y > 180f)
