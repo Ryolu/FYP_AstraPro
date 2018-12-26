@@ -8,7 +8,7 @@ public class Crowd_Moving : MonoBehaviour {
     private void OnEnable()
     {
         movingSpeed = Random.Range(2.0f, 5.0f);
-        Invoke("Destroy",15f);    
+        Invoke("Destroy",5f);    
     }
     private void Destroy()
     {

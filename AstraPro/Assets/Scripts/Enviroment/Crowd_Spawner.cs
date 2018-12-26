@@ -13,6 +13,11 @@ public class Crowd_Spawner : MonoBehaviour {
     private void onSpawnCrowd()
     {
         GameObject Spawner = ObjectPool.Instance.GetPooledObject(People_1);
+        MeshRenderer renderer = Spawner.transform.GetChild(0).GetComponent<MeshRenderer>();
+        renderer.lightProbeUsage = UnityEngine.Rendering.LightProbeUsage.Off;
+
+        LightProbeProxyVolume proxy = Spawner.GetComponent<LightProbeProxyVolume>();
+        Destroy(proxy);
 
         Spawner.transform.position = C_Spawner.transform.position;
     }
