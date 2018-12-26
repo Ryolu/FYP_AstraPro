@@ -72,11 +72,11 @@ public class AutoIntensity : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Q)) skySpeed *= 0.5f;
         if (Input.GetKeyDown(KeyCode.E)) skySpeed *= 2f;
 
-        if (gameObject.GetComponent<Light>().intensity < 1)
+        if (gameObject.GetComponent<Light>().intensity < 0.6)
         {
             lightSwitch.SetActive(true);
         }
-        else if (gameObject.GetComponent<Light>().intensity > 1)
+        else if (gameObject.GetComponent<Light>().intensity > 0.85)
         {
             lightSwitch.SetActive(false);
         }
