@@ -67,6 +67,7 @@ public class CookingAppliance : MonoBehaviour {
     [SerializeField] GameObject ingredientDisplayPrefab;
     
     bool isCooking;
+    bool isDone;
     float timer;
     float cleanTimer;
     List<IngredientSO> ingredients;
@@ -156,6 +157,7 @@ public class CookingAppliance : MonoBehaviour {
     void NewFood()
     {
         isCooking = false;
+        isDone = false;
         timer = 0;
         cleanTimer = 0;
         ingredients = new List<IngredientSO>();
@@ -170,6 +172,7 @@ public class CookingAppliance : MonoBehaviour {
     void IsDone()
     {
         isCooking = false;
+        isDone = true;
 
         OpenCloseTimer(false);
         OpenCloseDoneDisplay(true);
@@ -314,5 +317,10 @@ public class CookingAppliance : MonoBehaviour {
     void OpenCloseCanvas(bool openclose)
     {
         applianceCanvas.SetActive(openclose);
+    }
+
+    public void TakeFood()
+    {
+        NewFood();
     }
 }

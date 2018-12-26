@@ -76,7 +76,7 @@ public class AutoIntensity : MonoBehaviour {
         {
             lightSwitch.SetActive(true);
         }
-        else if (gameObject.GetComponent<Light>().intensity > 0.85)
+        else if (gameObject.GetComponent<Light>().intensity > 0.6)
         {
             lightSwitch.SetActive(false);
         }
