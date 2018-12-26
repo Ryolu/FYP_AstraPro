@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+
+
 public class CookingAppliance : MonoBehaviour {
 
     /// <summary>
@@ -172,9 +174,12 @@ public class CookingAppliance : MonoBehaviour {
         OpenCloseTimer(false);
         OpenCloseDoneDisplay(true);
 
-        ResizeCanvas(1.2f, 1.2f);
+        Image foodImage = doneDisplay.transform.GetChild(0).gameObject.GetComponent<Image>();
+        foodImage.sprite = selectedFood.sprite;
 
-        NewFood();
+        foodImage.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(2, 2);
+
+        ResizeCanvas(2.5f, 2.5f);
     }
 
     /// <summary>
@@ -190,15 +195,13 @@ public class CookingAppliance : MonoBehaviour {
 
     public void ChooseFood(FoodSO foodSO)
     {
-        OpenCloseFoodMenu(false);
-
         if (selectedFood)
             return;
 
         selectedFood = foodSO;
         OpenCloseCanvas(true);
-        OpenCloseFoodMenu(true);
-        OpenCloseTimer(true);
+        OpenCloseFoodMenu(false);
+        OpenCloseIngredients(true);
 
 
         // Do other stuff which happens when a food is selected
@@ -246,8 +249,9 @@ public class CookingAppliance : MonoBehaviour {
     /// <param name="openclose"></param>
     public void OpenCloseIngredients(bool openclose)
     {
-        foreach (Transform child in ingredientPanel)
-            Destroy(child.gameObject);
+        if (!openclose)
+            foreach (Transform child in ingredientPanel)
+                Destroy(child.gameObject);
 
         ingredientPanel.gameObject.SetActive(openclose);
     }
@@ -265,10 +269,8 @@ public class CookingAppliance : MonoBehaviour {
 
         if (openclose)
         {
-            if (foodListPanel.activeInHierarchy || selectedFood)
+            if (selectedFood)
                 return;
-
-            foodListPanel.SetActive(true);
 
             foreach (FoodSO foodSO in foodList)
             {

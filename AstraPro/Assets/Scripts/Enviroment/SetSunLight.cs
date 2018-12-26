@@ -11,7 +11,7 @@ public class SetSunLight : MonoBehaviour {
     //public Renderer water;
 
     public Transform stars;
-    public Transform worldProbe;
+    //public Transform worldProbe;
 
 	// Use this for initialization
 	void Start () {
@@ -43,7 +43,7 @@ public class SetSunLight : MonoBehaviour {
         }
 
         Vector3 tvec = Camera.main.transform.position;
-        worldProbe.transform.position = tvec;
+        //worldProbe.transform.position = tvec;
 
         //water.material.mainTextureOffset = new Vector2(Time.time / 100.0f, 0);
         //water.material.SetTextureOffset("_DetailAlbedoMap", new Vector2(0, Time.time / 80));
