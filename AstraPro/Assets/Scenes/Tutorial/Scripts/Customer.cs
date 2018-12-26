@@ -9,6 +9,8 @@ public class Customer : MonoBehaviour
     [Tooltip("How long the Customer will wait for food")] [SerializeField] private float waitTiming = 30f;
     [Tooltip("Timer Filler Image")] [SerializeField] private Image timerImage;
     [Tooltip("Foods that customer can order")] [SerializeField] private FoodSO[] foodOrder;
+    [Tooltip("Tableware Prefab to spawn when order food")] [SerializeField] private GameObject bowl;
+    [Tooltip("Tableware Prefab to spawn when order food")] [SerializeField] private GameObject plate;
 
     [HideInInspector] public Vector3 queuePosition;
     [HideInInspector] public int customerId;
@@ -22,8 +24,7 @@ public class Customer : MonoBehaviour
     private Gradient greenYellowGradient;
     private Gradient yellowRedGradient;
 
-
-    private void Start ()
+    private void Start()
     {
         customerSizeX = transform.lossyScale.x * 25f;
         waitTiming = Random.Range((waitTiming / 3), waitTiming);
@@ -31,7 +32,7 @@ public class Customer : MonoBehaviour
         CalculateDir();
         InitiateColor();
     }
-	
+
     // Initiate Gradients, which is used to change color based on fillAmount of timerImage
     private void InitiateColor()
     {
@@ -58,6 +59,15 @@ public class Customer : MonoBehaviour
         var ak2 = new GradientAlphaKey[0];
 
         yellowRedGradient.SetKeys(ck2, ak2);
+    }
+
+    private void SetTableWareData()
+    {
+        var spawnPoint = transform.GetChild(2);
+        var obj = transform.GetChild(3);
+        obj.transform.localPosition = spawnPoint.localPosition;
+        obj.transform.eulerAngles = spawnPoint.eulerAngles;
+        obj.transform.localScale = spawnPoint.localScale;
     }
 
     // Calculate Direction for customer to move and Record down the Target position based on number of customer
@@ -96,6 +106,28 @@ public class Customer : MonoBehaviour
         canvas.SetActive(true);
         canvas.transform.GetChild(1).GetComponent<Image>().sprite = food.sprite;
         canvas.transform.GetChild(1).GetComponent<Image>().preserveAspect = true;
+
+        // Spawn Tableware
+        if(food.foodName.Equals("Otah"))
+        {
+            var obj = ObjectPool.Instance.GetPooledObject(plate);
+
+            if (!obj) return;
+            
+            obj.transform.parent = transform;
+            SetTableWareData();
+        }
+        else
+        {
+            var obj = ObjectPool.Instance.GetPooledObject(bowl);
+
+            if (!obj) return;
+            
+            obj.transform.parent = transform;
+            SetTableWareData();
+        }
+
+        // Set Ordered Food
         foodOrdered = food;
         orderedFood = true;
     }
@@ -104,6 +136,9 @@ public class Customer : MonoBehaviour
     public void Destroy()
     {
         gameObject.SetActive(false);
+        orderedFood = false;
+        reachedTarget = false;
+        foodOrdered = null;
     }
 
     // Leave the store
@@ -200,6 +235,12 @@ public class Customer : MonoBehaviour
             // Rotate to face Wall
             if (orderedFood && transform.eulerAngles.y > 180f)
             {
+                var tableWare = transform.GetChild(3).gameObject;
+                if (tableWare.activeSelf)
+                {
+                    tableWare.SetActive(false);
+                }
+
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(transform.rotation.x, 180f, transform.rotation.z), rotateSpeed * Time.deltaTime);
                 return;
             }
@@ -215,9 +256,17 @@ public class Customer : MonoBehaviour
             // Rotate to face Player(Chef)
             if(transform.eulerAngles.y > -90f)
             {
-                if (transform.eulerAngles.y >= 269f && !orderedFood)
+                if (transform.eulerAngles.y >= 269f)
                 {
-                    OrderFood(foodOrder[Random.Range(0, foodOrder.Length)]);
+                    if (!orderedFood)
+                    {
+                        OrderFood(foodOrder[Random.Range(0, foodOrder.Length)]);
+                    }
+                    else
+                    {
+                        transform.GetChild(3).gameObject.SetActive(true);
+                        SetTableWareData();
+                    }
                 }
 
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(transform.rotation.x, -90f,transform.rotation.z), rotateSpeed * Time.deltaTime);
