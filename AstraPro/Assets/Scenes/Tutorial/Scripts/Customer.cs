@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class Customer : MonoBehaviour
 {
@@ -7,13 +8,13 @@ public class Customer : MonoBehaviour
     [Tooltip("Rotate Speed of Customer")] [SerializeField] private float rotateSpeed = 80f;
     [Tooltip("How long the Customer will wait for food")] [SerializeField] private float waitTiming = 30f;
     [Tooltip("Timer Filler Image")] [SerializeField] private Image timerImage;
-    [Tooltip("Order Images")] [SerializeField] private Sprite[] orderSprites;
+    [Tooltip("Foods that customer can order")] [SerializeField] private FoodSO[] foodOrder;
 
     [HideInInspector] public Vector3 queuePosition;
     [HideInInspector] public int customerId;
     [HideInInspector] public bool reachedTarget = false;
     [HideInInspector] public bool orderedFood = false;
-    [HideInInspector] public enum FoodOrder { Otah = 1, FishHeadCurry = 2, MeeSiam = 3, Laksa = 4};
+    [HideInInspector] public FoodSO foodOrdered;
 
     private Vector3 dir;
     private Vector3 targetPosition;
@@ -87,19 +88,85 @@ public class Customer : MonoBehaviour
         }
     }
 
-    public void OrderFood(FoodOrder foodOrder)
+    // Order food based on parameter
+    public void OrderFood(FoodSO food)
     {
         // Show Food Bubble Image
         GameObject canvas = transform.GetChild(1).gameObject;
         canvas.SetActive(true);
-        canvas.transform.GetChild(1).GetComponent<Image>().sprite = orderSprites[(int)foodOrder - 1];
+        canvas.transform.GetChild(1).GetComponent<Image>().sprite = food.sprite;
         canvas.transform.GetChild(1).GetComponent<Image>().preserveAspect = true;
+        foodOrdered = food;
         orderedFood = true;
     }
 
+    // Set customer gameobject to inactive to simulate GameObject.Destory()
     public void Destroy()
     {
         gameObject.SetActive(false);
+    }
+
+    // Leave the store
+    public void Leave(int customerId)
+    {
+        // Remove Customer with stated customerId
+        CustomerSpawner.Instance.customerCount -= 1;
+        CustomerSpawner.Instance.customerDic[customerId].Destroy();
+        CustomerSpawner.Instance.customerDic.Remove(customerId);
+
+        // Only change customerId when Serving customer 1 or 2
+        if (customerId == 1 || customerId == 2)
+        {
+            var newDic = new Dictionary<int, Customer>();
+
+            switch (customerId)
+            {
+                case 1:
+                    {
+                        int newKey;
+                        foreach (var item in CustomerSpawner.Instance.customerDic)
+                        {
+                            // Change Key(customerId)
+                            newKey = item.Key - 1;
+                            item.Value.customerId = newKey;
+
+                            // Recalculate the direction and target for customer to move towards
+                            item.Value.CalculateDir();
+
+                            // Copy Customer over to newDic
+                            newDic.Add(newKey, item.Value);
+                        }
+                    }
+                    break;
+                case 2:
+                    {
+                        int newKey;
+                        foreach (var item in CustomerSpawner.Instance.customerDic)
+                        {
+                            if (item.Key == 1)
+                            {
+                                // Copy Customer over to newDic
+                                newDic.Add(item.Key, item.Value);
+                            }
+                            else if (item.Key == 3)
+                            {
+                                // Change Key(customerId)
+                                newKey = item.Key - 1;
+                                item.Value.customerId = newKey;
+
+                                // Recalculate the direction and target for customer to move towards
+                                item.Value.CalculateDir();
+
+                                // Copy Customer over to newDic
+                                newDic.Add(newKey, item.Value);
+                            }
+                        }
+                    }
+                    break;
+            }
+            // Copy newDic into our customerDic
+            CustomerSpawner.Instance.customerDic = newDic;
+        }
     }
 
     private void Update ()
@@ -123,7 +190,7 @@ public class Customer : MonoBehaviour
             else if(timerImage.fillAmount <= 0f)
             {
                 // Leave
-                CustomerSpawner.Instance.Leave(customerId);
+                Leave(customerId);
             }
         }
 
@@ -150,7 +217,7 @@ public class Customer : MonoBehaviour
             {
                 if (transform.eulerAngles.y >= 269f && !orderedFood)
                 {
-                    OrderFood((FoodOrder)Random.Range(1, 5));
+                    OrderFood(foodOrder[Random.Range(0, foodOrder.Length)]);
                 }
 
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(transform.rotation.x, -90f,transform.rotation.z), rotateSpeed * Time.deltaTime);

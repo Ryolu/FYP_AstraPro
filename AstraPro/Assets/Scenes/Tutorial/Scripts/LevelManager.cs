@@ -1,6 +1,5 @@
-﻿using System.Collections;
+﻿using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
@@ -13,8 +12,8 @@ public class LevelManager : MonoBehaviour
         Instance = this;
 	}
 	
-	void Update ()
-    {
+	//void Update ()
+ //   {
 		
-	}
+	//}
 }

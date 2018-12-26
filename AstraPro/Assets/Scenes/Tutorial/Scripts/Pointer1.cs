@@ -50,6 +50,8 @@ public class Pointer1 : MonoBehaviour
     private Transform hitTransform;
     private GameObject ingredient;
     private IngredientSO ingredientSO;
+    private FoodSO foodSO;
+    private GameObject cookingAppliance;
     private float elapsedTime;
     private float endTime = 0.5f;
 
@@ -136,13 +138,13 @@ public class Pointer1 : MonoBehaviour
             return;
 
         RaycastHit hit;
-        Ray landingRay = new Ray(transform.position, (transform.position - cam.transform.position).normalized);
+        var landingRay = new Ray(transform.position, (transform.position - cam.transform.position).normalized);
 
         //// Draw ray in Scene view for Debug
-        Debug.DrawRay(transform.position, (transform.position - cam.transform.position).normalized * 800f);
+        Debug.DrawRay(transform.position, (transform.position - cam.transform.position).normalized * 80f);
 
         // Raycast 800 units with landingRay
-        if (Physics.Raycast(landingRay, out hit, 800f))
+        if (Physics.Raycast(landingRay, out hit, 80f))
         {
             //// Check hit which object
             //Debug.Log(hit.transform.name);
@@ -178,48 +180,24 @@ public class Pointer1 : MonoBehaviour
 
                 if (elapsedTime >= endTime)
                 {
-                    if (!ingredientSO)
+                    // If selecting Cooking Appliance(Frying Pan, Pot 1, Pot 2)
+                    if (LevelManager.Instance.cookingAppliances.Select(x => x.gameObject.GetInstanceID()).Contains(hit.transform.gameObject.GetInstanceID()))
                     {
-                        // Open up Food list to choose "food to cook"
-                        if (LevelManager.Instance.cookingAppliances.Select(x => x.gameObject.GetInstanceID()).Contains(hit.transform.gameObject.GetInstanceID()))
-                        {
-                            CookingAppliance app = hit.transform.GetComponent<CookingAppliance>();
+                        var app = hit.transform.GetComponent<CookingAppliance>();
 
-                            if (app)
+                        if (!app.isDone)
+                        {
+                            if(!ingredientSO)
                             {
+                                // Open up Food list to choose "food to cook"
                                 app.OpenCloseFoodMenu(true);
                             }
-                        }
-                        // If selecting ingredient
-                        else if (LevelManager.Instance.ingredients.Select(x => x.gameObject.GetInstanceID()).Contains(hit.transform.gameObject.GetInstanceID()))
-                        {
-                            bool chosenFood = false;
-                            if (LevelManager.Instance.cookingAppliances.Select(x => x.selectedFood).Distinct().Any())
-                                chosenFood = true;
-
-                            if (!chosenFood)
-                                return;
-
-                            ingredient = hit.transform.gameObject;
-                            ingredientSO = ingredient.GetComponent<Ingredient>().ingredientSO;
-                            var o = ingredient.GetComponentsInChildren<Outline>();
-                            foreach (var oL in o)
+                            else
                             {
-                                oL.selected = true;
-                                oL.color = 1;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        // Add food into the appliance stated above
-                        if (LevelManager.Instance.cookingAppliances.Select(x => x.gameObject.GetInstanceID()).Contains(hit.transform.gameObject.GetInstanceID()))
-                        {
-                            CookingAppliance app = hit.transform.GetComponent<CookingAppliance>();
-
-                            if (app)
-                            {
+                                // Add food(ingredient) into the appliance stated above
                                 app.AddIngredient(ingredientSO);
+
+                                // Disable highlight on selected ingredient
                                 var o = ingredient.GetComponentsInChildren<Outline>();
                                 foreach (var oL in o)
                                 {
@@ -229,6 +207,62 @@ public class Pointer1 : MonoBehaviour
                                 ingredient = null;
                                 ingredientSO = null;
                             }
+                        }
+                        else
+                        {
+                            // Select food and store it for serving customer later
+                            cookingAppliance = hit.transform.gameObject;
+                            foodSO = app.TakeFood();
+
+                            // Enable highlight on selected cooking Appliance
+                            var o = cookingAppliance.GetComponentsInChildren<Outline>();
+                            foreach (var oL in o)
+                            {
+                                oL.selected = true;
+                                oL.color = 1;
+                            }
+                        }
+                    }
+                    // If selecting ingredients(Banana Leaves, Tofus, Eggs, Noodle, Spice, Fishes, Prawns)
+                    else if (LevelManager.Instance.ingredients.Select(x => x.gameObject.GetInstanceID()).Contains(hit.transform.gameObject.GetInstanceID()))
+                    {
+                        bool chosenFood = false;
+                        if (LevelManager.Instance.cookingAppliances.Select(x => x.selectedFood).Distinct().Any())
+                            chosenFood = true;
+
+                        if (!chosenFood)
+                            return;
+
+                        // Set ingredient
+                        ingredient = hit.transform.gameObject;
+                        ingredientSO = ingredient.GetComponent<Ingredient>().ingredientSO;
+
+                        // Enable highlight on selected ingredient
+                        var o = ingredient.GetComponentsInChildren<Outline>();
+                        foreach (var oL in o)
+                        {
+                            oL.selected = true;
+                            oL.color = 1;
+                        }
+                    }
+                    // If selecting customer
+                    else if (CustomerSpawner.Instance.customerDic.Select(x => x.Value.gameObject.GetInstanceID()).Contains(hit.transform.parent.gameObject.GetInstanceID()))
+                    {
+                        var customer = hit.transform.gameObject.GetComponentInParent<Customer>();
+                        
+                        // Serve food, customer leaves
+                        if(foodSO == customer.foodOrdered)
+                        {
+                            customer.Leave(customer.customerId);
+
+                            // Disable highlight on selected cooking Appliance
+                            var o = cookingAppliance.GetComponentsInChildren<Outline>();
+                            foreach (var oL in o)
+                            {
+                                oL.selected = false;
+                                oL.color = 0;
+                            }
+                            cookingAppliance = null;
                         }
                     }
                     elapsedTime = 0f;
@@ -248,7 +282,7 @@ public class Pointer1 : MonoBehaviour
             }
         }
 
-        Vector2 pointOnScreenPosition = cam.WorldToScreenPoint(transform.position);
+        var pointOnScreenPosition = (Vector2)cam.WorldToScreenPoint(transform.position);
         eventData.delta = pointOnScreenPosition - eventData.position;
         eventData.position = pointOnScreenPosition;
 
