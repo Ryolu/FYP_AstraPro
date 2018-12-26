@@ -187,7 +187,7 @@ public class Pointer1 : MonoBehaviour
 
                             if (app)
                             {
-                                app.OpenList();
+                                app.OpenCloseFoodMenu(true);
                             }
                         }
                         // If selecting ingredient

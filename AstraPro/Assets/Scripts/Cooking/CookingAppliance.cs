@@ -26,7 +26,7 @@ public class CookingAppliance : MonoBehaviour {
     /// This panel can be found in the canvas attached to this appliance
     /// </summary>
     [Tooltip("This panel can be found in the canvas attached to this appliance")]
-    [SerializeField] Transform ingredientDisplayPanel;
+    [SerializeField] Transform ingredientPanel;
     /// <summary>
     /// The image which displays which food is being cooked
     /// </summary>
@@ -48,9 +48,13 @@ public class CookingAppliance : MonoBehaviour {
     /// </summary>
     [SerializeField] GameObject applianceCanvas;
     /// <summary>
-    /// The gameobject holder timer stuff
+    /// The gameobject holding timer stuff
     /// </summary>
     [SerializeField] GameObject displayTimer;
+    /// <summary>
+    /// The gameobject called done display
+    /// </summary>
+    [SerializeField] GameObject doneDisplay;
     /// <summary>
     /// The prefab for displaying the buttons for the list of foods
     /// </summary>
@@ -165,7 +169,10 @@ public class CookingAppliance : MonoBehaviour {
     {
         isCooking = false;
 
-        // Do Food stuffs here
+        OpenCloseTimer(false);
+        OpenCloseDoneDisplay(true);
+
+        ResizeCanvas(1.2f, 1.2f);
 
         NewFood();
     }
@@ -183,74 +190,127 @@ public class CookingAppliance : MonoBehaviour {
 
     public void ChooseFood(FoodSO foodSO)
     {
-        CloseFoodMenu();
+        OpenCloseFoodMenu(false);
 
         if (selectedFood)
             return;
 
         selectedFood = foodSO;
-        applianceCanvas.SetActive(true);
-        ingredientDisplayPanel.gameObject.SetActive(true);
-        displayTimer.SetActive(false);
+        OpenCloseCanvas(true);
+        OpenCloseFoodMenu(true);
+        OpenCloseTimer(true);
+
 
         // Do other stuff which happens when a food is selected
         foreach (IngredientSO ingredient in foodSO.ingredientList)
         {
-            GameObject prefab = Instantiate(ingredientDisplayPrefab, ingredientDisplayPanel);
+            GameObject prefab = Instantiate(ingredientDisplayPrefab, ingredientPanel);
             Image ingredientImage = prefab.GetComponent<Image>();
             ingredientImage.sprite = ingredient.sprite;
             ingredientDisplayList.Add(ingredientImage);
         }
 
-        ingredientDisplayPanel.transform.parent.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(2.9f, 1.2f * Mathf.CeilToInt(foodSO.ingredientList.Count) / 2 + 0.5f);
+        ResizeCanvas(2.9f, 1.2f * Mathf.CeilToInt(foodSO.ingredientList.Count) / 2 + 0.5f);
     }
 
-    public void OpenList()
-    {
-        if (foodListPanel.activeInHierarchy || selectedFood)
-            return;
-
-        foodListPanel.SetActive(true);
-
-        foreach (FoodSO foodSO in foodList)
-        {
-            GameObject prefab = Instantiate(foodButtonPrefab, foodButtonPanel);
-            TextMeshProUGUI foodName = prefab.GetComponentInChildren<TextMeshProUGUI>();
-            foodName.text = foodSO.foodName;
-            Image foodImage = prefab.GetComponentInChildren<Image>();
-            foodImage.sprite = foodSO.sprite;
-            Button foodButton = prefab.GetComponentInChildren<Button>();
-            foodButton.onClick.AddListener(() => ChooseFood(foodSO));
-        }
-    }
+    //public void OpenList()
+    //{
+    //    if (foodListPanel.activeInHierarchy || selectedFood)
+    //        return;
+    //
+    //    foodListPanel.SetActive(true);
+    //
+    //    foreach (FoodSO foodSO in foodList)
+    //    {
+    //        GameObject prefab = Instantiate(foodButtonPrefab, foodButtonPanel);
+    //        TextMeshProUGUI foodName = prefab.GetComponentInChildren<TextMeshProUGUI>();
+    //        foodName.text = foodSO.foodName;
+    //        Image foodImage = prefab.GetComponentInChildren<Image>();
+    //        foodImage.sprite = foodSO.sprite;
+    //        Button foodButton = prefab.GetComponentInChildren<Button>();
+    //        foodButton.onClick.AddListener(() => ChooseFood(foodSO));
+    //    }
+    //}
 
     public void Cook()
     {
-        CloseIngredients();
-        displayTimer.SetActive(true);
+        OpenCloseIngredients(false);
+        OpenCloseTimer(true);
 
-        isCooking = true;
-        timer = selectedFood.timer;
-        cleanTimer = selectedFood.cleanTimer;
-        foodDisplay.sprite = selectedFood.sprite;
-        foodDisplay.preserveAspect = true;
-        foodTimerFront.rectTransform.localPosition = new Vector3(-4, 0);
-        foodTimerText.text = Mathf.CeilToInt(timer).ToString();
-
-        ingredientDisplayPanel.transform.parent.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(5.2f, 1.2f);
+        ResizeCanvas(5.2f, 1.2f);
     }
 
-    public void CloseIngredients()
+    /// <summary>
+    /// True means open and false means close
+    /// </summary>
+    /// <param name="openclose"></param>
+    public void OpenCloseIngredients(bool openclose)
     {
-        foreach (Transform child in ingredientDisplayPanel)
+        foreach (Transform child in ingredientPanel)
             Destroy(child.gameObject);
-        ingredientDisplayPanel.gameObject.SetActive(false);
+
+        ingredientPanel.gameObject.SetActive(openclose);
     }
 
-    public void CloseFoodMenu()
+    /// <summary>
+    /// True means open and false means close
+    /// </summary>
+    /// <param name="openclose"></param>
+    public void OpenCloseFoodMenu(bool openclose)
     {
         foreach (Transform child in foodButtonPanel)
             Destroy(child.gameObject);
-        foodListPanel.SetActive(false);
+        
+        foodListPanel.SetActive(openclose);
+
+        if (openclose)
+        {
+            if (foodListPanel.activeInHierarchy || selectedFood)
+                return;
+
+            foodListPanel.SetActive(true);
+
+            foreach (FoodSO foodSO in foodList)
+            {
+                GameObject prefab = Instantiate(foodButtonPrefab, foodButtonPanel);
+                TextMeshProUGUI foodName = prefab.GetComponentInChildren<TextMeshProUGUI>();
+                foodName.text = foodSO.foodName;
+                Image foodImage = prefab.GetComponentInChildren<Image>();
+                foodImage.sprite = foodSO.sprite;
+                Button foodButton = prefab.GetComponentInChildren<Button>();
+                foodButton.onClick.AddListener(() => ChooseFood(foodSO));
+            }
+        }
+    }
+
+    public void OpenCloseTimer(bool openclose)
+    {
+        displayTimer.SetActive(openclose);
+
+        if (openclose)
+        {
+            isCooking = true;
+            timer = selectedFood.timer;
+            cleanTimer = selectedFood.cleanTimer;
+            foodDisplay.sprite = selectedFood.sprite;
+            foodDisplay.preserveAspect = true;
+            foodTimerFront.rectTransform.localPosition = new Vector3(-4, 0);
+            foodTimerText.text = Mathf.CeilToInt(timer).ToString();
+        }
+    }
+
+    public void OpenCloseDoneDisplay(bool openclose)
+    {
+        doneDisplay.SetActive(openclose);
+    }
+
+    void ResizeCanvas(float x, float y)
+    {
+        applianceCanvas.GetComponent<RectTransform>().sizeDelta = new Vector2(x, y);
+    }
+
+    void OpenCloseCanvas(bool openclose)
+    {
+        applianceCanvas.SetActive(openclose);
     }
 }
