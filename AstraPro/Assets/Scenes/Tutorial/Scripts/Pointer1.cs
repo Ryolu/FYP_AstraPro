@@ -249,21 +249,35 @@ public class Pointer1 : MonoBehaviour
                     else if (CustomerSpawner.Instance.customerDic.Select(x => x.Value.gameObject.GetInstanceID()).Contains(hit.transform.parent.gameObject.GetInstanceID()))
                     {
                         var customer = hit.transform.gameObject.GetComponentInParent<Customer>();
-                        
-                        // Serve food, customer leaves
-                        if(foodSO == customer.foodOrdered)
-                        {
-                            customer.Leave(customer.customerId);
 
+                        // Serve food, customer leaves
+                        if (foodSO == customer.foodOrdered)
+                        {
+                            Score.instance.Profit(customer.foodOrdered);
+                            //customer.Leave(customer.customerId);
                             // Disable highlight on selected cooking Appliance
-                            var o = cookingAppliance.GetComponentsInChildren<Outline>();
-                            foreach (var oL in o)
-                            {
-                                oL.selected = false;
-                                oL.color = 0;
-                            }
-                            cookingAppliance = null;
+                            //var o = cookingAppliance.GetComponentsInChildren<Outline>();
+                            //foreach (var oL in o)
+                            //{
+                            //    oL.selected = false;
+                            //    oL.color = 0;
+                            //}
+                            //cookingAppliance = null;
                         }
+                        else
+                        {
+                            Score.instance.Rate -= 0.1f;
+                        }
+                        var o = cookingAppliance.GetComponentsInChildren<Outline>();
+                        foreach (var oL in o)
+                        {
+                            oL.selected = false;
+                            oL.color = 0;
+                        }
+                        cookingAppliance = null;
+
+                        customer.Leave(customer.customerId);
+
                     }
                     elapsedTime = 0f;
                 }
