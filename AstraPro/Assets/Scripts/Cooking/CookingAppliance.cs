@@ -276,7 +276,7 @@ public class CookingAppliance : MonoBehaviour {
 
         if (openclose)
         {
-            if (selectedFood)
+            if (selectedFood || foodListPanel.activeInHierarchy)
                 return;
 
             foodListPanel.SetActive(openclose);

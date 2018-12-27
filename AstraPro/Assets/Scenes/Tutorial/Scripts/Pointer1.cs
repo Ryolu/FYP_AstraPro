@@ -43,6 +43,7 @@ public class Pointer1 : MonoBehaviour
     [SerializeField] private GameObject ProjectilePrefab;
     [SerializeField] private GameObject pauseUI;
     [SerializeField] private GameObject pauseButton;
+    [SerializeField] private GameObject foodListPanel;
 
     //[SerializeField] private Transform hand;
     //[SerializeField] private GameObject rightHandModel;
@@ -137,69 +138,123 @@ public class Pointer1 : MonoBehaviour
         if (!active)
             return;
 
-        RaycastHit hit;
-        var landingRay = new Ray(transform.position, (transform.position - cam.transform.position).normalized);
-
-        //// Draw ray in Scene view for Debug
-        Debug.DrawRay(transform.position, (transform.position - cam.transform.position).normalized * 80f);
-
-        // Raycast 800 units with landingRay
-        if (Physics.Raycast(landingRay, out hit, 80f))
+        // Only Raycast to objects when food list panel is not active
+        if (!foodListPanel.activeSelf)
         {
-            //// Check hit which object
-            //Debug.Log(hit.transform.name);
+            RaycastHit hit;
+            var landingRay = new Ray(transform.position, (transform.position - cam.transform.position).normalized);
 
-            // Highlight Code Segment
+            //// Draw ray in Scene view for Debug
+            Debug.DrawRay(transform.position, (transform.position - cam.transform.position).normalized * 10f);
+
+            // Raycast 10 units with landingRay
+            if (Physics.Raycast(landingRay, out hit, 10f))
             {
-                // If previously got hit other object
-                if (hitTransform)
+                //// Check hit which object
+                //Debug.Log(hit.transform.name);
+
+                // Highlight Code Segment
                 {
-                    // Disable highlight for hit object and its children
-                    var o = hitTransform.GetComponentsInChildren<Outline>();
-                    foreach (var oL in o)
+                    // If previously got hit other object
+                    if (hitTransform)
                     {
-                        if (!oL.selected)
+                        // Disable highlight for hit object and its children
+                        var o = hitTransform.GetComponentsInChildren<Outline>();
+                        foreach (var oL in o)
                         {
-                            oL.enabled = false;
+                            if (!oL.selected)
+                            {
+                                oL.enabled = false;
+                            }
                         }
                     }
-                }
-                hitTransform = hit.transform;
+                    hitTransform = hit.transform;
 
-                // Enable highlight for hit object and its children
-                var outlines = hitTransform.GetComponentsInChildren<Outline>();
-                foreach (var outline in outlines)
-                {
-                    outline.enabled = true;
-                }
-            }
-
-            if (press)
-            {
-                elapsedTime += Time.deltaTime;
-
-                if (elapsedTime >= endTime)
-                {
-                    // If selecting Cooking Appliance(Frying Pan, Pot 1, Pot 2)
-                    if (LevelManager.Instance.cookingAppliances.Select(x => x.gameObject.GetInstanceID()).Contains(hit.transform.gameObject.GetInstanceID()))
+                    // Enable highlight for hit object and its children
+                    var outlines = hitTransform.GetComponentsInChildren<Outline>();
+                    foreach (var outline in outlines)
                     {
-                        var app = hit.transform.GetComponent<CookingAppliance>();
+                        outline.enabled = true;
+                    }
+                }
 
-                        if (!app.isDone)
+                if (press)
+                {
+                    elapsedTime += Time.deltaTime;
+
+                    if (elapsedTime >= endTime)
+                    {
+                        // If selecting Cooking Appliance(Frying Pan, Pot 1, Pot 2)
+                        if (LevelManager.Instance.cookingAppliances.Select(x => x.gameObject.GetInstanceID()).Contains(hit.transform.gameObject.GetInstanceID()))
                         {
-                            if(!ingredientSO)
+                            var app = hit.transform.GetComponent<CookingAppliance>();
+
+                            if (!app.isDone)
                             {
-                                // Open up Food list to choose "food to cook"
-                                app.OpenCloseFoodMenu(true);
+                                if (!ingredientSO)
+                                {
+                                    // Open up Food list to choose "food to cook"
+                                    app.OpenCloseFoodMenu(true);
+                                }
+                                else
+                                {
+                                    // Add food(ingredient) into the appliance stated above
+                                    app.AddIngredient(ingredientSO);
+
+                                    // Disable highlight on selected ingredient
+                                    var o = ingredient.GetComponentsInChildren<Outline>();
+                                    foreach (var oL in o)
+                                    {
+                                        oL.selected = false;
+                                        oL.color = 0;
+                                    }
+                                    ingredient = null;
+                                    ingredientSO = null;
+                                }
                             }
                             else
                             {
-                                // Add food(ingredient) into the appliance stated above
-                                app.AddIngredient(ingredientSO);
+                                // If previously selected another cooking Appliance
+                                if (cookingAppliance)
+                                {
+                                    // Disable highlight on selected ingredient
+                                    var O = cookingAppliance.GetComponentsInChildren<Outline>();
+                                    foreach (var oL in O)
+                                    {
+                                        oL.selected = false;
+                                        oL.color = 0;
+                                    }
+                                }
 
-                                // Disable highlight on selected ingredient
-                                var o = ingredient.GetComponentsInChildren<Outline>();
+                                // Select food and store it for serving customer later
+                                cookingAppliance = hit.transform.gameObject;
+                                foodSO = app.TakeFood();
+
+                                // Enable highlight on selected cooking Appliance
+                                var o = cookingAppliance.GetComponentsInChildren<Outline>();
                                 foreach (var oL in o)
+                                {
+                                    oL.selected = true;
+                                    oL.color = 1;
+                                }
+                            }
+                        }
+                        // If selecting ingredients(Banana Leaves, Tofus, Eggs, Noodle, Spice, Fishes, Prawns)
+                        else if (LevelManager.Instance.ingredients.Select(x => x.gameObject.GetInstanceID()).Contains(hit.transform.gameObject.GetInstanceID()))
+                        {
+                            bool chosenFood = false;
+                            if (LevelManager.Instance.cookingAppliances.Select(x => x.selectedFood).Distinct().Any())
+                                chosenFood = true;
+
+                            if (!chosenFood)
+                                return;
+
+                            // If previously selected another ingredient
+                            if (ingredient)
+                            {
+                                // Disable highlight on selected ingredient
+                                var O = ingredient.GetComponentsInChildren<Outline>();
+                                foreach (var oL in O)
                                 {
                                     oL.selected = false;
                                     oL.color = 0;
@@ -207,116 +262,66 @@ public class Pointer1 : MonoBehaviour
                                 ingredient = null;
                                 ingredientSO = null;
                             }
-                        }
-                        else
-                        {
-                            // If previously selected another cooking Appliance
-                            if (cookingAppliance)
-                            {
-                                // Disable highlight on selected ingredient
-                                var O = cookingAppliance.GetComponentsInChildren<Outline>();
-                                foreach (var oL in O)
-                                {
-                                    oL.selected = false;
-                                    oL.color = 0;
-                                }
-                            }
 
-                            // Select food and store it for serving customer later
-                            cookingAppliance = hit.transform.gameObject;
-                            foodSO = app.TakeFood();
+                            // Set ingredient
+                            ingredient = hit.transform.gameObject;
+                            ingredientSO = ingredient.GetComponent<Ingredient>().ingredientSO;
 
-                            // Enable highlight on selected cooking Appliance
-                            var o = cookingAppliance.GetComponentsInChildren<Outline>();
+                            // Enable highlight on selected ingredient
+                            var o = ingredient.GetComponentsInChildren<Outline>();
                             foreach (var oL in o)
                             {
                                 oL.selected = true;
                                 oL.color = 1;
                             }
                         }
-                    }
-                    // If selecting ingredients(Banana Leaves, Tofus, Eggs, Noodle, Spice, Fishes, Prawns)
-                    else if (LevelManager.Instance.ingredients.Select(x => x.gameObject.GetInstanceID()).Contains(hit.transform.gameObject.GetInstanceID()))
-                    {
-                        bool chosenFood = false;
-                        if (LevelManager.Instance.cookingAppliances.Select(x => x.selectedFood).Distinct().Any())
-                            chosenFood = true;
-
-                        if (!chosenFood)
-                            return;
-
-                        // If previously selected another ingredient
-                        if(ingredient)
+                        // If selecting customer
+                        else if (CustomerSpawner.Instance.customerDic.Select(x => x.Value.gameObject.GetInstanceID()).Contains(hit.transform.parent.gameObject.GetInstanceID()))
                         {
-                            // Disable highlight on selected ingredient
-                            var O = ingredient.GetComponentsInChildren<Outline>();
-                            foreach (var oL in O)
+                            var customer = hit.transform.gameObject.GetComponentInParent<Customer>();
+
+                            if (foodSO)
                             {
-                                oL.selected = false;
-                                oL.color = 0;
+                                if (foodSO == customer.foodOrdered)
+                                {
+                                    // Served correct food, Add Score
+                                    Score.instance.Profit(customer.foodOrdered);
+
+                                    // Reset cooking Appliance status
+                                    cookingAppliance.GetComponent<CookingAppliance>().NewFood();
+                                }
+                                else
+                                {
+                                    // Served wrong food, Decrease Rate
+                                    Score.instance.Rate -= 0.1f;
+                                }
+                                // Customer leaves
+                                customer.Leave(customer.customerId);
+
+                                // Disable highlight on selected cooking Appliance
+                                var o = cookingAppliance.GetComponentsInChildren<Outline>();
+                                foreach (var oL in o)
+                                {
+                                    oL.selected = false;
+                                    oL.color = 0;
+                                }
+                                cookingAppliance = null;
                             }
-                            ingredient = null;
-                            ingredientSO = null;
                         }
-
-                        // Set ingredient
-                        ingredient = hit.transform.gameObject;
-                        ingredientSO = ingredient.GetComponent<Ingredient>().ingredientSO;
-
-                        // Enable highlight on selected ingredient
-                        var o = ingredient.GetComponentsInChildren<Outline>();
-                        foreach (var oL in o)
-                        {
-                            oL.selected = true;
-                            oL.color = 1;
-                        }
+                        elapsedTime = 0f;
                     }
-                    // If selecting customer
-                    else if (CustomerSpawner.Instance.customerDic.Select(x => x.Value.gameObject.GetInstanceID()).Contains(hit.transform.parent.gameObject.GetInstanceID()))
-                    {
-                        var customer = hit.transform.gameObject.GetComponentInParent<Customer>();
-
-                        if (foodSO)
-                        {
-                            if (foodSO == customer.foodOrdered)
-                            {
-                                // Served correct food, Add Score
-                                Score.instance.Profit(customer.foodOrdered);
-
-                                // Reset cooking Appliance status
-                                cookingAppliance.GetComponent<CookingAppliance>().NewFood();
-                            }
-                            else
-                            {
-                                // Served wrong food, Decrease Rate
-                                Score.instance.Rate -= 0.1f;
-                            }
-                            // Customer leaves
-                            customer.Leave(customer.customerId);
-
-                            // Disable highlight on selected cooking Appliance
-                            var o = cookingAppliance.GetComponentsInChildren<Outline>();
-                            foreach (var oL in o)
-                            {
-                                oL.selected = false;
-                                oL.color = 0;
-                            }
-                            cookingAppliance = null;
-                        }
-                    }
-                    elapsedTime = 0f;
                 }
             }
-        }
-        else
-        {
-            // Disable highlight for every objects that have outline
-            var o = FindObjectsOfType<Outline>();
-            foreach (var oL in o)
+            else
             {
-                if (!oL.selected)
+                // Disable highlight for every objects that have outline
+                var o = FindObjectsOfType<Outline>();
+                foreach (var oL in o)
                 {
-                    oL.enabled = false;
+                    if (!oL.selected)
+                    {
+                        oL.enabled = false;
+                    }
                 }
             }
         }
