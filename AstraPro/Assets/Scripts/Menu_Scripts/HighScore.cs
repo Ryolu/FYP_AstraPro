@@ -23,9 +23,6 @@ public class HighScore : MonoBehaviour {
 
         path = Application.dataPath + "/Scripts/Menu_Scripts/highScoreStorage.json";
         jsonString = File.ReadAllText(path);
-
-
-       
     }
 
     public void OnHighScore()
