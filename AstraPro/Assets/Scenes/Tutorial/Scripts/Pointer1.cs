@@ -210,6 +210,18 @@ public class Pointer1 : MonoBehaviour
                         }
                         else
                         {
+                            // If previously selected another cooking Appliance
+                            if (cookingAppliance)
+                            {
+                                // Disable highlight on selected ingredient
+                                var O = cookingAppliance.GetComponentsInChildren<Outline>();
+                                foreach (var oL in O)
+                                {
+                                    oL.selected = false;
+                                    oL.color = 0;
+                                }
+                            }
+
                             // Select food and store it for serving customer later
                             cookingAppliance = hit.transform.gameObject;
                             foodSO = app.TakeFood();
@@ -233,6 +245,20 @@ public class Pointer1 : MonoBehaviour
                         if (!chosenFood)
                             return;
 
+                        // If previously selected another ingredient
+                        if(ingredient)
+                        {
+                            // Disable highlight on selected ingredient
+                            var O = ingredient.GetComponentsInChildren<Outline>();
+                            foreach (var oL in O)
+                            {
+                                oL.selected = false;
+                                oL.color = 0;
+                            }
+                            ingredient = null;
+                            ingredientSO = null;
+                        }
+
                         // Set ingredient
                         ingredient = hit.transform.gameObject;
                         ingredientSO = ingredient.GetComponent<Ingredient>().ingredientSO;
@@ -250,34 +276,33 @@ public class Pointer1 : MonoBehaviour
                     {
                         var customer = hit.transform.gameObject.GetComponentInParent<Customer>();
 
-                        // Serve food, customer leaves
-                        if (foodSO == customer.foodOrdered)
+                        if (foodSO)
                         {
-                            Score.instance.Profit(customer.foodOrdered);
-                            //customer.Leave(customer.customerId);
+                            if (foodSO == customer.foodOrdered)
+                            {
+                                // Served correct food, Add Score
+                                Score.instance.Profit(customer.foodOrdered);
+
+                                // Reset cooking Appliance status
+                                cookingAppliance.GetComponent<CookingAppliance>().NewFood();
+                            }
+                            else
+                            {
+                                // Served wrong food, Decrease Rate
+                                Score.instance.Rate -= 0.1f;
+                            }
+                            // Customer leaves
+                            customer.Leave(customer.customerId);
+
                             // Disable highlight on selected cooking Appliance
-                            //var o = cookingAppliance.GetComponentsInChildren<Outline>();
-                            //foreach (var oL in o)
-                            //{
-                            //    oL.selected = false;
-                            //    oL.color = 0;
-                            //}
-                            //cookingAppliance = null;
+                            var o = cookingAppliance.GetComponentsInChildren<Outline>();
+                            foreach (var oL in o)
+                            {
+                                oL.selected = false;
+                                oL.color = 0;
+                            }
+                            cookingAppliance = null;
                         }
-                        else
-                        {
-                            Score.instance.Rate -= 0.1f;
-                        }
-                        var o = cookingAppliance.GetComponentsInChildren<Outline>();
-                        foreach (var oL in o)
-                        {
-                            oL.selected = false;
-                            oL.color = 0;
-                        }
-                        cookingAppliance = null;
-
-                        customer.Leave(customer.customerId);
-
                     }
                     elapsedTime = 0f;
                 }

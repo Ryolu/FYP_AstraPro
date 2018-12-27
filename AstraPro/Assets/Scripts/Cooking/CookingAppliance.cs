@@ -154,7 +154,7 @@ public class CookingAppliance : MonoBehaviour {
     /// <summary>
     /// This is called when the player has finished cooking and the appliance is ready to be used again.
     /// </summary>
-    void NewFood()
+    public void NewFood()
     {
         isCooking = false;
         isDone = false;
@@ -163,6 +163,12 @@ public class CookingAppliance : MonoBehaviour {
         ingredients = new List<IngredientSO>();
         ingredientDisplayList = new List<Image>();
         selectedFood = null;
+
+        OpenCloseCanvas(false);
+        OpenCloseDoneDisplay(false);
+        OpenCloseFoodMenu(false);
+        OpenCloseIngredients(false);
+        OpenCloseTimer(false);
     }
 
     /// <summary>
@@ -206,7 +212,6 @@ public class CookingAppliance : MonoBehaviour {
         OpenCloseFoodMenu(false);
         OpenCloseIngredients(true);
 
-
         // Do other stuff which happens when a food is selected
         foreach (IngredientSO ingredient in foodSO.ingredientList)
         {
@@ -238,6 +243,9 @@ public class CookingAppliance : MonoBehaviour {
     //    }
     //}
 
+    /// <summary>
+    /// Starts the cooking process and indicators
+    /// </summary>
     public void Cook()
     {
         OpenCloseIngredients(false);
@@ -265,15 +273,13 @@ public class CookingAppliance : MonoBehaviour {
     /// <param name="openclose"></param>
     public void OpenCloseFoodMenu(bool openclose)
     {
-        foreach (Transform child in foodButtonPanel)
-            Destroy(child.gameObject);
-        
-        foodListPanel.SetActive(openclose);
 
         if (openclose)
         {
             if (selectedFood)
                 return;
+
+            foodListPanel.SetActive(openclose);
 
             foreach (FoodSO foodSO in foodList)
             {
@@ -285,6 +291,13 @@ public class CookingAppliance : MonoBehaviour {
                 Button foodButton = prefab.GetComponentInChildren<Button>();
                 foodButton.onClick.AddListener(() => ChooseFood(foodSO));
             }
+        }
+        else
+        {
+            foreach (Transform child in foodButtonPanel)
+                Destroy(child.gameObject);
+            
+            foodListPanel.SetActive(openclose);
         }
     }
 
@@ -319,10 +332,12 @@ public class CookingAppliance : MonoBehaviour {
         applianceCanvas.SetActive(openclose);
     }
 
+    /// <summary>
+    /// Gets the current cooked food
+    /// </summary>
+    /// <returns></returns>
     public FoodSO TakeFood()
     {
-        var food = selectedFood;
-        NewFood();
-        return food;
+        return selectedFood;
     }
 }
