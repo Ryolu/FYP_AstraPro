@@ -144,14 +144,19 @@ public class Pointer_Menu : MonoBehaviour
 
             if (press)
             {
-                if (selectedButton.name == "Start" || selectedButton.name == "Return_MainMenu")
+                if (selectedButton.name == "Start")
+                {
+                    Menu_Manager.Tutorial_Mode = false;
+                    Menu_Manager.Instance.In_Game();
+                }
+                else if (selectedButton.name == "Return_MainMenu")
                 {
                     Menu_Manager.Instance.OnGameMenu();
                 }
                 else if (selectedButton.name == "Tutorial")
                 {
                     Menu_Manager.Tutorial_Mode = true;
-                    Menu_Manager.Instance.OnGameMenu();
+                    Menu_Manager.Instance.In_Game();
                 }
                 else if (selectedButton.name == "Options")
                 {

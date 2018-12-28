@@ -306,6 +306,7 @@ public class Pointer1 : MonoBehaviour
                                     oL.color = 0;
                                 }
                                 cookingAppliance = null;
+                                foodSO = null;
                             }
                         }
                         elapsedTime = 0f;

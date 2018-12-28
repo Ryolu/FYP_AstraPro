@@ -60,6 +60,7 @@ public class Menu_Manager : MonoBehaviour {
             Audio_Manager.Instance.GetComponent<AudioSource>().clip = Audio_Manager.Instance.audioDictionary["Tutorial"];
             Audio_Manager.Instance.GetComponent<AudioSource>().Play();
             SceneManager.LoadSceneAsync("Scenes/Tutorial/Tutorial");
+            Tutorial_Mode = false;
         }
         else
         {
