@@ -23,6 +23,11 @@ ModelImporter:
     100034: Tofus
     100036: Uninteractable_objects
     100038: Wall_and_floor
+    100040: Noodle
+    100042: Spice
+    100044: Tofu
+    100046: Walls_and_floor
+    100048: Windows
     400000: Banana_Leaves
     400002: Bowls
     400004: Cookware
@@ -43,6 +48,11 @@ ModelImporter:
     400034: Tofus
     400036: Uninteractable_objects
     400038: Wall_and_floor
+    400040: Noodle
+    400042: Spice
+    400044: Tofu
+    400046: Walls_and_floor
+    400048: Windows
     2100000: Interactable
     2100002: Wall_Floor
     2100004: Furniturez
@@ -60,6 +70,11 @@ ModelImporter:
     2300022: Spice_container
     2300024: Tofus
     2300026: Wall_and_floor
+    2300028: Noodle
+    2300030: Spice
+    2300032: Tofu
+    2300034: Walls_and_floor
+    2300036: Windows
     3300000: Banana_Leaves
     3300002: Bowls
     3300004: Eggs
@@ -74,6 +89,11 @@ ModelImporter:
     3300022: Spice_container
     3300024: Tofus
     3300026: Wall_and_floor
+    3300028: Noodle
+    3300030: Spice
+    3300032: Tofu
+    3300034: Walls_and_floor
+    3300036: Windows
     4300000: Fishes
     4300002: Prawns
     4300004: Tofus
@@ -88,6 +108,11 @@ ModelImporter:
     4300022: Pot_01
     4300024: Wall_and_floor
     4300026: Furniture
+    4300028: Spice
+    4300030: Tofu
+    4300032: Noodle
+    4300034: Windows
+    4300036: Walls_and_floor
   externalObjects: {}
   materials:
     importMaterials: 1
