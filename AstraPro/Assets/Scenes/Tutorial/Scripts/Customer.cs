@@ -199,8 +199,18 @@ public class Customer : MonoBehaviour
                     }
                     break;
             }
-            // Copy newDic into our customerDic
-            CustomerSpawner.Instance.customerDic = newDic;
+
+            // Check if still have customer
+            if (newDic.Count == 0)
+            {
+                // No more customer
+                Menu_Manager.Instance.OnGameMenu();
+            }
+            else
+            {
+                // Copy newDic into our customerDic
+                CustomerSpawner.Instance.customerDic = newDic;
+            }
         }
     }
 

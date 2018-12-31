@@ -55,70 +55,6 @@ public class CustomerSpawner : MonoBehaviour
         customerDic.Add(customerCount, obj.GetComponent<Customer>());
     }
 
-    //public void Leave(int customerId)
-    //{
-    //    // Remove Customer with stated customerId
-    //    customerCount -= 1;
-    //    customerDic[customerId].Destroy();
-    //    customerDic.Remove(customerId);
-
-    //    // Only change customerId when Serving customer 1 or 2
-    //    if (customerId == 1 || customerId == 2)
-    //    {
-    //        var newDic = new Dictionary<int, Customer>();
-
-    //        switch (customerId)
-    //        {
-    //            case 1:
-    //                {
-    //                    int newKey;
-    //                    foreach (var item in customerDic)
-    //                    {
-    //                        // Change Key(customerId)
-    //                        newKey = item.Key - 1;
-    //                        item.Value.customerId = newKey;
-
-    //                        // Recalculate the direction and target for customer to move towards
-    //                        item.Value.CalculateDir();
-
-    //                        // Copy Customer over to newDic
-    //                        newDic.Add(newKey, item.Value);
-    //                    }
-    //                }
-    //                break;
-    //            case 2:
-    //                {
-    //                    int newKey;
-    //                    foreach (var item in customerDic)
-    //                    {
-    //                        if (item.Key == 1)
-    //                        {
-    //                            // Copy Customer over to newDic
-    //                            newDic.Add(item.Key, item.Value);
-    //                        }
-    //                        else if (item.Key == 3)
-    //                        {
-    //                            // Change Key(customerId)
-    //                            newKey = item.Key - 1;
-    //                            item.Value.customerId = newKey;
-
-    //                            // Recalculate the direction and target for customer to move towards
-    //                            item.Value.CalculateDir();
-
-    //                            // Copy Customer over to newDic
-    //                            newDic.Add(newKey, item.Value);
-    //                        }
-    //                    }
-    //                }
-    //                break;
-    //        }
-            
-    //        // Copy newDic into our customerDic
-    //        customerDic = newDic;
-    //    }
-
-    //}
-
     //private void Update()
     //{
     //    //// Customers order food 1 by 1 as they reached counter
@@ -147,23 +83,5 @@ public class CustomerSpawner : MonoBehaviour
     //    //        }
     //    //    }
     //    //}
-
-    //    // Debug KeyPress for serve customer
-    //    //if (Input.GetKeyUp(KeyCode.Alpha1))
-    //    //{
-    //    //    // serve id 1
-    //    //    Leave(1);
-    //    //}
-    //    //else if (Input.GetKeyUp(KeyCode.Alpha2))
-    //    //{
-    //    //    // serve id 2
-    //    //    Leave(2);
-    //    //}
-    //    //else if (Input.GetKeyUp(KeyCode.Alpha3))
-    //    //{
-    //    //    // serve id 3
-    //    //    Leave(3);
-    //    //}
-
     //}
 }

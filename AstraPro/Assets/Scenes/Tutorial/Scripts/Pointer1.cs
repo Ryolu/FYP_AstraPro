@@ -373,20 +373,7 @@ public class Pointer1 : MonoBehaviour
                     //Projectile.transform.position = hand.position;
                     //Projectile.transform.rotation = Quaternion.identity;
                     //Projectile.GetComponent<Projectile>().dir = (background.transform.position - hand.position).normalized;
-
-                    //// Pause Button
-                    //if(selectedButton.gameObject.name == "Pause" && !PauseManager.isPaused)
-                    //{
-                    //    pauseUI.SetActive(true);
-                    //    pauseButton.SetActive(false);
-                    //    PauseManager.Pause();
-                    //}
-                    //else if (selectedButton.gameObject.name == "Resume" && PauseManager.isPaused)
-                    //{
-                    //    pauseUI.SetActive(false);
-                    //    pauseButton.SetActive(true);
-                    //    PauseManager.Resume();
-                    //}
+                    
                     elapsedTime = 0f;
                 }
             }
