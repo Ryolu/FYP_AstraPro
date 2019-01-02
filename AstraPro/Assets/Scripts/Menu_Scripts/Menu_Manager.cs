@@ -24,7 +24,7 @@ public class Menu_Manager : MonoBehaviour {
     {
         Audio_Manager.Instance.GetComponent<AudioSource>().clip = Audio_Manager.Instance.audioDictionary["MainMenu"];
         Audio_Manager.Instance.GetComponent<AudioSource>().Play();
-        SceneManager.LoadSceneAsync("Scenes/Main_Menu");
+        SceneManager.LoadScene("Scenes/Main_Menu");
     }
 
     public void OnOptions()
@@ -50,7 +50,7 @@ public class Menu_Manager : MonoBehaviour {
     {
         Audio_Manager.Instance.GetComponent<AudioSource>().clip = Audio_Manager.Instance.audioDictionary["Score_Board"];
         Audio_Manager.Instance.GetComponent<AudioSource>().Play();
-        SceneManager.LoadSceneAsync("Scenes/Credits");
+        SceneManager.LoadScene("Scenes/Credits");
     }
 
     public void In_Game()

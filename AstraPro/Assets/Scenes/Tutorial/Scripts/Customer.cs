@@ -240,19 +240,18 @@ public class Customer : MonoBehaviour
         }
 
         // Move towards the Target position
-        if(!reachedTarget && Vector3.Distance(transform.position, targetPosition) >= 0.1f)
+        if(Vector3.Distance(transform.position, targetPosition) >= 0.1f)
         {
             // Rotate to face Wall
-            if (orderedFood && transform.eulerAngles.y > 180f)
+            if (orderedFood && Vector3.Angle(transform.forward, new Vector3(1, 0, 0) ) != 90f)
             {
                 var tableWare = transform.GetChild(3).gameObject;
-                if (tableWare.activeSelf)
+                if (tableWare.activeInHierarchy)
                 {
                     tableWare.SetActive(false);
                 }
 
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(transform.rotation.x, 180f, transform.rotation.z), rotateSpeed * Time.deltaTime);
-                return;
             }
             else
             {
@@ -263,25 +262,22 @@ public class Customer : MonoBehaviour
         {
             reachedTarget = true;
 
+            //Debug.Log(Vector3.Angle(transform.forward, new Vector3(1, 0, 0)));
             // Rotate to face Player(Chef)
-            if(transform.eulerAngles.y > -90f)
+            if (Vector3.Angle(transform.forward, new Vector3(1, 0, 0)) != 180f)
             {
-                if (transform.eulerAngles.y >= 269f)
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(transform.rotation.x, -90f, transform.rotation.z), rotateSpeed * Time.deltaTime);
+
+                if (Vector3.Angle(transform.forward, new Vector3(1, 0, 0)) == 180f)
                 {
                     if (!orderedFood)
                     {
                         OrderFood(foodOrder[Random.Range(0, foodOrder.Length)]);
                     }
-                    else
-                    {
-                        transform.GetChild(3).gameObject.SetActive(true);
-                        SetTableWareData();
-                    }
+                    ////////////transform.GetChild(3).gameObject.SetActive(true);
+                    ////////////SetTableWareData();
                 }
-
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(transform.rotation.x, -90f,transform.rotation.z), rotateSpeed * Time.deltaTime);
             }
-            
         }
 	}
 }

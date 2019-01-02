@@ -9,11 +9,17 @@ public class Crowd_Spawner : MonoBehaviour {
     //Time of Spawning objects
     float ElapseTime;
     public float EndTime = 1;
+    public bool Reversed = false;
 
     private void onSpawnCrowd()
     {
         GameObject Spawner = ObjectPool.Instance.GetPooledObject(People_1);
-        MeshRenderer renderer = Spawner.transform.GetChild(0).GetComponent<MeshRenderer>();
+
+        if (Reversed)
+            if (Spawner.transform.forward.z > 0)
+                Spawner.transform.Rotate(new Vector3(0, 180, 0));
+
+        MeshRenderer renderer = Spawner.GetComponent<MeshRenderer>();
         renderer.lightProbeUsage = UnityEngine.Rendering.LightProbeUsage.Off;
 
         LightProbeProxyVolume proxy = Spawner.GetComponent<LightProbeProxyVolume>();

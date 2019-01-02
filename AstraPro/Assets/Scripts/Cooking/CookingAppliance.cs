@@ -80,8 +80,7 @@ public class CookingAppliance : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-        Debug.Log(Mathf.CeilToInt(timer));
+        
         if (isCooking)
         {
             if (timer > 0)
