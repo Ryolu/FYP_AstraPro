@@ -9,8 +9,6 @@ public class Customer : MonoBehaviour
     [Tooltip("How long the Customer will wait for food")] [SerializeField] private float waitTiming = 30f;
     [Tooltip("Timer Filler Image")] [SerializeField] private Image timerImage;
     [Tooltip("Foods that customer can order")] [SerializeField] private FoodSO[] foodOrder;
-    [Tooltip("Tableware Prefab to spawn when order food")] [SerializeField] private GameObject bowl;
-    [Tooltip("Tableware Prefab to spawn when order food")] [SerializeField] private GameObject plate;
 
     [HideInInspector] public Vector3 queuePosition;
     [HideInInspector] public int customerId;
@@ -60,16 +58,7 @@ public class Customer : MonoBehaviour
 
         yellowRedGradient.SetKeys(ck2, ak2);
     }
-
-    private void SetTableWareData()
-    {
-        var spawnPoint = transform.GetChild(2);
-        var obj = transform.GetChild(3);
-        obj.transform.localPosition = spawnPoint.localPosition;
-        obj.transform.eulerAngles = spawnPoint.eulerAngles;
-        obj.transform.localScale = spawnPoint.localScale;
-    }
-
+    
     // Calculate Direction for customer to move and Record down the Target position based on number of customer
     public void CalculateDir()
     {
@@ -106,26 +95,6 @@ public class Customer : MonoBehaviour
         canvas.SetActive(true);
         canvas.transform.GetChild(1).GetComponent<Image>().sprite = food.sprite;
         canvas.transform.GetChild(1).GetComponent<Image>().preserveAspect = true;
-
-        // Spawn Tableware
-        if(food.foodName.Equals("Otah"))
-        {
-            var obj = ObjectPool.Instance.GetPooledObject(plate);
-
-            if (!obj) return;
-            
-            obj.transform.parent = transform;
-            SetTableWareData();
-        }
-        else
-        {
-            var obj = ObjectPool.Instance.GetPooledObject(bowl);
-
-            if (!obj) return;
-            
-            obj.transform.parent = transform;
-            SetTableWareData();
-        }
 
         // Set Ordered Food
         foodOrdered = food;
@@ -245,12 +214,6 @@ public class Customer : MonoBehaviour
             // Rotate to face Wall
             if (orderedFood && Vector3.Angle(transform.forward, new Vector3(1, 0, 0) ) != 90f)
             {
-                var tableWare = transform.GetChild(3).gameObject;
-                if (tableWare.activeInHierarchy)
-                {
-                    tableWare.SetActive(false);
-                }
-
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(transform.rotation.x, 180f, transform.rotation.z), rotateSpeed * Time.deltaTime);
             }
             else
@@ -274,8 +237,6 @@ public class Customer : MonoBehaviour
                     {
                         OrderFood(foodOrder[Random.Range(0, foodOrder.Length)]);
                     }
-                    ////////////transform.GetChild(3).gameObject.SetActive(true);
-                    ////////////SetTableWareData();
                 }
             }
         }
