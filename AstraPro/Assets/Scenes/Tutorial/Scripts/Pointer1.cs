@@ -60,6 +60,7 @@ public class Pointer1 : MonoBehaviour
     {      
         NuitrackManager.onHandsTrackerUpdate += NuitrackManager_onHandsTrackerUpdate;
         dragSensitivity *= dragSensitivity;
+        background.sprite = defaultSprite;
     }
 
     private void OnDestroy()
@@ -133,7 +134,7 @@ public class Pointer1 : MonoBehaviour
 
         // Show Image
         background.enabled = active;
-        background.sprite = active && press ? pressSprite : defaultSprite;
+        //background.sprite = active && press ? pressSprite : defaultSprite;
 
         if (!active)
             return;
@@ -266,7 +267,8 @@ public class Pointer1 : MonoBehaviour
                             // Set ingredient
                             ingredient = hit.transform.gameObject;
                             ingredientSO = ingredient.GetComponent<Ingredient>().ingredientSO;
-
+                            background.sprite = ingredientSO.sprite;
+                            
                             // Enable highlight on selected ingredient
                             var o = ingredient.GetComponentsInChildren<Outline>();
                             foreach (var oL in o)
