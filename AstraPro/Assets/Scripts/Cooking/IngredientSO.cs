@@ -13,10 +13,6 @@ public class IngredientSO : ScriptableObject {
 
     public string ingredientName = "Default";
     /// <summary>
-    /// The cost of this ingredient
-    /// </summary>
-    public float cost = 0;
-    /// <summary>
     /// The ingredient's sprite
     /// </summary>
     public Sprite sprite;

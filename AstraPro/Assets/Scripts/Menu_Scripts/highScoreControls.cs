@@ -73,7 +73,7 @@ public class highScoreControls : MonoBehaviour
         {
             GameObject currentItem = Instantiate(imageItemPrefab);
             currentItem.transform.SetParent(content, false);
-            HighScore.instance.highestScoreText[i] = currentItem.transform.GetChild(0).GetComponent<Text>();
+            HighScore.Instance.highestScoreText[i] = currentItem.transform.GetChild(0).GetComponent<Text>();
 
             LayoutElement element = currentItem.GetComponent<LayoutElement>();
             generatedSprites.Add(element);
@@ -84,7 +84,7 @@ public class highScoreControls : MonoBehaviour
             Image currentImage = currentItem.GetComponent<Image>();
             currentImage.sprite = spriteCollection[i];
         }
-        HighScore.instance.OnHighScore();
+        HighScore.Instance.OnHighScore();
 
         content.sizeDelta = new Vector2(content.rect.width, (elementY + 25) * 10 + 900);
 

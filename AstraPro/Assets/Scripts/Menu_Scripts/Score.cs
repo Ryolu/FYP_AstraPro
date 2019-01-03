@@ -2,54 +2,52 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class Score : MonoBehaviour {
-    public static Score instance;
-    public float Overall = 100.0f;
-    public float Otah = 5.0f;
-    public float CurryFishHead = 10.0f;
-    public float Laksa = 6.0f;
-    public float MeeSiam = 5.5f; 
-    public float Rate = .20f;
-    public Text Money;
-    public Image RateBar;
+
+    public static Score Instance;    
+    public float rate = .20f;
+    public Text money;
+    public Image rateBar;
+
     private void Awake()
     {
-        instance = this;
+        Instance = this;
     }
 
     // Use this for initialization
     void Start () {
-        Overall = 100.0f;
-        Rate = .20f;
+        HighScore.Instance.overall = 100.0f;
+        rate = .20f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        Money.text = "Profit " + Overall.ToString();
-        RateBar.fillAmount = Rate;
+       
+        if (Input.GetKeyDown("space"))
+        {
+            HighScore.Instance.overall += 100;
+            rate = 0;
+        }
+        if (rate <= 0)
+        {
+            Menu_Manager.Instance.HighScore();
+        }
 	}
 
     public void Profit(FoodSO food)
     {
         if (food.foodName == "Curry Fish Head")
-        {
-            Overall += CurryFishHead;
-            Rate += 0.1f;
-        }
+            rate += 0.1f;
         else if (food.foodName == "Laksa")
-        {
-            Overall += Laksa;
-            Rate += 0.03f;
-        }
+            rate += 0.03f;
         else if (food.foodName == "Mee Siam")
-        {
-            Overall += MeeSiam;
-            Rate += 0.01f;
-        }
+            rate += 0.01f;
         else if (food.foodName == "Otah")
-        {
-            Overall += Otah;
-            Rate += 0.05f;
-        }
+            rate += 0.05f;
+
+        rateBar.fillAmount = rate;
+        money.text = "Profit " + HighScore.Instance.overall.ToString();
+        HighScore.Instance.overall += food.cost;
     }
 }

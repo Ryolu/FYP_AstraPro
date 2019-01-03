@@ -523,12 +523,12 @@ public class Pointer1 : MonoBehaviour
                                     if (foodSO == customer.foodOrdered)
                                     {
                                         // Served correct food, Add Score
-                                        Score.instance.Profit(customer.foodOrdered);
+                                        Score.Instance.Profit(customer.foodOrdered);
                                     }
                                     else
                                     {
                                         // Served wrong food, Decrease Rate
-                                        Score.instance.Rate -= 0.1f;
+                                        Score.Instance.rate -= 0.1f;
                                     }
 
                                     // Reset cooking Appliance status
