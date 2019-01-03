@@ -55,8 +55,8 @@ public class Menu_Manager : MonoBehaviour {
 
     public void GameOver()
     {
-        Audio_Manager.Instance.GetComponent<AudioSource>().clip = Audio_Manager.Instance.audioDictionary["Score_Board"];
-        Audio_Manager.Instance.GetComponent<AudioSource>().Play();
+        //Audio_Manager.Instance.GetComponent<AudioSource>().clip = Audio_Manager.Instance.audioDictionary["Score_Board"];
+        //Audio_Manager.Instance.GetComponent<AudioSource>().Play();
         SceneManager.LoadScene("Scenes/GameOver");
     }
 

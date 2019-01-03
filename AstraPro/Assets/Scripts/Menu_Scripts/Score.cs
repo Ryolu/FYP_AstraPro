@@ -31,7 +31,7 @@ public class Score : MonoBehaviour {
         }
         if (rate <= 0)
         {
-            Menu_Manager.Instance.HighScore();
+            Menu_Manager.Instance.GameOver();
         }
 	}
 
