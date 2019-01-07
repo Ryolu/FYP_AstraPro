@@ -70,9 +70,6 @@ public class Pointer1 : MonoBehaviour
 
     private void DropItem(GameObject item)
     {
-        // Reset Timer
-        elapsedTime = 0f;
-
         // Change Ingredient Sprite back to Hand Sprite
         background.sprite = defaultSprite;
 
@@ -98,6 +95,16 @@ public class Pointer1 : MonoBehaviour
         }
     }
 
+    private void ShowOutline(GameObject parent)
+    {
+        // Enable highlight for hit object and its children
+        var outlines = parent.GetComponentsInChildren<Outline>();
+        foreach (var outline in outlines)
+        {
+            outline.enabled = true;
+        }
+    }
+
     private void NuitrackManager_onHandsTrackerUpdate(nuitrack.HandTrackerData handTrackerData)
     {
         active = false;
@@ -115,6 +122,7 @@ public class Pointer1 : MonoBehaviour
                     active = true;
                     press = userHands.RightHand.Value.Click;
 
+                    #region Right Hand Model Code (Comment-ed)
                     //if(rightHandModel.activeSelf)
                     //{
                     //    // Place Model on Icon when active
@@ -133,6 +141,7 @@ public class Pointer1 : MonoBehaviour
                     //        rightHandModel.SetActive(true);
                     //    }
                     //}
+                    #endregion // Right Hand Model Code End
                 }
                 else if (currentHand == Hands.left && userHands.LeftHand != null)
                 {                    
@@ -140,6 +149,7 @@ public class Pointer1 : MonoBehaviour
                     active = true;
                     press = userHands.LeftHand.Value.Click;
 
+                    #region Left Hand Model Code (Comment-ed)
                     //if (leftHandModel.activeSelf)
                     //{
                     //    // Place Model on Icon when active
@@ -158,6 +168,7 @@ public class Pointer1 : MonoBehaviour
                     //        leftHandModel.SetActive(true);
                     //    }
                     //}
+                    #endregion // Left Hand Model Code End
                 }
             }
         }
@@ -169,7 +180,7 @@ public class Pointer1 : MonoBehaviour
         {
             if(!ingredientSO && !foodSO)
             {
-                background.sprite = active && press ? pressSprite : defaultSprite;
+                background.sprite = defaultSprite;
             }
         }
         else
@@ -177,391 +188,391 @@ public class Pointer1 : MonoBehaviour
             return;
         }
 
-        // Only Raycast to objects when food list panel is not active
-        if (!foodListPanel.activeSelf)
-        {
-            RaycastHit hit;
-            var landingRay = new Ray(transform.position, (transform.position - cam.transform.position).normalized);
+        #region 3D raycast (Comment-ed)
+        //// Only Raycast to objects when food list panel is not active
+        //if (!foodListPanel.activeSelf)
+        //{
+        //    RaycastHit hit;
+        //    var landingRay = new Ray(transform.position, (transform.position - cam.transform.position).normalized);
 
-            //// Draw ray in Scene view for Debug
-            Debug.DrawRay(transform.position, (transform.position - cam.transform.position).normalized * 10f);
+        //    //// Draw ray in Scene view for Debug
+        //    Debug.DrawRay(transform.position, (transform.position - cam.transform.position).normalized * 10f);
 
-            // Raycast 10 units with landingRay
-            if (Physics.Raycast(landingRay, out hit, 10f))
-            {
-                //// Check hit which object
-                //Debug.Log(hit.transform.name);
+        //    // Raycast 10 units with landingRay
+        //    if (Physics.Raycast(landingRay, out hit, 10f))
+        //    {
+        //        //// Check hit which object
+        //        //Debug.Log(hit.transform.name);
 
-                // Highlight Code Segment
-                {
-                    // If previously got hit other object
-                    if (hitTransform)
-                    {
-                        // Disable highlight for hit object and its children
-                        var o = hitTransform.GetComponentsInChildren<Outline>();
-                        foreach (var oL in o)
-                        {
-                            if (!oL.selected)
-                            {
-                                oL.enabled = false;
-                            }
-                        }
-                    }
-                    hitTransform = hit.transform;
+        //        #region Highlight Code Segment (Comment-ed)
+        //        //// If previously got hit other object
+        //        //if (hitTransform)
+        //        //{
+        //        //    // Disable highlight for hit object and its children
+        //        //    var o = hitTransform.GetComponentsInChildren<Outline>();
+        //        //    foreach (var oL in o)
+        //        //    {
+        //        //        if (!oL.selected)
+        //        //        {
+        //        //            oL.enabled = false;
+        //        //        }
+        //        //    }
+        //        //}
+        //        //hitTransform = hit.transform;
 
-                    if (!ingredientSO && !foodSO)
-                    {
-                        // If selecting Cooking Appliance(Frying Pan, Pot 1, Pot 2)
-                        if (LevelManager.Instance.cookingAppliances.Select(x => x.gameObject.GetInstanceID()).Contains(hit.transform.gameObject.GetInstanceID()))
-                        {
-                            // Enable highlight for hit object and its children
-                            var outlines = hitTransform.GetComponentsInChildren<Outline>();
-                            foreach (var outline in outlines)
-                            {
-                                outline.enabled = true;
-                            }
-                        }
-                        else
-                        {
-                            // Check if any Cooking Appliance is waiting for ingredient input
-                            var chosenFood = false;
-                            if (LevelManager.Instance.cookingAppliances.Select(x => x.selectedFood).Any(y => y != null))
-                            {
-                                chosenFood = true;
-                            }
+        //        //if (!ingredientSO && !foodSO)
+        //        //{
+        //        //    // If selecting Cooking Appliance(Frying Pan, Pot 1, Pot 2)
+        //        //    if (LevelManager.Instance.cookingAppliances.Select(x => x.gameObject.GetInstanceID()).Contains(hit.transform.gameObject.GetInstanceID()))
+        //        //    {
+        //        //        // Enable highlight for hit object and its children
+        //        //        var outlines = hitTransform.GetComponentsInChildren<Outline>();
+        //        //        foreach (var outline in outlines)
+        //        //        {
+        //        //            outline.enabled = true;
+        //        //        }
+        //        //    }
+        //        //    else
+        //        //    {
+        //        //        // Check if any Cooking Appliance is waiting for ingredient input
+        //        //        var chosenFood = false;
+        //        //        if (LevelManager.Instance.cookingAppliances.Select(x => x.selectedFood).Any(y => y != null))
+        //        //        {
+        //        //            chosenFood = true;
+        //        //        }
 
-                            // There is Cooking Appliance waiting for ingredient input
-                            if (chosenFood)
-                            {
-                                // If selecting Ingredients(Banana Leaves, Tofus, Eggs, Noodle, Spice, Fishes, Prawns)
-                                if (LevelManager.Instance.ingredients.Select(x => x.gameObject.GetInstanceID()).Contains(hit.transform.gameObject.GetInstanceID()))
-                                {
-                                    // Enable highlight for hit object and its children
-                                    var outlines = hitTransform.GetComponentsInChildren<Outline>();
-                                    foreach (var outline in outlines)
-                                    {
-                                        outline.enabled = true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else if(ingredientSO)
-                    {
-                        // If selecting Cooking Appliance(Frying Pan, Pot 1, Pot 2)
-                        if (LevelManager.Instance.cookingAppliances.Select(x => x.gameObject.GetInstanceID()).Contains(hit.transform.gameObject.GetInstanceID()))
-                        {
-                            // Enable highlight for hit object and its children
-                            var outlines = hitTransform.GetComponentsInChildren<Outline>();
-                            foreach (var outline in outlines)
-                            {
-                                outline.enabled = true;
-                            }
-                        }
-                    }
-                    else if(foodSO)
-                    {
-                        // If selecting Customer
-                        if (CustomerSpawner.Instance.customerDic.Select(x => x.Value.gameObject.GetInstanceID()).Contains(hit.transform.parent.gameObject.GetInstanceID()))
-                        {
-                            // Enable highlight for hit object and its children
-                            var outlines = hitTransform.GetComponentsInChildren<Outline>();
-                            foreach (var outline in outlines)
-                            {
-                                outline.enabled = true;
-                            }
-                        }
-                    }    
-                }
+        //        //        // There is Cooking Appliance waiting for ingredient input
+        //        //        if (chosenFood)
+        //        //        {
+        //        //            // If selecting Ingredients(Banana Leaves, Tofus, Eggs, Noodle, Spice, Fishes, Prawns)
+        //        //            if (LevelManager.Instance.ingredients.Select(x => x.gameObject.GetInstanceID()).Contains(hit.transform.gameObject.GetInstanceID()))
+        //        //            {
+        //        //                // Enable highlight for hit object and its children
+        //        //                var outlines = hitTransform.GetComponentsInChildren<Outline>();
+        //        //                foreach (var outline in outlines)
+        //        //                {
+        //        //                    outline.enabled = true;
+        //        //                }
+        //        //            }
+        //        //        }
+        //        //    }
+        //        //}
+        //        //else if (ingredientSO)
+        //        //{
+        //        //    // If selecting Cooking Appliance(Frying Pan, Pot 1, Pot 2)
+        //        //    if (LevelManager.Instance.cookingAppliances.Select(x => x.gameObject.GetInstanceID()).Contains(hit.transform.gameObject.GetInstanceID()))
+        //        //    {
+        //        //        // Enable highlight for hit object and its children
+        //        //        var outlines = hitTransform.GetComponentsInChildren<Outline>();
+        //        //        foreach (var outline in outlines)
+        //        //        {
+        //        //            outline.enabled = true;
+        //        //        }
+        //        //    }
+        //        //}
+        //        //else if (foodSO)
+        //        //{
+        //        //    // If selecting Customer
+        //        //    if (CustomerSpawner.Instance.customerDic.Select(x => x.Value.gameObject.GetInstanceID()).Contains(hit.transform.parent.gameObject.GetInstanceID()))
+        //        //    {
+        //        //        // Enable highlight for hit object and its children
+        //        //        var outlines = hitTransform.GetComponentsInChildren<Outline>();
+        //        //        foreach (var outline in outlines)
+        //        //        {
+        //        //            outline.enabled = true;
+        //        //        }
+        //        //    }
+        //        //}
+        //        #endregion // Highlight Code Segment End
 
-                // Cooking Control Code Segment
-                {
-                    // Toggle Style Control
-                    {
-                        //if (press)
-                        //{
-                        //    elapsedTime += Time.deltaTime;
-                        //    if (elapsedTime >= endTime)
-                        //    {
-                        //        // If selecting Cooking Appliance(Frying Pan, Pot 1, Pot 2)
-                        //        if (LevelManager.Instance.cookingAppliances.Select(x => x.gameObject.GetInstanceID()).Contains(hit.transform.gameObject.GetInstanceID()))
-                        //        {
-                        //            var app = hit.transform.GetComponent<CookingAppliance>();
-                        //            if (!app.isDone)
-                        //            {
-                        //                if (!ingredientSO)
-                        //                {
-                        //                    // Open up Food list to choose "food to cook"
-                        //                    app.OpenCloseFoodMenu(true);
-                        //                }
-                        //                else
-                        //                {
-                        //                    // Add food(ingredient) into the appliance stated above
-                        //                    app.AddIngredient(ingredientSO);
-                        //                    // Disable highlight on selected ingredient
-                        //                    var o = ingredient.GetComponentsInChildren<Outline>();
-                        //                    foreach (var oL in o)
-                        //                    {
-                        //                        oL.selected = false;
-                        //                        oL.color = 0;
-                        //                    }
-                        //                    ingredient = null;
-                        //                    ingredientSO = null;
-                        //                }
-                        //            }
-                        //            else
-                        //            {
-                        //                // If previously selected another cooking Appliance
-                        //                if (cookingAppliance)
-                        //                {
-                        //                    // Disable highlight on selected ingredient
-                        //                    var O = cookingAppliance.GetComponentsInChildren<Outline>();
-                        //                    foreach (var oL in O)
-                        //                    {
-                        //                        oL.selected = false;
-                        //                        oL.color = 0;
-                        //                    }
-                        //                }
-                        //                // Select food and store it for serving customer later
-                        //                cookingAppliance = hit.transform.gameObject;
-                        //                foodSO = app.TakeFood();
-                        //                // Enable highlight on selected cooking Appliance
-                        //                var o = cookingAppliance.GetComponentsInChildren<Outline>();
-                        //                foreach (var oL in o)
-                        //                {
-                        //                    oL.selected = true;
-                        //                    oL.color = 1;
-                        //                }
-                        //            }
-                        //        }
-                        //        // If selecting ingredients(Banana Leaves, Tofus, Eggs, Noodle, Spice, Fishes, Prawns)
-                        //        else if (LevelManager.Instance.ingredients.Select(x => x.gameObject.GetInstanceID()).Contains(hit.transform.gameObject.GetInstanceID()))
-                        //        {
-                        //            bool chosenFood = false;
-                        //            if (LevelManager.Instance.cookingAppliances.Select(x => x.selectedFood).Distinct().Any())
-                        //                chosenFood = true;
-                        //            if (!chosenFood)
-                        //                return;
-                        //            // If previously selected another ingredient
-                        //            if (ingredient)
-                        //            {
-                        //                // Disable highlight on selected ingredient
-                        //                var O = ingredient.GetComponentsInChildren<Outline>();
-                        //                foreach (var oL in O)
-                        //                {
-                        //                    oL.selected = false;
-                        //                    oL.color = 0;
-                        //                }
-                        //                ingredient = null;
-                        //                ingredientSO = null;
-                        //            }
-                        //            // Set ingredient
-                        //            ingredient = hit.transform.gameObject;
-                        //            ingredientSO = ingredient.GetComponent<Ingredient>().ingredientSO;
-                        //            background.sprite = ingredientSO.sprite;
-                        //            // Enable highlight on selected ingredient
-                        //            var o = ingredient.GetComponentsInChildren<Outline>();
-                        //            foreach (var oL in o)
-                        //            {
-                        //                oL.selected = true;
-                        //                oL.color = 1;
-                        //            }
-                        //        }
-                        //        // If selecting customer
-                        //        else if (CustomerSpawner.Instance.customerDic.Select(x => x.Value.gameObject.GetInstanceID()).Contains(hit.transform.parent.gameObject.GetInstanceID()))
-                        //        {
-                        //            var customer = hit.transform.gameObject.GetComponentInParent<Customer>();
-                        //            if (foodSO)
-                        //            {
-                        //                if (foodSO == customer.foodOrdered)
-                        //                {
-                        //                    // Served correct food, Add Score
-                        //                    Score.instance.Profit(customer.foodOrdered);
-                        //                    // Reset cooking Appliance status
-                        //                    cookingAppliance.GetComponent<CookingAppliance>().NewFood();
-                        //                }
-                        //                else
-                        //                {
-                        //                    // Served wrong food, Decrease Rate
-                        //                    Score.instance.Rate -= 0.1f;
-                        //                }
-                        //                // Customer leaves
-                        //                customer.Leave(customer.customerId);
-                        //                // Disable highlight on selected cooking Appliance
-                        //                var o = cookingAppliance.GetComponentsInChildren<Outline>();
-                        //                foreach (var oL in o)
-                        //                {
-                        //                    oL.selected = false;
-                        //                    oL.color = 0;
-                        //                }
-                        //                cookingAppliance = null;
-                        //                foodSO = null;
-                        //            }
-                        //        }
-                        //        elapsedTime = 0f;
-                        //    }
-                        //}
-                    }
+        //        #region Cooking Control Code Segment
 
-                    // Grab & Drag Style Control
-                    {
-                        // Grip
-                        if (press)
-                        {
-                            elapsedTime += Time.deltaTime;
+        //        #region Toggle Style Control (Comment-ed)
+        //        //if (press)
+        //        //{
+        //        //    elapsedTime += Time.deltaTime;
+        //        //    if (elapsedTime >= endTime)
+        //        //    {
+        //        //        // If selecting Cooking Appliance(Frying Pan, Pot 1, Pot 2)
+        //        //        if (LevelManager.Instance.cookingAppliances.Select(x => x.gameObject.GetInstanceID()).Contains(hit.transform.gameObject.GetInstanceID()))
+        //        //        {
+        //        //            var app = hit.transform.GetComponent<CookingAppliance>();
+        //        //            if (!app.isDone)
+        //        //            {
+        //        //                if (!ingredientSO)
+        //        //                {
+        //        //                    // Open up Food list to choose "food to cook"
+        //        //                    app.OpenCloseFoodMenu(true);
+        //        //                }
+        //        //                else
+        //        //                {
+        //        //                    // Add food(ingredient) into the appliance stated above
+        //        //                    app.AddIngredient(ingredientSO);
+        //        //                    // Disable highlight on selected ingredient
+        //        //                    var o = ingredient.GetComponentsInChildren<Outline>();
+        //        //                    foreach (var oL in o)
+        //        //                    {
+        //        //                        oL.selected = false;
+        //        //                        oL.color = 0;
+        //        //                    }
+        //        //                    ingredient = null;
+        //        //                    ingredientSO = null;
+        //        //                }
+        //        //            }
+        //        //            else
+        //        //            {
+        //        //                // If previously selected another cooking Appliance
+        //        //                if (cookingAppliance)
+        //        //                {
+        //        //                    // Disable highlight on selected ingredient
+        //        //                    var O = cookingAppliance.GetComponentsInChildren<Outline>();
+        //        //                    foreach (var oL in O)
+        //        //                    {
+        //        //                        oL.selected = false;
+        //        //                        oL.color = 0;
+        //        //                    }
+        //        //                }
+        //        //                // Select food and store it for serving customer later
+        //        //                cookingAppliance = hit.transform.gameObject;
+        //        //                foodSO = app.TakeFood();
+        //        //                // Enable highlight on selected cooking Appliance
+        //        //                var o = cookingAppliance.GetComponentsInChildren<Outline>();
+        //        //                foreach (var oL in o)
+        //        //                {
+        //        //                    oL.selected = true;
+        //        //                    oL.color = 1;
+        //        //                }
+        //        //            }
+        //        //        }
+        //        //        // If selecting ingredients(Banana Leaves, Tofus, Eggs, Noodle, Spice, Fishes, Prawns)
+        //        //        else if (LevelManager.Instance.ingredients.Select(x => x.gameObject.GetInstanceID()).Contains(hit.transform.gameObject.GetInstanceID()))
+        //        //        {
+        //        //            bool chosenFood = false;
+        //        //            if (LevelManager.Instance.cookingAppliances.Select(x => x.selectedFood).Distinct().Any())
+        //        //                chosenFood = true;
+        //        //            if (!chosenFood)
+        //        //                return;
+        //        //            // If previously selected another ingredient
+        //        //            if (ingredient)
+        //        //            {
+        //        //                // Disable highlight on selected ingredient
+        //        //                var O = ingredient.GetComponentsInChildren<Outline>();
+        //        //                foreach (var oL in O)
+        //        //                {
+        //        //                    oL.selected = false;
+        //        //                    oL.color = 0;
+        //        //                }
+        //        //                ingredient = null;
+        //        //                ingredientSO = null;
+        //        //            }
+        //        //            // Set ingredient
+        //        //            ingredient = hit.transform.gameObject;
+        //        //            ingredientSO = ingredient.GetComponent<Ingredient>().ingredientSO;
+        //        //            background.sprite = ingredientSO.sprite;
+        //        //            // Enable highlight on selected ingredient
+        //        //            var o = ingredient.GetComponentsInChildren<Outline>();
+        //        //            foreach (var oL in o)
+        //        //            {
+        //        //                oL.selected = true;
+        //        //                oL.color = 1;
+        //        //            }
+        //        //        }
+        //        //        // If selecting customer
+        //        //        else if (CustomerSpawner.Instance.customerDic.Select(x => x.Value.gameObject.GetInstanceID()).Contains(hit.transform.parent.gameObject.GetInstanceID()))
+        //        //        {
+        //        //            var customer = hit.transform.gameObject.GetComponentInParent<Customer>();
+        //        //            if (foodSO)
+        //        //            {
+        //        //                if (foodSO == customer.foodOrdered)
+        //        //                {
+        //        //                    // Served correct food, Add Score
+        //        //                    Score.instance.Profit(customer.foodOrdered);
+        //        //                    // Reset cooking Appliance status
+        //        //                    cookingAppliance.GetComponent<CookingAppliance>().NewFood();
+        //        //                }
+        //        //                else
+        //        //                {
+        //        //                    // Served wrong food, Decrease Rate
+        //        //                    Score.instance.Rate -= 0.1f;
+        //        //                }
+        //        //                // Customer leaves
+        //        //                customer.Leave(customer.customerId);
+        //        //                // Disable highlight on selected cooking Appliance
+        //        //                var o = cookingAppliance.GetComponentsInChildren<Outline>();
+        //        //                foreach (var oL in o)
+        //        //                {
+        //        //                    oL.selected = false;
+        //        //                    oL.color = 0;
+        //        //                }
+        //        //                cookingAppliance = null;
+        //        //                foodSO = null;
+        //        //            }
+        //        //        }
+        //        //        elapsedTime = 0f;
+        //        //    }
+        //        //}
+        //        #endregion // Toggle Style Control End
 
-                            if (elapsedTime >= endTime)
-                            {
-                                elapsedTime = 0f;
+        //        #region Grab & Drag Style Control (Comment-ed)
+        //        //// Grip
+        //        //if (press)
+        //        //{
+        //        //    elapsedTime += Time.deltaTime;
 
-                                // When not carrying anything
-                                if (!ingredientSO && !foodSO)
-                                {
-                                    // If selecting Cooking Appliance(Frying Pan, Pot 1, Pot 2)
-                                    if (LevelManager.Instance.cookingAppliances.Select(x => x.gameObject.GetInstanceID()).Contains(hit.transform.gameObject.GetInstanceID()))
-                                    {
-                                        var app = hit.transform.GetComponent<CookingAppliance>();
+        //        //    if (elapsedTime >= endTime)
+        //        //    {
+        //        //        elapsedTime = 0f;
 
-                                        // Haven't done cooking food
-                                        if (!app.isDone)
-                                        {
-                                            // Open up Food list to choose "food to cook"
-                                            app.OpenCloseFoodMenu(true);
-                                        }
-                                        // Done cooking food
-                                        else
-                                        {
-                                            // Select food and store it for serving customer
-                                            cookingAppliance = hit.transform.gameObject;
-                                            foodSO = app.TakeFood();
+        //        //        // When not carrying anything
+        //        //        if (!ingredientSO && !foodSO)
+        //        //        {
+        //        //            // If selecting Cooking Appliance(Frying Pan, Pot 1, Pot 2)
+        //        //            if (LevelManager.Instance.cookingAppliances.Select(x => x.gameObject.GetInstanceID()).Contains(hit.transform.gameObject.GetInstanceID()))
+        //        //            {
+        //        //                var app = hit.transform.GetComponent<CookingAppliance>();
 
-                                            // Change Hand Sprite to Food Sprite
-                                            background.sprite = foodSO.sprite;
+        //        //                // Haven't done cooking food
+        //        //                if (!app.isDone)
+        //        //                {
+        //        //                    // Open up Food list to choose "food to cook"
+        //        //                    app.OpenCloseFoodMenu(true);
+        //        //                }
+        //        //                // Done cooking food
+        //        //                else
+        //        //                {
+        //        //                    // Select food and store it for serving customer
+        //        //                    cookingAppliance = hit.transform.gameObject;
+        //        //                    foodSO = app.TakeFood();
 
-                                            // Enable highlight on selected cooking Appliance
-                                            var o = cookingAppliance.GetComponentsInChildren<Outline>();
-                                            foreach (var oL in o)
-                                            {
-                                                oL.selected = true;
-                                                oL.color = 1;
-                                            }
-                                        }
-                                    }
-                                    // If selecting ingredients(Banana Leaves, Tofus, Eggs, Noodle, Spice, Fishes, Prawns)
-                                    else if (LevelManager.Instance.ingredients.Select(x => x.gameObject.GetInstanceID()).Contains(hit.transform.gameObject.GetInstanceID()))
-                                    {
-                                        // Check if any Cooking Appliance is waiting for ingredient input
-                                        var chosenFood = false;
-                                        if (LevelManager.Instance.cookingAppliances.Select(x => x.selectedFood).Distinct().Any())
-                                        {
-                                            chosenFood = true;
-                                        }
+        //        //                    // Change Hand Sprite to Food Sprite
+        //        //                    background.sprite = foodSO.sprite;
 
-                                        // There is Cooking Appliance waiting for ingredient input
-                                        if (chosenFood)
-                                        {
-                                            // Set ingredient
-                                            ingredient = hit.transform.gameObject;
-                                            ingredientSO = ingredient.GetComponent<Ingredient>().ingredientSO;
+        //        //                    // Enable highlight on selected cooking Appliance
+        //        //                    var o = cookingAppliance.GetComponentsInChildren<Outline>();
+        //        //                    foreach (var oL in o)
+        //        //                    {
+        //        //                        oL.selected = true;
+        //        //                        oL.color = 1;
+        //        //                    }
+        //        //                }
+        //        //            }
+        //        //            // If selecting ingredients(Banana Leaves, Tofus, Eggs, Noodle, Spice, Fishes, Prawns)
+        //        //            else if (LevelManager.Instance.ingredients.Select(x => x.gameObject.GetInstanceID()).Contains(hit.transform.gameObject.GetInstanceID()))
+        //        //            {
+        //        //                // Check if any Cooking Appliance is waiting for ingredient input
+        //        //                var chosenFood = false;
+        //        //                if (LevelManager.Instance.cookingAppliances.Select(x => x.selectedFood).Distinct().Any())
+        //        //                {
+        //        //                    chosenFood = true;
+        //        //                }
 
-                                            // Change Hand Sprite to Ingredient Sprite
-                                            background.sprite = ingredientSO.sprite;
+        //        //                // There is Cooking Appliance waiting for ingredient input
+        //        //                if (chosenFood)
+        //        //                {
+        //        //                    // Set ingredient
+        //        //                    ingredient = hit.transform.gameObject;
+        //        //                    ingredientSO = ingredient.GetComponent<Ingredient>().ingredientSO;
 
-                                            // Enable highlight on selected ingredient
-                                            var o = ingredient.GetComponentsInChildren<Outline>();
-                                            foreach (var oL in o)
-                                            {
-                                                oL.selected = true;
-                                                oL.color = 1;
-                                            }
-                                        }
-                                        // No Cooking Appliance is waiting for ingredient input
-                                        else
-                                        {
-                                            // Do nothing
-                                            return;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        // Released Grip
-                        else
-                        {
-                            elapsedTime += Time.deltaTime;
+        //        //                    // Change Hand Sprite to Ingredient Sprite
+        //        //                    background.sprite = ingredientSO.sprite;
 
-                            // When Carrying ingredient
-                            if (ingredientSO)
-                            {
-                                // If selecting Cooking Appliance(Frying Pan, Pot 1, Pot 2)
-                                if (LevelManager.Instance.cookingAppliances.Select(x => x.gameObject.GetInstanceID()).Contains(hit.transform.gameObject.GetInstanceID()))
-                                {
-                                    var app = hit.transform.GetComponent<CookingAppliance>();
+        //        //                    // Enable highlight on selected ingredient
+        //        //                    var o = ingredient.GetComponentsInChildren<Outline>();
+        //        //                    foreach (var oL in o)
+        //        //                    {
+        //        //                        oL.selected = true;
+        //        //                        oL.color = 1;
+        //        //                    }
+        //        //                }
+        //        //                // No Cooking Appliance is waiting for ingredient input
+        //        //                else
+        //        //                {
+        //        //                    // Do nothing
+        //        //                    return;
+        //        //                }
+        //        //            }
+        //        //        }
+        //        //    }
+        //        //}
+        //        //// Released Grip
+        //        //else
+        //        //{
+        //        //    elapsedTime += Time.deltaTime;
 
-                                    if (!app.isDone)
-                                    {
-                                        // Add ingredient into the Cooking Appliance
-                                        app.AddIngredient(ingredientSO);
-                                        
-                                        DropItem(ingredient);
-                                    }
-                                }
-                                // Released Grip too long and Ray cast still haven't hit any Cooking Appliance
-                                else if (elapsedTime >= endTime)
-                                {
-                                    DropItem(ingredient);
-                                }
-                            }
-                            // When Carrying food
-                            else if (foodSO)
-                            {
-                                // If selecting customer
-                                if (CustomerSpawner.Instance.customerDic.Select(x => x.Value.gameObject.GetInstanceID()).Contains(hit.transform.parent.gameObject.GetInstanceID()))
-                                {
-                                    var customer = hit.transform.gameObject.GetComponentInParent<Customer>();
-                                    
-                                    if (foodSO == customer.foodOrdered)
-                                    {
-                                        // Served correct food, Add Score
-                                        Score.Instance.Profit(customer.foodOrdered);
-                                    }
-                                    else
-                                    {
-                                        // Served wrong food, Decrease Rate
-                                        Score.Instance.rate -= 0.1f;
-                                    }
+        //        //    // When Carrying ingredient
+        //        //    if (ingredientSO)
+        //        //    {
+        //        //        // If selecting Cooking Appliance(Frying Pan, Pot 1, Pot 2)
+        //        //        if (LevelManager.Instance.cookingAppliances.Select(x => x.gameObject.GetInstanceID()).Contains(hit.transform.gameObject.GetInstanceID()))
+        //        //        {
+        //        //            var app = hit.transform.GetComponent<CookingAppliance>();
 
-                                    // Reset cooking Appliance status
-                                    cookingAppliance.GetComponent<CookingAppliance>().NewFood();
+        //        //            if (!app.isDone)
+        //        //            {
+        //        //                // Add ingredient into the Cooking Appliance
+        //        //                app.AddIngredient(ingredientSO);
 
-                                    // Customer leaves
-                                    customer.Leave(customer.customerId);
-                                    
-                                    DropItem(cookingAppliance);
-                                }
-                                // Released Grip too long and Ray cast still haven't hit any Cooking Appliance
-                                else if (elapsedTime >= endTime)
-                                {
-                                    DropItem(cookingAppliance);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            else
-            {
-                // Disable highlight for every objects that have outline
-                var o = FindObjectsOfType<Outline>();
-                foreach (var oL in o)
-                {
-                    if (!oL.selected)
-                    {
-                        oL.enabled = false;
-                    }
-                }
-            }
-        }
+        //        //                DropItem(ingredient);
+        //        //            }
+        //        //        }
+        //        //        // Released Grip too long and Ray cast still haven't hit any Cooking Appliance
+        //        //        else if (elapsedTime >= endTime)
+        //        //        {
+        //        //            DropItem(ingredient);
+        //        //        }
+        //        //    }
+        //        //    // When Carrying food
+        //        //    else if (foodSO)
+        //        //    {
+        //        //        // If selecting customer
+        //        //        if (CustomerSpawner.Instance.customerDic.Select(x => x.Value.gameObject.GetInstanceID()).Contains(hit.transform.parent.gameObject.GetInstanceID()))
+        //        //        {
+        //        //            var customer = hit.transform.gameObject.GetComponentInParent<Customer>();
+
+        //        //            if (foodSO == customer.foodOrdered)
+        //        //            {
+        //        //                // Served correct food, Add Score
+        //        //                Score.Instance.Profit(customer.foodOrdered);
+        //        //            }
+        //        //            else
+        //        //            {
+        //        //                // Served wrong food, Decrease Rate
+        //        //                Score.Instance.rate -= 0.1f;
+        //        //            }
+
+        //        //            // Reset cooking Appliance status
+        //        //            cookingAppliance.GetComponent<CookingAppliance>().NewFood();
+
+        //        //            // Customer leaves
+        //        //            customer.Leave(customer.customerId);
+
+        //        //            DropItem(cookingAppliance);
+        //        //        }
+        //        //        // Released Grip too long and Ray cast still haven't hit any Cooking Appliance
+        //        //        else if (elapsedTime >= endTime)
+        //        //        {
+        //        //            DropItem(cookingAppliance);
+        //        //        }
+        //        //    }
+        //        //}
+        //        #endregion // Grab & Drag Style Control End
+
+        //        #endregion // Cooking Control Code Segment End
+        //    }
+        //    else
+        //    {
+        //        // Disable highlight for every objects that have outline
+        //        var o = FindObjectsOfType<Outline>();
+        //        foreach (var oL in o)
+        //        {
+        //            if (!oL.selected)
+        //            {
+        //                oL.enabled = false;
+        //            }
+        //        }
+        //    }
+        //}
+        #endregion // 3D raycast End
 
         var pointOnScreenPosition = (Vector2)cam.WorldToScreenPoint(transform.position);
         eventData.delta = pointOnScreenPosition - eventData.position;
@@ -579,7 +590,10 @@ public class Pointer1 : MonoBehaviour
         if (newButton != selectedButton)
         {
             if (selectedButton != null)
+            {
                 selectedButton.OnPointerExit(eventData);
+                elapsedTime = 0f;
+            }
         
             selectedButton = newButton;
         
@@ -588,38 +602,212 @@ public class Pointer1 : MonoBehaviour
         }
         else if (selectedButton != null)
         {
-            if (press)
+            elapsedTime += Time.deltaTime;
+            if (elapsedTime >= endTime)
             {
-                elapsedTime += Time.deltaTime;
+                elapsedTime = 0f;
 
-                if (elapsedTime >= endTime)
+                // Call Button OnClick()
+                selectedButton.OnPointerClick(eventData);
+                
+                if (!foodListPanel.activeSelf)
                 {
-                    //if (eventData.delta.sqrMagnitude < dragSensitivity && !eventData.dragging)
-                    //{
-                    //eventData.dragging = true;
-                    selectedButton.OnPointerDown(eventData);
-                    selectedButton.OnPointerClick(eventData);
-                    //}
+                    // If previously got hit other object
+                    if (hitTransform)
+                    {
+                        // Disable highlight for hit object and its children
+                        var o = hitTransform.GetComponentsInChildren<Outline>();
+                        foreach (var oL in o)
+                        {
+                            if (!oL.selected)
+                            {
+                                oL.enabled = false;
+                            }
+                        }
+                    }
 
-                    //// Shoot bullet towards hand icon
-                    //GameObject Projectile = ObjectPool.instance.GetPooledObject(ProjectilePrefab);
+                    // If selecting Cooking Appliance(Frying Pan, Pot 1, Pot 2)
+                    if (LevelManager.Instance.cookingAppliances.Any(x => x.gameObject.GetInstanceID() == selectedButton.transform.parent.parent.gameObject.GetInstanceID()))
+                    {
+                        var something = LevelManager.Instance.cookingAppliances.Where(x => x.gameObject.GetInstanceID() == selectedButton.transform.parent.parent.gameObject.GetInstanceID()).ToList();
 
-                    //if (!Projectile) return;
+                        if (something.Count != 1)
+                            return;
 
-                    //Projectile.transform.position = hand.position;
-                    //Projectile.transform.rotation = Quaternion.identity;
-                    //Projectile.GetComponent<Projectile>().dir = (background.transform.position - hand.position).normalized;
-                    
-                    elapsedTime = 0f;
+                        var app = something[0].GetComponent<CookingAppliance>();
+
+                        hitTransform = app.transform;
+                        ShowOutline(app.gameObject);
+
+                        // When not carrying ingredient
+                        if (!ingredientSO)
+                        {
+                            // Haven't done cooking food
+                            if (!app.isDone)
+                            {
+                                // Open up Food list to choose "food to cook"
+                                app.OpenCloseFoodMenu(true);
+                            }
+                            // Done cooking food
+                            else
+                            {
+                                // If previously selected another cooking Appliance
+                                if (cookingAppliance)
+                                {
+                                    DropItem(cookingAppliance);
+                                }
+
+                                // Select food and store it for serving customer
+                                cookingAppliance = app.gameObject;
+                                foodSO = app.TakeFood();
+
+                                // Change Hand Sprite to Food Sprite
+                                background.sprite = foodSO.sprite;
+
+                                // Enable highlight on selected cooking Appliance
+                                var o = cookingAppliance.GetComponentsInChildren<Outline>();
+                                foreach (var oL in o)
+                                {
+                                    oL.selected = true;
+                                    oL.color = 1;
+                                }
+                            }
+                        }
+                        // When carrying ingredient
+                        else
+                        {
+                            if (!app.isDone)
+                            {
+                                // Add ingredient into the Cooking Appliance
+                                app.AddIngredient(ingredientSO);
+
+                                DropItem(ingredient);
+                            }
+                        }
+                    }
+                    // If selecting ingredients(Banana Leaves, Tofus, Eggs, Noodle, Spice, Fishes, Prawns)
+                    else if (LevelManager.Instance.ingredients.Any(x => x.gameObject.GetInstanceID() == selectedButton.transform.parent.parent.gameObject.GetInstanceID()))
+                    {
+                        var something = LevelManager.Instance.ingredients.Where(x => x.gameObject.GetInstanceID() == selectedButton.transform.parent.parent.gameObject.GetInstanceID()).ToList();
+
+                        if (something.Count != 1)
+                            return;
+
+                        var ingre = something[0].GetComponent<Ingredient>();
+
+                        hitTransform = ingre.transform;
+                        ShowOutline(ingre.gameObject);
+
+                        // Check if any Cooking Appliance is waiting for ingredient input
+                        if (LevelManager.Instance.cookingAppliances.Any(x => x.selectedFood != null))
+                        {
+                            // There is Cooking Appliance waiting for ingredient input
+
+                            // If previously selected another ingredient
+                            if (ingredient)
+                            {
+                                DropItem(ingredient);
+                            }
+
+                            // Set ingredient
+                            ingredient = ingre.gameObject;
+                            ingredientSO = ingre.ingredientSO;
+
+                            // Change Hand Sprite to Ingredient Sprite
+                            background.sprite = ingredientSO.sprite;
+
+                            // Enable highlight on selected ingredient
+                            var o = ingredient.GetComponentsInChildren<Outline>();
+                            foreach (var oL in o)
+                            {
+                                oL.selected = true;
+                                oL.color = 1;
+                            }
+                        }
+                    }
+                    // When Carrying food
+                    else if (foodSO)
+                    {
+                        // If selecting customer
+                        if (CustomerSpawner.Instance.customerDic.Any(x => x.Value.gameObject.GetInstanceID() == selectedButton.transform.parent.parent.gameObject.GetInstanceID()))
+                        {
+                            var something = CustomerSpawner.Instance.customerDic.Where(x => x.Value.gameObject.GetInstanceID() == selectedButton.transform.parent.parent.gameObject.GetInstanceID()).ToList();
+
+                            if (something.Count != 1)
+                                return;
+
+                            var customer = something[0].Value.GetComponentInParent<Customer>();
+
+                            hitTransform = customer.transform;
+                            ShowOutline(customer.gameObject);
+
+                            if (foodSO == customer.foodOrdered)
+                            {
+                                // Served correct food, Add Score
+                                Score.Instance.Profit(customer.foodOrdered);
+                            }
+                            else
+                            {
+                                // Served wrong food, Decrease Rate
+                                Score.Instance.rate -= 0.1f;
+                            }
+
+                            // Reset cooking Appliance status
+                            cookingAppliance.GetComponent<CookingAppliance>().NewFood();
+
+                            // Customer leaves
+                            customer.Leave(customer.customerId);
+
+                            DropItem(cookingAppliance);
+                        }
+                    }
                 }
             }
-            //else if (eventData.dragging)
-            //{
-                //eventData.dragging = false;
-                selectedButton.OnPointerUp(eventData);
-            //}
 
-            //selectedButton.OnDrag(eventData);
+            #region Press 2D Button (Comment-ed)
+            //if (press)
+            //{
+            //    elapsedTime += Time.deltaTime;
+
+            //    if (elapsedTime >= endTime)
+            //    {
+            //        //if (eventData.delta.sqrMagnitude < dragSensitivity && !eventData.dragging)
+            //        //{
+            //        //eventData.dragging = true;
+            //        selectedButton.OnPointerDown(eventData);
+            //        selectedButton.OnPointerClick(eventData);
+            //        //}
+
+            //        //// Shoot bullet towards hand icon
+            //        //GameObject Projectile = ObjectPool.instance.GetPooledObject(ProjectilePrefab);
+
+            //        //if (!Projectile) return;
+
+            //        //Projectile.transform.position = hand.position;
+            //        //Projectile.transform.rotation = Quaternion.identity;
+            //        //Projectile.GetComponent<Projectile>().dir = (background.transform.position - hand.position).normalized;
+
+            //        elapsedTime = 0f;
+            //    }
+            //}
+            ////else if (eventData.dragging)
+            ////{
+            //    //eventData.dragging = false;
+            //    selectedButton.OnPointerUp(eventData);
+            ////}
+
+            ////selectedButton.OnDrag(eventData);
+            #endregion // Press 2D Button End
+        }
+        
+        // Disable highlight for every objects that have outline
+        var ol = FindObjectsOfType<Outline>();
+        foreach (var oL in ol)
+        {
+            if (!oL.selected)
+            {
+                oL.enabled = false;
+            }
         }
     }
 }
