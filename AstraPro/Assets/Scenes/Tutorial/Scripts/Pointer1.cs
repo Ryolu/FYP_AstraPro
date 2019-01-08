@@ -741,7 +741,7 @@ public class Pointer1 : MonoBehaviour
                             if (foodSO == customer.foodOrdered)
                             {
                                 // Served correct food, Add Score
-                                Score.Instance.Profit(customer.foodOrdered);
+                                Score.Instance.Profit(customer.foodOrdered, customer.timerImage.fillAmount);
 
                                 // Customer leaves
                                 customer.Leave(customer.customerId);

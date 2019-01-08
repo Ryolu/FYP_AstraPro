@@ -66,16 +66,16 @@ public class Score : MonoBehaviour {
         }
     }
 
-    public void Profit(FoodSO food)
+    public void Profit(FoodSO food, float time)
     {
         if (food.foodName == "Curry Fish Head")
-            rate += 0.1f;
+            rate += (0.1f * time);
         else if (food.foodName == "Laksa")
-            rate += 0.03f;
+            rate += (0.03f * time);
         else if (food.foodName == "Mee Siam")
-            rate += 0.01f;
+            rate += (0.01f * time);
         else if (food.foodName == "Otah")
-            rate += 0.05f;
+            rate += (0.05f * time);
 
         switching = true;
         Total_Rate();

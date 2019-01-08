@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 public class Customer : MonoBehaviour
 {
+    [Tooltip("Timer Filler Image")] public Image timerImage;
     [Tooltip("Movement Speed of Customer")] [SerializeField] private float movementSpeed = 2.5f;
     [Tooltip("Rotate Speed of Customer")] [SerializeField] private float rotateSpeed = 80f;
     [Tooltip("How long the Customer will wait for food")] [SerializeField] private float waitTiming = 30f;
     [Tooltip("Cool down timing of shooting player")] [SerializeField] private float fireCD = 1f;
-    [Tooltip("Timer Filler Image")] [SerializeField] private Image timerImage;
     [Tooltip("Foods that customer can order")] [SerializeField] private FoodSO[] foodOrder;
     [Tooltip("Customer Bullet Prefab to shoot player")] [SerializeField] private GameObject customerBulletPrefab;
 
