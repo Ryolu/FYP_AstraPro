@@ -603,26 +603,76 @@ public class Pointer1 : MonoBehaviour
         else if (selectedButton != null)
         {
             elapsedTime += Time.deltaTime;
+
+            #region Highlight Code
+            // If previously got hit other object
+            if (hitTransform)
+            {
+                // Disable highlight for hit object and its children
+                var o = hitTransform.GetComponentsInChildren<Outline>();
+                foreach (var oL in o)
+                {
+                    if (!oL.selected)
+                    {
+                        oL.enabled = false;
+                    }
+                }
+            }
+
+            if (!foodListPanel.activeSelf)
+            {
+                // If selecting Cooking Appliance(Frying Pan, Pot 1, Pot 2)
+                if (LevelManager.Instance.cookingAppliances.Any(x => x.gameObject.GetInstanceID() == selectedButton.transform.parent.parent.gameObject.GetInstanceID()))
+                {
+                    var something = LevelManager.Instance.cookingAppliances.Where(x => x.gameObject.GetInstanceID() == selectedButton.transform.parent.parent.gameObject.GetInstanceID()).ToList();
+
+                    if (something.Count != 1)
+                        return;
+
+                    var app = something[0].GetComponent<CookingAppliance>();
+
+                    hitTransform = app.transform;
+                    ShowOutline(app.gameObject);
+                }
+                // If selecting ingredients(Banana Leaves, Tofus, Eggs, Noodle, Spice, Fishes, Prawns)
+                else if (LevelManager.Instance.ingredients.Any(x => x.gameObject.GetInstanceID() == selectedButton.transform.parent.parent.gameObject.GetInstanceID()))
+                {
+                    var something = LevelManager.Instance.ingredients.Where(x => x.gameObject.GetInstanceID() == selectedButton.transform.parent.parent.gameObject.GetInstanceID()).ToList();
+
+                    if (something.Count != 1)
+                        return;
+
+                    var ingre = something[0].GetComponent<Ingredient>();
+
+                    hitTransform = ingre.transform;
+                    ShowOutline(ingre.gameObject);
+                }
+                // When Carrying food
+                else if (foodSO)
+                {
+                    // If selecting customer
+                    if (CustomerSpawner.Instance.customerDic.Any(x => x.Value.gameObject.GetInstanceID() == selectedButton.transform.parent.parent.gameObject.GetInstanceID()))
+                    {
+                        var something = CustomerSpawner.Instance.customerDic.Where(x => x.Value.gameObject.GetInstanceID() == selectedButton.transform.parent.parent.gameObject.GetInstanceID()).ToList();
+
+                        if (something.Count != 1)
+                            return;
+
+                        var customer = something[0].Value.GetComponent<Customer>();
+
+                        hitTransform = customer.transform;
+                        ShowOutline(customer.gameObject);
+                    }
+                }
+            }
+            #endregion Highlight Code
+
             if (elapsedTime >= endTime)
             {
                 elapsedTime = 0f;
 
                 if (!foodListPanel.activeSelf)
                 {
-                    // If previously got hit other object
-                    if (hitTransform)
-                    {
-                        // Disable highlight for hit object and its children
-                        var o = hitTransform.GetComponentsInChildren<Outline>();
-                        foreach (var oL in o)
-                        {
-                            if (!oL.selected)
-                            {
-                                oL.enabled = false;
-                            }
-                        }
-                    }
-
                     // If selecting Cooking Appliance(Frying Pan, Pot 1, Pot 2)
                     if (LevelManager.Instance.cookingAppliances.Any(x => x.gameObject.GetInstanceID() == selectedButton.transform.parent.parent.gameObject.GetInstanceID()))
                     {
@@ -632,9 +682,6 @@ public class Pointer1 : MonoBehaviour
                             return;
 
                         var app = something[0].GetComponent<CookingAppliance>();
-
-                        hitTransform = app.transform;
-                        ShowOutline(app.gameObject);
 
                         // When not carrying ingredient
                         if (!ingredientSO)
@@ -692,9 +739,6 @@ public class Pointer1 : MonoBehaviour
 
                         var ingre = something[0].GetComponent<Ingredient>();
 
-                        hitTransform = ingre.transform;
-                        ShowOutline(ingre.gameObject);
-
                         // Check if any Cooking Appliance is waiting for ingredient input
                         if (LevelManager.Instance.cookingAppliances.Any(x => x.selectedFood != null))
                         {
@@ -735,9 +779,6 @@ public class Pointer1 : MonoBehaviour
 
                             var customer = something[0].Value.GetComponent<Customer>();
 
-                            hitTransform = customer.transform;
-                            ShowOutline(customer.gameObject);
-
                             if (foodSO == customer.foodOrdered)
                             {
                                 // Served correct food, Add Score
@@ -762,10 +803,8 @@ public class Pointer1 : MonoBehaviour
                         }
                     }
                 }
-
                 // Call Button OnClick()
                 selectedButton.OnPointerClick(eventData);
-
             }
 
             #region Press 2D Button (Comment-ed)
@@ -803,14 +842,16 @@ public class Pointer1 : MonoBehaviour
             ////selectedButton.OnDrag(eventData);
             #endregion // Press 2D Button End
         }
-        
-        // Disable highlight for every objects that have outline
-        var ol = FindObjectsOfType<Outline>();
-        foreach (var oL in ol)
+        else
         {
-            if (!oL.selected)
+            // Disable highlight for every objects that have outline
+            var ol = FindObjectsOfType<Outline>();
+            foreach (var oL in ol)
             {
-                oL.enabled = false;
+                if (!oL.selected)
+                {
+                    oL.enabled = false;
+                }
             }
         }
 
