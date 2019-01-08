@@ -607,9 +607,6 @@ public class Pointer1 : MonoBehaviour
             {
                 elapsedTime = 0f;
 
-                // Call Button OnClick()
-                selectedButton.OnPointerClick(eventData);
-                
                 if (!foodListPanel.activeSelf)
                 {
                     // If previously got hit other object
@@ -736,7 +733,7 @@ public class Pointer1 : MonoBehaviour
                             if (something.Count != 1)
                                 return;
 
-                            var customer = something[0].Value.GetComponentInParent<Customer>();
+                            var customer = something[0].Value.GetComponent<Customer>();
 
                             hitTransform = customer.transform;
                             ShowOutline(customer.gameObject);
@@ -745,23 +742,30 @@ public class Pointer1 : MonoBehaviour
                             {
                                 // Served correct food, Add Score
                                 Score.Instance.Profit(customer.foodOrdered);
+
+                                // Customer leaves
+                                customer.Leave(customer.customerId);
                             }
                             else
                             {
                                 // Served wrong food, Decrease Rate
                                 Score.Instance.rate -= 0.1f;
+                                customer.fighting = true;
+
+                                customer.player = cam.transform.parent;
                             }
 
                             // Reset cooking Appliance status
                             cookingAppliance.GetComponent<CookingAppliance>().NewFood();
 
-                            // Customer leaves
-                            customer.Leave(customer.customerId);
-
                             DropItem(cookingAppliance);
                         }
                     }
                 }
+
+                // Call Button OnClick()
+                selectedButton.OnPointerClick(eventData);
+
             }
 
             #region Press 2D Button (Comment-ed)
@@ -807,6 +811,21 @@ public class Pointer1 : MonoBehaviour
             if (!oL.selected)
             {
                 oL.enabled = false;
+            }
+        }
+
+        if (CustomerSpawner.Instance.customerDic.Any(x => x.Value.fighting == true))
+        {
+            if (!foodListPanel.activeSelf && press)
+            {
+                // Shoot bullet towards hand icon
+                GameObject Projectile = ObjectPool.Instance.GetPooledObject(ProjectilePrefab);
+
+                if (!Projectile) return;
+
+                Projectile.transform.position = transform.position;
+                Projectile.transform.rotation = Quaternion.identity;
+                Projectile.GetComponent<Projectile>().dir = (transform.position - cam.transform.position).normalized;
             }
         }
     }

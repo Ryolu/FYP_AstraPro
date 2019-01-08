@@ -7,20 +7,26 @@ public class Customer : MonoBehaviour
     [Tooltip("Movement Speed of Customer")] [SerializeField] private float movementSpeed = 2.5f;
     [Tooltip("Rotate Speed of Customer")] [SerializeField] private float rotateSpeed = 80f;
     [Tooltip("How long the Customer will wait for food")] [SerializeField] private float waitTiming = 30f;
+    [Tooltip("Cool down timing of shooting player")] [SerializeField] private float fireCD = 1f;
     [Tooltip("Timer Filler Image")] [SerializeField] private Image timerImage;
     [Tooltip("Foods that customer can order")] [SerializeField] private FoodSO[] foodOrder;
+    [Tooltip("Customer Bullet Prefab to shoot player")] [SerializeField] private GameObject customerBulletPrefab;
 
     [HideInInspector] public Vector3 queuePosition;
     [HideInInspector] public int customerId;
     [HideInInspector] public bool reachedTarget = false;
     [HideInInspector] public bool orderedFood = false;
     [HideInInspector] public FoodSO foodOrdered;
+    [HideInInspector] public bool fighting = false;
+    [HideInInspector] public bool othersFighting = false;
+    [HideInInspector] public Transform player;
 
     private Vector3 dir;
     private Vector3 targetPosition;
     private float customerSizeX;
     private Gradient greenYellowGradient;
     private Gradient yellowRedGradient;
+    private float timer = 0f;
 
     private void Start()
     {
@@ -91,7 +97,7 @@ public class Customer : MonoBehaviour
     public void OrderFood(FoodSO food)
     {
         // Show Food Bubble Image
-        GameObject canvas = transform.GetChild(1).gameObject;
+        GameObject canvas = transform.GetChild(0).gameObject;
         canvas.SetActive(true);
         canvas.transform.GetChild(1).GetComponent<Image>().sprite = food.sprite;
         canvas.transform.GetChild(1).GetComponent<Image>().preserveAspect = true;
@@ -185,60 +191,125 @@ public class Customer : MonoBehaviour
 
     private void Update ()
     {
-        // Customer Waiting for food
-        if(orderedFood)
+        if (!othersFighting)
         {
-            // Reduce fillAmount of Timer Filler Image(visual feedback) over waitTiming
-            timerImage.fillAmount -= (1f / waitTiming) * Time.deltaTime;
+            if (!fighting)
+            {
+                #region Move & Order State
+                // Move towards the Target position
+                if (Vector3.Distance(transform.position, targetPosition) >= 0.1f)
+                {
+                    // Rotate to face Wall
+                    if (orderedFood && Vector3.Angle(transform.forward, new Vector3(1, 0, 0)) != 90f)
+                    {
+                        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(transform.rotation.x, 180f, transform.rotation.z), rotateSpeed * Time.deltaTime);
+                    }
+                    else
+                    {
+                        transform.position += dir * movementSpeed * Time.deltaTime;
+                    }
+                }
+                else
+                {
+                    reachedTarget = true;
 
-            // Left more than half the time -> Image turning from green to yellow
-            if(timerImage.fillAmount >= 0.5f)
-            {
-                timerImage.color = greenYellowGradient.Evaluate(timerImage.fillAmount / 1f);
-            }
-            // Left less than half the time -> Image turning from yellow to red
-            else if(timerImage.fillAmount > 0f)
-            {
-                timerImage.color = yellowRedGradient.Evaluate(timerImage.fillAmount / 1f);
-            }
-            else if(timerImage.fillAmount <= 0f)
-            {
-                // Leave
-                Leave(customerId);
-            }
-        }
+                    // Rotate to face Player(Chef)
+                    if (Vector3.Angle(transform.forward, new Vector3(1, 0, 0)) != 180f)
+                    {
+                        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(transform.rotation.x, -90f, transform.rotation.z), rotateSpeed * Time.deltaTime);
 
-        // Move towards the Target position
-        if(Vector3.Distance(transform.position, targetPosition) >= 0.1f)
-        {
-            // Rotate to face Wall
-            if (orderedFood && Vector3.Angle(transform.forward, new Vector3(1, 0, 0) ) != 90f)
-            {
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(transform.rotation.x, 180f, transform.rotation.z), rotateSpeed * Time.deltaTime);
+                        if (Vector3.Angle(transform.forward, new Vector3(1, 0, 0)) == 180f)
+                        {
+                            if (!orderedFood)
+                            {
+                                OrderFood(foodOrder[Random.Range(0, foodOrder.Length)]);
+                            }
+                        }
+                    }
+                }
+                #endregion // Move & Order State End
+
+                #region Waiting State
+                if (orderedFood)
+                {
+                    // Reduce fillAmount of Timer Filler Image(visual feedback) over waitTiming
+                    timerImage.fillAmount -= (1f / waitTiming) * Time.deltaTime;
+
+                    // Left more than half the time -> Image turning from green to yellow
+                    if (timerImage.fillAmount >= 0.5f)
+                    {
+                        timerImage.color = greenYellowGradient.Evaluate(timerImage.fillAmount / 1f);
+                    }
+                    // Left less than half the time -> Image turning from yellow to red
+                    else if (timerImage.fillAmount > 0f)
+                    {
+                        timerImage.color = yellowRedGradient.Evaluate(timerImage.fillAmount / 1f);
+                    }
+                    else if (timerImage.fillAmount <= 0f)
+                    {
+                        fighting = true;
+                        // Leave
+                        //Leave(customerId);
+                    }
+                }
+                #endregion // Waiting State End
             }
             else
             {
-                transform.position += dir * movementSpeed * Time.deltaTime;
-            }
-        }
-        else
-        {
-            reachedTarget = true;
+                #region Fighting State
 
-            //Debug.Log(Vector3.Angle(transform.forward, new Vector3(1, 0, 0)));
-            // Rotate to face Player(Chef)
-            if (Vector3.Angle(transform.forward, new Vector3(1, 0, 0)) != 180f)
-            {
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(transform.rotation.x, -90f, transform.rotation.z), rotateSpeed * Time.deltaTime);
-
-                if (Vector3.Angle(transform.forward, new Vector3(1, 0, 0)) == 180f)
+                timer += Time.deltaTime;
+                if (timer >= fireCD)
                 {
-                    if (!orderedFood)
+                    // Shoot bullet towards hand icon
+                    var Projectile = ObjectPool.Instance.GetPooledObject(customerBulletPrefab);
+
+                    if (!Projectile) return;
+
+                    var a = Random.Range(0.01f, 1f);
+                    var randPos = new Vector3(Random.Range(player.position.x - a, player.position.x + a),
+                        Random.Range(player.position.y - a, player.position.y + a),
+                        Random.Range(player.position.z - a, player.position.z + a));
+
+                    Projectile.transform.position = transform.GetChild(2).position;
+                    Projectile.transform.rotation = Quaternion.identity;
+                    Projectile.GetComponent<Projectile>().dir = (randPos - Projectile.transform.position).normalized;
+
+                    // Other customers got scared off
+                    while (CustomerSpawner.Instance.customerCount > 1)
                     {
-                        OrderFood(foodOrder[Random.Range(0, foodOrder.Length)]);
+                        // Hit angry customer then all customer got scared off
+                        foreach (var c in CustomerSpawner.Instance.customerDic)
+                        {
+                            if(c.Value.customerId != customerId)
+                            {
+                                c.Value.Leave(c.Value.customerId);
+                                break;
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                        }
                     }
+
+                    timer = 0f;
                 }
+
+                #endregion // Fighting State End
             }
         }
-	}
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Bullet")
+        {
+            if (fighting)
+            {
+                Leave(customerId);
+                other.transform.GetComponent<Projectile>().Destroy();
+            }
+        }
+    }
 }

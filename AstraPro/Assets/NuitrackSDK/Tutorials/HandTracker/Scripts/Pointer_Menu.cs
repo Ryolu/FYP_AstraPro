@@ -128,19 +128,19 @@ public class Pointer_Menu : MonoBehaviour
         }
         else if (selectedButton != null)
         {
-            if (press)
-            {
-                if (eventData.delta.sqrMagnitude < dragSensitivity && !eventData.dragging)
-                {
-                    eventData.dragging = true;
-                    selectedButton.GetComponent<ImageItem>().OnPointerDown(eventData);
-                }
-            }
-            else if (eventData.dragging)
-            {
-                eventData.dragging = false;
-                selectedButton.GetComponent<ImageItem>().OnPointerUp(eventData);
-            }
+            //if (press)
+            //{
+            //    if (eventData.delta.sqrMagnitude < dragSensitivity && !eventData.dragging)
+            //    {
+            //        eventData.dragging = true;
+            //        selectedButton.GetComponent<ImageItem>().OnPointerDown(eventData);
+            //    }
+            //}
+            //else if (eventData.dragging)
+            //{
+            //    eventData.dragging = false;
+            //    selectedButton.GetComponent<ImageItem>().OnPointerUp(eventData);
+            //}
 
             if (press)
             {

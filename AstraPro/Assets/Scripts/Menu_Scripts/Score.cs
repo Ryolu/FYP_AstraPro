@@ -18,7 +18,7 @@ public class Score : MonoBehaviour {
     // Use this for initialization
     void Start () {
         HighScore.Instance.overall = 100.0f;
-        rate = .20f;
+        rate = .40f;
 	}
 	
 	// Update is called once per frame
