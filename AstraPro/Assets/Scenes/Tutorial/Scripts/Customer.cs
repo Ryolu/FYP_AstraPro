@@ -261,34 +261,37 @@ public class Customer : MonoBehaviour
                 timer += Time.deltaTime;
                 if (timer >= fireCD)
                 {
-                    // Shoot bullet towards hand icon
-                    var Projectile = ObjectPool.Instance.GetPooledObject(customerBulletPrefab);
-
-                    if (!Projectile) return;
-
-                    var a = Random.Range(0.01f, 1f);
-                    var randPos = new Vector3(Random.Range(player.position.x - a, player.position.x + a),
-                        Random.Range(player.position.y - a, player.position.y + a),
-                        Random.Range(player.position.z - a, player.position.z + a));
-
-                    Projectile.transform.position = transform.GetChild(2).position;
-                    Projectile.transform.rotation = Quaternion.identity;
-                    Projectile.GetComponent<Projectile>().dir = (randPos - Projectile.transform.position).normalized;
-
-                    // Other customers got scared off
-                    while (CustomerSpawner.Instance.customerCount > 1)
+                    if (player)
                     {
-                        // Hit angry customer then all customer got scared off
-                        foreach (var c in CustomerSpawner.Instance.customerDic)
+                        // Shoot bullet towards hand icon
+                        var Projectile = ObjectPool.Instance.GetPooledObject(customerBulletPrefab);
+
+                        if (!Projectile) return;
+
+                        var a = Random.Range(0.01f, 1f);
+                        var randPos = new Vector3(Random.Range(player.position.x - a, player.position.x + a),
+                            Random.Range(player.position.y - a, player.position.y + a),
+                            Random.Range(player.position.z - a, player.position.z + a));
+
+                        Projectile.transform.position = transform.GetChild(2).position;
+                        Projectile.transform.rotation = Quaternion.identity;
+                        Projectile.GetComponent<Projectile>().dir = (randPos - Projectile.transform.position).normalized;
+
+                        // Other customers got scared off
+                        while (CustomerSpawner.Instance.customerCount > 1)
                         {
-                            if(c.Value.customerId != customerId)
+                            // Hit angry customer then all customer got scared off
+                            foreach (var c in CustomerSpawner.Instance.customerDic)
                             {
-                                c.Value.Leave(c.Value.customerId);
-                                break;
-                            }
-                            else
-                            {
-                                continue;
+                                if (c.Value.customerId != customerId)
+                                {
+                                    c.Value.Leave(c.Value.customerId);
+                                    break;
+                                }
+                                else
+                                {
+                                    continue;
+                                }
                             }
                         }
                     }
