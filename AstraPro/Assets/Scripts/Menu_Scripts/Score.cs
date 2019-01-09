@@ -8,7 +8,7 @@ public class Score : MonoBehaviour {
     public static Score Instance;    
     public float rate = .20f;
     public Text money;
-    public Image fillimage;
+    public GameObject fillimage;
     public Image rateBar;
     public List<Image> Flower = new List<Image>();
     float elapsedTime;
@@ -33,11 +33,11 @@ public class Score : MonoBehaviour {
         if (switching)
         {
             elapsedTime += Time.deltaTime;
-            fillimage.gameObject.SetActive(true);
+            //fillimage.gameObject.SetActive(true);
             fillimage.gameObject.GetComponent<Animation>().Play();
             if (elapsedTime > endTime)
             {
-                fillimage.gameObject.SetActive(false);
+                //fillimage.gameObject.SetActive(false);
                 switching = false;
                 elapsedTime = 0;
             }

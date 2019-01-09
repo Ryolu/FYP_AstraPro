@@ -54,7 +54,7 @@ public class Pointer1 : MonoBehaviour
     private FoodSO foodSO;
     private GameObject cookingAppliance;
     private float elapsedTime;
-    private float endTime = 0.5f;
+    private float endTime = 0.75f;
     private Gradient greyGreenGradient;
     private Image timerImage;
 
