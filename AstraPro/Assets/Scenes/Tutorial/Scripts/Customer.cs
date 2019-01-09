@@ -248,8 +248,6 @@ public class Customer : MonoBehaviour
                     else if (timerImage.fillAmount <= 0f)
                     {
                         fighting = true;
-                        // Leave
-                        //Leave(customerId);
                     }
                 }
                 #endregion // Waiting State End
