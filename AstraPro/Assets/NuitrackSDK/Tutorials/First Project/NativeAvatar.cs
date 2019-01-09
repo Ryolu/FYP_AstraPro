@@ -50,10 +50,10 @@ public class NativeAvatar : MonoBehaviour
     }
 
     // Display the message on the screen
-    void OnGUI()
-    {
-        GUI.color = Color.red;
-        GUI.skin.label.fontSize = 50;
-        GUILayout.Label(message);
-    }
+    //void OnGUI()
+    //{
+    //    GUI.color = Color.red;
+    //    GUI.skin.label.fontSize = 50;
+    //    GUILayout.Label(message);
+    //}
 }

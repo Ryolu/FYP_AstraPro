@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System.Linq;
 
 public class Pointer_Menu : MonoBehaviour
 {
@@ -31,7 +32,7 @@ public class Pointer_Menu : MonoBehaviour
     [SerializeField]
     Camera cam;
 
-    GameObject selectedButton;
+    Button selectedButton;
 
     PointerEventData eventData = new PointerEventData(null);
     List<RaycastResult> raycastResults = new List<RaycastResult>();
@@ -39,8 +40,8 @@ public class Pointer_Menu : MonoBehaviour
     [SerializeField]
     float dragSensitivity = 5f;
 
-    float ElapsedTime;
-    float EndTime = 0.5f;
+    float elapsedTime;
+    float endTime = 0.75f;
     float TemptBGM, TemptSFX;
 
 
@@ -99,51 +100,34 @@ public class Pointer_Menu : MonoBehaviour
         //for (int i = 0; i < raycastResults.Count && newButton == null; i++)
         //    newButton = raycastResults[i].gameObject.GetComponent<ImageItem>();
 
-        GameObject newButton = null;
+        Button newButton = null;
 
         for (int i = 0; i < raycastResults.Count && newButton == null; i++)
         {
-            if (raycastResults[i].gameObject.GetComponent<ImageItem>())
-            {
-                newButton = raycastResults[i].gameObject;
-                //Debug.Log("Hit");
-            }
+            newButton = raycastResults[i].gameObject.GetComponent<Button>();
         }
 
         if (newButton != selectedButton)
         {
             if (selectedButton != null)
             {
-                selectedButton.GetComponent<ImageItem>().OnPointerExit(eventData);
-                Debug.Log("Exit");
+                selectedButton.OnPointerExit(eventData);
+                elapsedTime = 0;
             }
 
             selectedButton = newButton;
 
             if (selectedButton != null)
             {
-                selectedButton.GetComponent<ImageItem>().OnPointerEnter(eventData);
-                Debug.Log("Enter");
+                selectedButton.OnPointerEnter(eventData);
             }
         }
         else if (selectedButton != null)
         {
-            if (press)
+            elapsedTime += Time.deltaTime;
+            if (elapsedTime >= endTime)
             {
-                if (eventData.delta.sqrMagnitude < dragSensitivity && !eventData.dragging)
-                {
-                    eventData.dragging = true;
-                    selectedButton.GetComponent<ImageItem>().OnPointerDown(eventData);
-                }
-            }
-            else if (eventData.dragging)
-            {
-                eventData.dragging = false;
-                selectedButton.GetComponent<ImageItem>().OnPointerUp(eventData);
-            }
-
-            if (press)
-            {
+                elapsedTime = 0;
                 if (selectedButton.name == "Start")
                 {
                     Menu_Manager.Tutorial_Mode = false;
@@ -180,9 +164,9 @@ public class Pointer_Menu : MonoBehaviour
                 }
                 else if (selectedButton.name == "SFX_Check")
                 {
-                    ElapsedTime += Time.deltaTime;
-                    if (ElapsedTime > EndTime)
-                    {
+                    //elapsedTime += Time.deltaTime;
+                    //if (elapsedTime > endTime)
+                    //{
                         if (selectedButton.GetComponentInParent<Toggle>().isOn == true)
                         {
                             selectedButton.GetComponentInParent<Toggle>().isOn = false;
@@ -194,24 +178,24 @@ public class Pointer_Menu : MonoBehaviour
                             else
                                 Audio_Manager.Instance.SFXMaxAudio(TemptSFX);
 
-                            ElapsedTime = 0;
+                            elapsedTime = 0;
                             Debug.Log("Off");
                         }
                         else
                         {
                             selectedButton.GetComponentInParent<Toggle>().isOn = true;
                             Audio_Manager.Instance.SFXMinAudio();
-                            ElapsedTime = 0;
+                            elapsedTime = 0;
                             Debug.Log("On");
                         }
-                    }
+                    //}
                     //selectedButton.OnDrag(eventData);
                 }
                 else if (selectedButton.name == "BGM_Check")
                 {
-                    ElapsedTime += Time.deltaTime;
-                    if (ElapsedTime > EndTime)
-                    {
+                    //elapsedTime += Time.deltaTime;
+                    //if (elapsedTime > endTime)
+                    //{
                         if (selectedButton.GetComponentInParent<Toggle>().isOn == true)
                         {
                             selectedButton.GetComponentInParent<Toggle>().isOn = false;
@@ -224,67 +208,58 @@ public class Pointer_Menu : MonoBehaviour
                                 Audio_Manager.Instance.BGMMaxAudio(TemptBGM);
 
 
-                            ElapsedTime = 0;
+                            elapsedTime = 0;
                             Debug.Log("Off");
                         }
                         else
                         {
                             selectedButton.GetComponentInParent<Toggle>().isOn = true;
                             Audio_Manager.Instance.BGMMinAudio();
-                            ElapsedTime = 0;
+                            elapsedTime = 0;
                             Debug.Log("On");
                         }
-                    }
+                   // }
                 }
-                else if (selectedButton.name == "Increase_SFX" || selectedButton.name == "Increase_BGM")
-                {
-                    if (selectedButton.name == "Increase_BGM")
-                    {
-                        TemptBGM = selectedButton.GetComponentInParent<Slider>().value;
-                        Audio_Manager.Instance.SetBgmLvl(selectedButton.GetComponentInParent<Slider>().value);
-                    }
-                    if (selectedButton.name == "Increase_SFX")
-                    {
-                        TemptSFX = selectedButton.GetComponentInParent<Slider>().value;
-                        Audio_Manager.Instance.SetSfxLvl(selectedButton.GetComponentInParent<Slider>().value);
-                    }
-
-                    selectedButton.GetComponentInParent<Slider>().value += 40 * Time.deltaTime;
-                    if (selectedButton.GetComponentInParent<Slider>().value >= 0)
-                    {
-                        selectedButton.GetComponentInParent<Slider>().value = 0;
-                    }
-                }
-                else if (selectedButton.name == "Decrease_SFX" || selectedButton.name == "Decrease_BGM")
-                {
-                    if (selectedButton.name == "Decrease_BGM")
-                    {
-                        TemptBGM = selectedButton.GetComponentInParent<Slider>().value;
-                        Audio_Manager.Instance.SetBgmLvl(selectedButton.GetComponentInParent<Slider>().value);
-                    }
-                    if (selectedButton.name == "Decrease_SFX")
-                    {
-                        TemptSFX = selectedButton.GetComponentInParent<Slider>().value;
-                        Audio_Manager.Instance.SetSfxLvl(selectedButton.GetComponentInParent<Slider>().value);
-                    }
-                    selectedButton.GetComponentInParent<Slider>().value -= 40 * Time.deltaTime;
-                    if (selectedButton.GetComponentInParent<Slider>().value <= -80)
-                    {
-                        selectedButton.GetComponentInParent<Slider>().value = -80;
-                    }
-                }
-                //else if (selectedButton.name == "Handle_2")
-                //{
-                //    if (selectedButton.GetComponentInParent<Slider>())
-                //    {
-                //        selectedButton.GetComponent<ImageItem>().interactable = false;
-                //        selectedButton.GetComponent<ImageItem>().OnDrag(eventData);
-                //        Debug.Log("handleeeeeeeeeeeeeeeeeeeeeeeee");
-                //    }
-                //}
-                else
-                    selectedButton.GetComponent<ImageItem>().OnDrag(eventData);
+                
             }
+            if (selectedButton.name == "Increase_SFX" || selectedButton.name == "Increase_BGM")
+            {
+                if (selectedButton.name == "Increase_BGM")
+                {
+                    TemptBGM = selectedButton.GetComponentInParent<Slider>().value;
+                    Audio_Manager.Instance.SetBgmLvl(selectedButton.GetComponentInParent<Slider>().value);
+                }
+                if (selectedButton.name == "Increase_SFX")
+                {
+                    TemptSFX = selectedButton.GetComponentInParent<Slider>().value;
+                    Audio_Manager.Instance.SetSfxLvl(selectedButton.GetComponentInParent<Slider>().value);
+                }
+
+                selectedButton.GetComponentInParent<Slider>().value += 40 * Time.deltaTime;
+                if (selectedButton.GetComponentInParent<Slider>().value >= 0)
+                {
+                    selectedButton.GetComponentInParent<Slider>().value = 0;
+                }
+            }
+            else if (selectedButton.name == "Decrease_SFX" || selectedButton.name == "Decrease_BGM")
+            {
+                if (selectedButton.name == "Decrease_BGM")
+                {
+                    TemptBGM = selectedButton.GetComponentInParent<Slider>().value;
+                    Audio_Manager.Instance.SetBgmLvl(selectedButton.GetComponentInParent<Slider>().value);
+                }
+                if (selectedButton.name == "Decrease_SFX")
+                {
+                    TemptSFX = selectedButton.GetComponentInParent<Slider>().value;
+                    Audio_Manager.Instance.SetSfxLvl(selectedButton.GetComponentInParent<Slider>().value);
+                }
+                selectedButton.GetComponentInParent<Slider>().value -= 40 * Time.deltaTime;
+                if (selectedButton.GetComponentInParent<Slider>().value <= -80)
+                {
+                    selectedButton.GetComponentInParent<Slider>().value = -80;
+                }
+            }
+            selectedButton.OnPointerClick(eventData);
         }
     }
 }

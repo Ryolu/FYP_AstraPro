@@ -53,6 +53,13 @@ public class Menu_Manager : MonoBehaviour {
         SceneManager.LoadScene("Scenes/Credits");
     }
 
+    public void GameOver()
+    {
+        //Audio_Manager.Instance.GetComponent<AudioSource>().clip = Audio_Manager.Instance.audioDictionary["Score_Board"];
+        //Audio_Manager.Instance.GetComponent<AudioSource>().Play();
+        SceneManager.LoadScene("Scenes/GameOver");
+    }
+
     public void In_Game()
     {
         if (Tutorial_Mode == true)

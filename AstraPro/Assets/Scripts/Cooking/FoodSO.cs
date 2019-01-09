@@ -18,6 +18,10 @@ public class FoodSO : ScriptableObject {
     /// </summary>
     public List<IngredientSO> ingredientList;
     /// <summary>
+    /// The cost of this food
+    /// </summary>
+    public float cost = 0;
+    /// <summary>
     /// Time taken to cook this food
     /// </summary>
     public int timer;

@@ -10,7 +10,7 @@ public class Projectile : MonoBehaviour
         Invoke("Destroy", 2f);
     }
 
-    private void Destroy()
+    public void Destroy()
     {
         gameObject.SetActive(false);
     }
@@ -23,6 +23,6 @@ public class Projectile : MonoBehaviour
     // Travel according to the Dir(Direction) stated when spawn
     private void Update()
     {
-        transform.position += dir;
+        transform.position += dir * 5 * Time.deltaTime;
     }
 }

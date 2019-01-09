@@ -1,12 +1,14 @@
 {
-  "First": 100,
-  "Second": 50,
-  "Third": 20,
-  "Fourth": 10,
-  "Fifth": 6,
-  "Sixth": 5,
-  "Seventh": 4,
-  "Eighth": 3,
-  "Ninth": 2,
-  "Tenth": 1
+  "scoreList": [
+    100,
+    50,
+    20,
+    10,
+    6,
+    5,
+    4,
+    3,
+    2,
+    1
+  ]
 }

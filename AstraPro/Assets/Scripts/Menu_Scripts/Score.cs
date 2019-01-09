@@ -2,54 +2,85 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class Score : MonoBehaviour {
-    public static Score instance;
-    public float Overall = 100.0f;
-    public float Otah = 5.0f;
-    public float CurryFishHead = 10.0f;
-    public float Laksa = 6.0f;
-    public float MeeSiam = 5.5f; 
-    public float Rate = .20f;
-    public Text Money;
-    public Image RateBar;
+
+    public static Score Instance;    
+    public float rate = .20f;
+    public Text money;
+    public Image fillimage;
+    public Image rateBar;
+    public List<Image> Flower = new List<Image>();
+    float elapsedTime;
+    float endTime2 = 0.5f;
+    float endTime = 5.0f;
+    bool switching = false;
+
     private void Awake()
     {
-        instance = this;
+        Instance = this;
     }
 
     // Use this for initialization
     void Start () {
-        Overall = 100.0f;
-        Rate = .20f;
+        HighScore.Instance.overall = 100.0f;
+        switching = true;
+        rate = .40f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        Money.text = "Profit " + Overall.ToString();
-        RateBar.fillAmount = Rate;
+        if (switching)
+        {
+            elapsedTime += Time.deltaTime;
+            fillimage.gameObject.SetActive(true);
+            fillimage.gameObject.GetComponent<Animation>().Play();
+            if (elapsedTime > endTime)
+            {
+                fillimage.gameObject.SetActive(false);
+                switching = false;
+                elapsedTime = 0;
+            }
+        }
+        //if (Input.GetKeyDown("space"))
+        //{
+        //    HighScore.Instance.overall += 100;
+        //    rate = 0;
+        //}
+        if (rate <= 0)
+        {
+            Menu_Manager.Instance.GameOver();
+        }
 	}
 
-    public void Profit(FoodSO food)
+    public void Total_Rate()
+    {
+        int starCount = (int)(rate * 5);
+        foreach(Image go in Flower)
+        {
+            go.gameObject.SetActive(false);
+        }
+        for(int i = 0; i < starCount; ++i)
+        {
+            Flower[i].gameObject.SetActive(true);
+        }
+    }
+
+    public void Profit(FoodSO food, float time)
     {
         if (food.foodName == "Curry Fish Head")
-        {
-            Overall += CurryFishHead;
-            Rate += 0.1f;
-        }
+            rate += (0.1f * time);
         else if (food.foodName == "Laksa")
-        {
-            Overall += Laksa;
-            Rate += 0.03f;
-        }
+            rate += (0.03f * time);
         else if (food.foodName == "Mee Siam")
-        {
-            Overall += MeeSiam;
-            Rate += 0.01f;
-        }
+            rate += (0.01f * time);
         else if (food.foodName == "Otah")
-        {
-            Overall += Otah;
-            Rate += 0.05f;
-        }
+            rate += (0.05f * time);
+
+        switching = true;
+        Total_Rate();
+        rateBar.fillAmount = rate;
+        money.text = HighScore.Instance.overall.ToString();
+        HighScore.Instance.overall += food.cost;
     }
 }
