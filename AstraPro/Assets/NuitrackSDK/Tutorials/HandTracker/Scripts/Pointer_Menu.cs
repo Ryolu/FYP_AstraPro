@@ -43,12 +43,31 @@ public class Pointer_Menu : MonoBehaviour
     float elapsedTime;
     float endTime = 0.75f;
     float TemptBGM, TemptSFX;
-
+    private Gradient greyGreenGradient;
+    private Image timerImage;
 
     private void Start()
     {
         NuitrackManager.onHandsTrackerUpdate += NuitrackManager_onHandsTrackerUpdate;
         dragSensitivity *= dragSensitivity;
+        InitiateColor();
+        timerImage = transform.GetChild(0).GetComponent<Image>();
+    }
+
+    // Initiate Gradients, which is used to change color based on fillAmount of timerImage
+    private void InitiateColor()
+    {
+        greyGreenGradient = new Gradient();
+        var ck1 = new GradientColorKey[2];
+        ck1[0].color = Color.grey;
+        ck1[0].time = 0f;
+
+        ck1[1].color = Color.green;
+        ck1[1].time = 1f;
+
+        var ak1 = new GradientAlphaKey[0];
+
+        greyGreenGradient.SetKeys(ck1, ak1);
     }
 
     private void OnDestroy()
@@ -113,6 +132,7 @@ public class Pointer_Menu : MonoBehaviour
             {
                 selectedButton.OnPointerExit(eventData);
                 elapsedTime = 0;
+                timerImage.fillAmount = 0f;
             }
 
             selectedButton = newButton;
@@ -125,9 +145,21 @@ public class Pointer_Menu : MonoBehaviour
         else if (selectedButton != null)
         {
             elapsedTime += Time.deltaTime;
+
+            // Reduce fillAmount of Timer Filler Image(visual feedback) over waitTiming
+            timerImage.fillAmount += (1f / endTime) * Time.deltaTime;
+
+            // Left more than half the time -> Image turning from green to yellow
+            //if (timerImage.fillAmount >= 0.5f)
+            {
+                timerImage.color = greyGreenGradient.Evaluate(timerImage.fillAmount);
+            }
+
             if (elapsedTime >= endTime)
             {
                 elapsedTime = 0;
+                timerImage.fillAmount = 0f;
+
                 if (selectedButton.name == "Start")
                 {
                     Menu_Manager.Tutorial_Mode = false;
