@@ -28,6 +28,12 @@ ModelImporter:
     100044: Tofu
     100046: Walls_and_floor
     100048: Windows
+    100050: Banana_leaves
+    100052: Building
+    100054: Cookwares
+    100056: ground
+    100058: Pot_1
+    100060: Pot_2
     400000: Banana_Leaves
     400002: Bowls
     400004: Cookware
@@ -53,6 +59,12 @@ ModelImporter:
     400044: Tofu
     400046: Walls_and_floor
     400048: Windows
+    400050: Banana_leaves
+    400052: Building
+    400054: Cookwares
+    400056: ground
+    400058: Pot_1
+    400060: Pot_2
     2100000: Interactable
     2100002: Wall_Floor
     2100004: Furniturez
@@ -75,6 +87,11 @@ ModelImporter:
     2300032: Tofu
     2300034: Walls_and_floor
     2300036: Windows
+    2300038: Banana_leaves
+    2300040: Building
+    2300042: ground
+    2300044: Pot_1
+    2300046: Pot_2
     3300000: Banana_Leaves
     3300002: Bowls
     3300004: Eggs
@@ -94,6 +111,11 @@ ModelImporter:
     3300032: Tofu
     3300034: Walls_and_floor
     3300036: Windows
+    3300038: Banana_leaves
+    3300040: Building
+    3300042: ground
+    3300044: Pot_1
+    3300046: Pot_2
     4300000: Fishes
     4300002: Prawns
     4300004: Tofus
@@ -113,6 +135,11 @@ ModelImporter:
     4300032: Noodle
     4300034: Windows
     4300036: Walls_and_floor
+    4300038: Banana_leaves
+    4300040: Pot_1
+    4300042: Pot_2
+    4300044: ground
+    4300046: Building
   externalObjects: {}
   materials:
     importMaterials: 1
