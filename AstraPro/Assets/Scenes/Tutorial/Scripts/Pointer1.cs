@@ -810,27 +810,30 @@ public class Pointer1 : MonoBehaviour
 
                             var customer = something[0].Value.GetComponent<Customer>();
 
-                            if (foodSO == customer.foodOrdered)
+                            if (!customer.fighting)
                             {
-                                // Served correct food, Add Score
-                                Score.Instance.Profit(customer.foodOrdered, customer.timerImage.fillAmount);
+                                if (foodSO == customer.foodOrdered)
+                                {
+                                    // Served correct food, Add Score
+                                    Score.Instance.Profit(customer.foodOrdered, customer.timerImage.fillAmount);
 
-                                // Customer leaves
-                                customer.Leave(customer.customerId);
+                                    // Customer leaves
+                                    customer.Leave(customer.customerId);
+                                }
+                                else
+                                {
+                                    // Served wrong food, Decrease Rate
+                                    Score.Instance.rate -= 0.1f;
+                                    customer.fighting = true;
+
+                                    customer.player = cam.transform.parent;
+                                }
+
+                                // Reset cooking Appliance status
+                                cookingAppliance.GetComponent<CookingAppliance>().NewFood();
+
+                                DropItem(cookingAppliance);
                             }
-                            else
-                            {
-                                // Served wrong food, Decrease Rate
-                                Score.Instance.rate -= 0.1f;
-                                customer.fighting = true;
-
-                                customer.player = cam.transform.parent;
-                            }
-
-                            // Reset cooking Appliance status
-                            cookingAppliance.GetComponent<CookingAppliance>().NewFood();
-
-                            DropItem(cookingAppliance);
                         }
                     }
                 }
