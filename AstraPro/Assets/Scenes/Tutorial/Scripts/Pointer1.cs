@@ -834,14 +834,6 @@ public class Pointer1 : MonoBehaviour
 
                                 DropItem(cookingAppliance);
                             }
-                            else
-                            {
-                                // Set player transform for customer to have a target to shoot at
-                                if(!customer.player)
-                                {
-                                    customer.player = cam.transform.parent;
-                                }
-                            }
                         }
                     }
                 }
@@ -899,6 +891,19 @@ public class Pointer1 : MonoBehaviour
 
         if (CustomerSpawner.Instance.customerDic.Any(x => x.Value.fighting == true))
         {
+            var something = CustomerSpawner.Instance.customerDic.Where(x => x.Value.fighting == true).ToList();
+            
+            foreach(var pair in something)
+            {
+                var customer = pair.Value.GetComponent<Customer>();
+
+                // Set player transform for customer to have a target to shoot at
+                if (!customer.player)
+                {
+                    customer.player = cam.transform.parent;
+                }
+            }            
+
             if (!foodListPanel.activeSelf && press)
             {
                 // Shoot bullet towards hand icon
