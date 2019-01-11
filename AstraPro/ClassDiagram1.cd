@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Pointer_Menu">
+    <Position X="20.25" Y="3.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="Pointer_Menu.Hands" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\NuitrackSDK\Tutorials\HandTracker\Scripts\Pointer_Menu.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAABBAAAACCAAAQgAAAAAAgAACBgACAAAEAAIBAAIIA=</HashCode>
+      <FileName>Assets\NuitrackSDK\Tutorials\HandTracker\Scripts\Pointer_Menu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Customer">
+    <Position X="8.25" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAUAEAFAACAAAAAAAAAAAAACADFAAIAOAEAQAAIAAAM=</HashCode>
+      <FileName>Assets\Scenes\Tutorial\Scripts\Customer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CustomerSpawner">
+    <Position X="10" Y="16.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAIBQAAAAAAAAAAAQAAAAAAAAQAAAAAAAQEA=</HashCode>
+      <FileName>Assets\Scenes\Tutorial\Scripts\CustomerSpawner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LevelManager">
+    <Position X="18.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAACAAAAAAQAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scenes\Tutorial\Scripts\LevelManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjectPool">
+    <Position X="8.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAgAAAAAAAAAAgAAAAAAQIAAAAQAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scenes\Tutorial\Scripts\ObjectPool.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Outline">
+    <Position X="10" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAIAAAAAAAAAAAAAAAAAAACIAACAAgAASEA=</HashCode>
+      <FileName>Assets\Scenes\Tutorial\Scripts\OutlineEffect\Outline.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OutlineEffect">
+    <Position X="11.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ADABAADQASACRmAABAEhAAIAEwBARBEIQBAEFCIEAkA=</HashCode>
+      <FileName>Assets\Scenes\Tutorial\Scripts\OutlineEffect\OutlineEffect.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PauseManager">
+    <Position X="16.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAIAA=</HashCode>
+      <FileName>Assets\Scenes\Tutorial\Scripts\PauseManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pointer1">
+    <Position X="6.5" Y="10.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="Pointer1.Hands" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scenes\Tutorial\Scripts\Pointer1.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>ACABBAAAASSIAAQgEBQAACAAAABAACAABGAAIBAAIIg=</HashCode>
+      <FileName>Assets\Scenes\Tutorial\Scripts\Pointer1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Projectile">
+    <Position X="10" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAABAAAAIAAAAAAAACAA=</HashCode>
+      <FileName>Assets\Scenes\Tutorial\Scripts\Projectile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChopDetection">
+    <Position X="2.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAgAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Cooking\ChopDetection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CollectDependencies">
+    <Position X="4.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAYAAAAAAAAAAAAAAAAAAAAACCAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Cooking\CollectDependencies.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CookingAppliance">
+    <Position X="11.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAQAiGAAACAAIYAAoSAAgAAAEKACAAUAgVAQIIEABAg=</HashCode>
+      <FileName>Assets\Scripts\Cooking\CookingAppliance.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CustomGestureManager">
+    <Position X="8.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAAGAAAAAAACQAAAEAAA=</HashCode>
+      <FileName>Assets\Scripts\Cooking\CustomGestureManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Food">
+    <Position X="4.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Cooking\Food.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodSO">
+    <Position X="10" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAgAAAAAAAgAAAAKAABAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>Assets\Scripts\Cooking\FoodSO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GestureDetection">
+    <Position X="1.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAQAAAgEAAAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Cooking\GestureDetection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GestureTrigger">
+    <Position X="6.5" Y="3" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="GestureTrigger.GestureType" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\Cooking\GestureTrigger.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAAAIAAAAAABAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Cooking\GestureTrigger.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ingredient">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Assets\Scripts\Cooking\Ingredient.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IngredientSO">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAAAAAAIAABAQAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Cooking\IngredientSO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IngredientSpawner">
+    <Position X="8.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACQAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Cooking\IngredientSpawner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StirDetection">
+    <Position X="0.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAIEAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Cooking\StirDetection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Crowd_Moving">
+    <Position X="18.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAgAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Assets\Scripts\Enviroment\Crowd_Moving.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Crowd_Spawner">
+    <Position X="18.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAgAAAAAAAAAAABAAgAgACAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Enviroment\Crowd_Spawner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DaynNight">
+    <Position X="16.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Enviroment\DaynNight.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Audio_Manager">
+    <Position X="16.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIACAgAAACADAAAAAAAAACAEgAAAAAgAQAAgAAAAAGA=</HashCode>
+      <FileName>Assets\Scripts\Menu_Scripts\Audio_Manager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HighScore">
+    <Position X="20.25" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Class Name="HighScore.ScoreStorage" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\Menu_Scripts\HighScore.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQACAAAAEAAAACAAAAAIBAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Menu_Scripts\HighScore.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="highScoreControls">
+    <Position X="15" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="highScoreControls.ViewMode" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\Menu_Scripts\highScoreControls.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAYDAAAAACAAAAAAAAgAAAAAAAAIAAACBAAQAEAgAQA=</HashCode>
+      <FileName>Assets\Scripts\Menu_Scripts\highScoreControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Menu_Manager">
+    <Position X="15" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gABAQAAgAAAAAAAAAAAgAAAAAAAAAAAAYAAAEAkAAEA=</HashCode>
+      <FileName>Assets\Scripts\Menu_Scripts\Menu_Manager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RecipeBook">
+    <Position X="10" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAQAgAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Menu_Scripts\RecipeBook.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
