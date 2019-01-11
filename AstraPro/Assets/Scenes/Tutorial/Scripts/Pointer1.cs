@@ -834,6 +834,14 @@ public class Pointer1 : MonoBehaviour
 
                                 DropItem(cookingAppliance);
                             }
+                            else
+                            {
+                                // Set player transform for customer to have a target to shoot at
+                                if(!customer.player)
+                                {
+                                    customer.player = cam.transform.parent;
+                                }
+                            }
                         }
                     }
                 }
