@@ -259,9 +259,8 @@ public class CookingAppliance : MonoBehaviour {
     /// <param name="openclose"></param>
     public void OpenCloseIngredients(bool openclose)
     {
-        if (!openclose)
-            foreach (Transform child in ingredientPanel)
-                Destroy(child.gameObject);
+        foreach (Transform child in ingredientPanel)
+            Destroy(child.gameObject);
 
         ingredientPanel.gameObject.SetActive(openclose);
     }

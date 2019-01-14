@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Delete : MonoBehaviour {
+public class IngredientButtonSpawn : MonoBehaviour {
 
     [SerializeField] List<IngredientSO> ingredientList;
     [SerializeField] Button buttonPrefab;
@@ -25,12 +25,11 @@ public class Delete : MonoBehaviour {
         for (int i = 0; i < number; i++)
         {
             float angle = (i * 360 / number) * Mathf.Deg2Rad;
-            float dist = -50;
-            //Button button = Instantiate(buttonPrefab, new Vector3( Mathf.Cos(angle) * dist, Mathf.Sin(angle) * dist, 0), Quaternion.identity, gameObject.transform);
+            float dist = -250;
             Button button = Instantiate(buttonPrefab, gameObject.transform);
             button.transform.localPosition += new Vector3(Mathf.Cos(angle) * dist, Mathf.Sin(angle) * dist, 0);
             button.transform.Rotate(new Vector3(0, 0, angle * Mathf.Rad2Deg + 90));
-            button.image.fillAmount = 1f / number;
+            //button.image.fillAmount = 1f / number;
             
             Image foodPic = button.transform.GetChild(0).GetComponent<Image>();
             foodPic.sprite = ingredientList[0].sprite;
