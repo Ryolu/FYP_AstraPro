@@ -62,7 +62,6 @@ public class Pointer1 : MonoBehaviour
     private Image timerImage2;
     private float rotateSpeed = 5f;
     [SerializeField] private float radius = 80f;
-    private Vector2 center;
     private float angle = 0f;
 
     private void Start()
@@ -73,7 +72,6 @@ public class Pointer1 : MonoBehaviour
         InitiateColor();
         timerImage = transform.GetChild(0).GetComponent<Image>();
         timerImage2 = transform.GetChild(1).GetComponent<Image>();
-        center = baseRect.transform.position;
     }
 
     // Initiate Gradients, which is used to change color based on fillAmount of timerImage
@@ -626,10 +624,8 @@ public class Pointer1 : MonoBehaviour
 
                 timerImage2.gameObject.SetActive(false);
                 angle = -(timerImage.fillAmount * 360f + 90f) * Mathf.Deg2Rad;
-                center = new Vector2(transform.position.x, transform.position.y);
                 var offset = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * radius;
-                var result = center + offset;
-                timerImage2.transform.localPosition = new Vector3(result.x, result.y, 0f);
+                timerImage2.transform.localPosition = new Vector3(offset.x, offset.y, 0f);
             }
         
             selectedButton = newButton;
@@ -646,10 +642,8 @@ public class Pointer1 : MonoBehaviour
 
             timerImage2.gameObject.SetActive(true);
             angle = -(timerImage.fillAmount * 360f + 90f) * Mathf.Deg2Rad;
-            center = new Vector2(transform.position.x, transform.position.y);
             var offset = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * radius;
-            var result = center + offset;
-            timerImage2.transform.localPosition = new Vector3(result.x, result.y, 0f);
+            timerImage2.transform.localPosition = new Vector3(offset.x, offset.y, 0f);
             //Debug.Log("Fill: " + timerImage.fillAmount + " Angle: " + angle + " Center: " + center + " Offset: " + offset + " Result: " + result + " pos: " + timerImage2.transform.position);
 
             #region Highlight Code
@@ -722,10 +716,8 @@ public class Pointer1 : MonoBehaviour
 
                 timerImage2.gameObject.SetActive(false);
                 angle = -(timerImage.fillAmount * 360f + 90f) * Mathf.Deg2Rad;
-                center = new Vector2(transform.position.x, transform.position.y);
                 var offset1 = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * radius;
-                var result1 = center + offset1;
-                timerImage2.transform.localPosition = new Vector3(result1.x, result1.y, 0f);
+                timerImage2.transform.localPosition = new Vector3(offset1.x, offset1.y, 0f);
 
                 if (!foodListPanel.activeSelf)
                 {
