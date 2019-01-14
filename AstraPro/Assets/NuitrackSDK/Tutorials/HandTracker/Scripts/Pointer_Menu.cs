@@ -45,6 +45,13 @@ public class Pointer_Menu : MonoBehaviour
     float TemptBGM, TemptSFX;
     private Gradient greyGreenGradient;
     private Image timerImage;
+    
+    // Flower
+    private Image timerImage2;
+    private float rotateSpeed = 5f;
+    [SerializeField] private float radius = 80f;
+    private Vector2 center;
+    private float angle = 0f;
 
     private void Start()
     {
@@ -52,6 +59,8 @@ public class Pointer_Menu : MonoBehaviour
         dragSensitivity *= dragSensitivity;
         InitiateColor();
         timerImage = transform.GetChild(0).GetComponent<Image>();
+        timerImage2 = transform.GetChild(1).GetComponent<Image>();
+        center = baseRect.transform.position;
     }
 
     // Initiate Gradients, which is used to change color based on fillAmount of timerImage
@@ -133,6 +142,13 @@ public class Pointer_Menu : MonoBehaviour
                 selectedButton.OnPointerExit(eventData);
                 elapsedTime = 0;
                 timerImage.fillAmount = 0f;
+
+                timerImage2.gameObject.SetActive(false);
+                angle = -(timerImage.fillAmount * 360f + 90f) * Mathf.Deg2Rad;
+                center = new Vector2(transform.position.x, transform.position.y);
+                var offset = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * radius;
+                var result = center + offset;
+                timerImage2.transform.localPosition = new Vector3(result.x, result.y, 0f);
             }
 
             selectedButton = newButton;
@@ -149,16 +165,25 @@ public class Pointer_Menu : MonoBehaviour
             // Reduce fillAmount of Timer Filler Image(visual feedback) over waitTiming
             timerImage.fillAmount += (1f / endTime) * Time.deltaTime;
 
-            // Left more than half the time -> Image turning from green to yellow
-            //if (timerImage.fillAmount >= 0.5f)
-            {
-                timerImage.color = greyGreenGradient.Evaluate(timerImage.fillAmount);
-            }
+            timerImage2.gameObject.SetActive(true);
+            angle = -(timerImage.fillAmount * 360f + 90f) * Mathf.Deg2Rad;
+            center = new Vector2(transform.position.x, transform.position.y);
+            var offset = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * radius;
+            var result = center + offset;
+            timerImage2.transform.localPosition = new Vector3(result.x, result.y, 0f);
+            //Debug.Log("Fill: " + timerImage.fillAmount + " Angle: " + angle + " Center: " + center + " Offset: " + offset + " Result: " + result + " pos: " + timerImage2.transform.position);
 
             if (elapsedTime >= endTime)
             {
                 elapsedTime = 0;
                 timerImage.fillAmount = 0f;
+
+                timerImage2.gameObject.SetActive(false);
+                angle = -(timerImage.fillAmount * 360f + 90f) * Mathf.Deg2Rad;
+                center = new Vector2(transform.position.x, transform.position.y);
+                var offset1 = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * radius;
+                var result1 = center + offset1;
+                timerImage2.transform.localPosition = new Vector3(result1.x, result1.y, 0f);
 
                 if (selectedButton.name == "Start")
                 {
