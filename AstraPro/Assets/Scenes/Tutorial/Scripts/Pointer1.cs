@@ -810,27 +810,30 @@ public class Pointer1 : MonoBehaviour
 
                             var customer = something[0].Value.GetComponent<Customer>();
 
-                            if (foodSO == customer.foodOrdered)
+                            if (!customer.fighting)
                             {
-                                // Served correct food, Add Score
-                                Score.Instance.Profit(customer.foodOrdered, customer.timerImage.fillAmount);
+                                if (foodSO == customer.foodOrdered)
+                                {
+                                    // Served correct food, Add Score
+                                    Score.Instance.Profit(customer.foodOrdered, customer.timerImage.fillAmount);
 
-                                // Customer leaves
-                                customer.Leave(customer.customerId);
+                                    // Customer leaves
+                                    customer.Leave(customer.customerId);
+                                }
+                                else
+                                {
+                                    // Served wrong food, Decrease Rate
+                                    Score.Instance.rate -= 0.1f;
+                                    customer.fighting = true;
+
+                                    customer.player = cam.transform.parent;
+                                }
+
+                                // Reset cooking Appliance status
+                                cookingAppliance.GetComponent<CookingAppliance>().NewFood();
+
+                                DropItem(cookingAppliance);
                             }
-                            else
-                            {
-                                // Served wrong food, Decrease Rate
-                                Score.Instance.rate -= 0.1f;
-                                customer.fighting = true;
-
-                                customer.player = cam.transform.parent;
-                            }
-
-                            // Reset cooking Appliance status
-                            cookingAppliance.GetComponent<CookingAppliance>().NewFood();
-
-                            DropItem(cookingAppliance);
                         }
                     }
                 }
@@ -888,6 +891,19 @@ public class Pointer1 : MonoBehaviour
 
         if (CustomerSpawner.Instance.customerDic.Any(x => x.Value.fighting == true))
         {
+            var something = CustomerSpawner.Instance.customerDic.Where(x => x.Value.fighting == true).ToList();
+            
+            foreach(var pair in something)
+            {
+                var customer = pair.Value.GetComponent<Customer>();
+
+                // Set player transform for customer to have a target to shoot at
+                if (!customer.player)
+                {
+                    customer.player = cam.transform.parent;
+                }
+            }            
+
             if (!foodListPanel.activeSelf && press)
             {
                 // Shoot bullet towards hand icon
