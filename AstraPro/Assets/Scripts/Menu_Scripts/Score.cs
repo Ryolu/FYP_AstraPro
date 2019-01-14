@@ -26,7 +26,11 @@ public class Score : MonoBehaviour {
         HighScore.Instance.overall = 100.0f;
         switching = true;
         rate = .40f;
-	}
+
+        Total_Rate();
+        rateBar.fillAmount = rate;
+        money.text = HighScore.Instance.overall.ToString();
+    }
 	
 	// Update is called once per frame
 	void Update () {
