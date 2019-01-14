@@ -24,11 +24,11 @@ public class IngredientButtonSpawn : MonoBehaviour {
     {
         for (int i = 0; i < number; i++)
         {
-            float angle = (i * 360 / number) * Mathf.Deg2Rad;
-            float dist = -250;
+            float angle = (i * 360 / number + 90) * Mathf.Deg2Rad;
+            float dist = -200;
             Button button = Instantiate(buttonPrefab, gameObject.transform);
+            button.transform.Rotate(new Vector3(0, 0, angle * Mathf.Rad2Deg - 90));
             button.transform.localPosition += new Vector3(Mathf.Cos(angle) * dist, Mathf.Sin(angle) * dist, 0);
-            button.transform.Rotate(new Vector3(0, 0, angle * Mathf.Rad2Deg + 90));
             //button.image.fillAmount = 1f / number;
             
             Image foodPic = button.transform.GetChild(0).GetComponent<Image>();
