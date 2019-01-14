@@ -5,13 +5,14 @@ using UnityEngine.UI;
 
 public class Delete : MonoBehaviour {
 
-    public List<IngredientSO> ingredientList;
-    public Button buttonPrefab;
-    Image foodPic;
+    [SerializeField] List<IngredientSO> ingredientList;
+    [SerializeField] Button buttonPrefab;
+    public FoodSO currentFood;
+    public CookingAppliance currentAppliance;
 
 	// Use this for initialization
 	void Start () {
-        StartCoroutine(GenerateButtons());
+        StartCoroutine(GenerateButtons(7));
 	}
 	
 	// Update is called once per frame
@@ -19,23 +20,21 @@ public class Delete : MonoBehaviour {
 		
 	}
 
-    IEnumerator GenerateButtons()
+    IEnumerator GenerateButtons(float number)
     {
-        float number = 100;
-
         for (int i = 0; i < number; i++)
         {
-            float angle = (i * 360 / number + 90) * Mathf.Deg2Rad;
-            float dist = 50;
-            Button button = Instantiate(buttonPrefab, gameObject.transform.position + new Vector3( Mathf.Cos(angle) * dist, Mathf.Sin(angle) * dist, 0), Quaternion.identity, gameObject.transform);
-            button.transform.Rotate(new Vector3(0, 0, 360f / (number * 2) + (360f / number * i)));
+            float angle = (i * 360 / number) * Mathf.Deg2Rad;
+            float dist = -50;
+            //Button button = Instantiate(buttonPrefab, new Vector3( Mathf.Cos(angle) * dist, Mathf.Sin(angle) * dist, 0), Quaternion.identity, gameObject.transform);
+            Button button = Instantiate(buttonPrefab, gameObject.transform);
+            button.transform.localPosition += new Vector3(Mathf.Cos(angle) * dist, Mathf.Sin(angle) * dist, 0);
+            button.transform.Rotate(new Vector3(0, 0, angle * Mathf.Rad2Deg + 90));
             button.image.fillAmount = 1f / number;
-            button.image.alphaHitTestMinimumThreshold = 0.9f;
-            Debug.Log("balls");
             
-            foodPic = button.transform.GetChild(0).GetComponent<Image>();
+            Image foodPic = button.transform.GetChild(0).GetComponent<Image>();
             foodPic.sprite = ingredientList[0].sprite;
-            foodPic.transform.rotation = Quaternion.identity;
+            foodPic.transform.rotation = Quaternion.identity * Quaternion.Euler(0, 90, 0);
 
             yield return new WaitForSeconds(0.075f);
         }
