@@ -627,12 +627,19 @@ public class Pointer1 : MonoBehaviour
                 angle = -(timerImage.fillAmount * 360f + 90f) * Mathf.Deg2Rad;
                 var offset = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * radius;
                 timerImage2.transform.localPosition = new Vector3(offset.x, offset.y, 0f);
+
+                if (selectedButton.GetComponent<IngredientPanel>())
+                    selectedButton.GetComponent<IngredientPanel>().Zoomasaurus(false);
             }
         
             selectedButton = newButton;
         
             if (selectedButton != null)
+            {
                 selectedButton.OnPointerEnter(eventData);
+                if (selectedButton.GetComponent<IngredientPanel>())
+                    selectedButton.GetComponent<IngredientPanel>().Zoomasaurus(true);
+            }
         }
         else if (selectedButton != null)
         {
