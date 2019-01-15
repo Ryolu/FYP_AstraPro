@@ -44,6 +44,7 @@ public class Pointer1 : MonoBehaviour
     [SerializeField] private GameObject pauseUI;
     [SerializeField] private GameObject pauseButton;
     [SerializeField] private GameObject foodListPanel;
+    [SerializeField] private GameObject ingredientListPanel;
 
     //[SerializeField] private Transform hand;
     //[SerializeField] private GameObject rightHandModel;
@@ -661,7 +662,7 @@ public class Pointer1 : MonoBehaviour
                 }
             }
 
-            if (!foodListPanel.activeSelf)
+            if (!foodListPanel.activeSelf && !ingredientListPanel.activeSelf && selectedButton.name != "Pause")
             {
                 // If selecting Cooking Appliance(Frying Pan, Pot 1, Pot 2)
                 if (LevelManager.Instance.cookingAppliances.Any(x => x.gameObject.GetInstanceID() == selectedButton.transform.parent.parent.gameObject.GetInstanceID()))
@@ -675,19 +676,6 @@ public class Pointer1 : MonoBehaviour
 
                     hitTransform = app.transform;
                     ShowOutline(app.gameObject);
-                }
-                // If selecting ingredients(Banana Leaves, Tofus, Eggs, Noodle, Spice, Fishes, Prawns)
-                else if (LevelManager.Instance.ingredients.Any(x => x.gameObject.GetInstanceID() == selectedButton.transform.parent.parent.gameObject.GetInstanceID()))
-                {
-                    var something = LevelManager.Instance.ingredients.Where(x => x.gameObject.GetInstanceID() == selectedButton.transform.parent.parent.gameObject.GetInstanceID()).ToList();
-
-                    if (something.Count != 1)
-                        return;
-
-                    var ingre = something[0].GetComponent<Ingredient>();
-
-                    hitTransform = ingre.transform;
-                    ShowOutline(ingre.gameObject);
                 }
                 // When Carrying food
                 else if (foodSO)
@@ -718,8 +706,15 @@ public class Pointer1 : MonoBehaviour
                 angle = -(timerImage.fillAmount * 360f + 90f) * Mathf.Deg2Rad;
                 var offset1 = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * radius;
                 timerImage2.transform.localPosition = new Vector3(offset1.x, offset1.y, 0f);
+                
+                // Call Button OnClick()
+                //if (selectedButton.transform.parent.gameObject.GetComponent<RadialMenu>())
+                //    Debug.Log("Clicked1");
+                selectedButton.OnPointerClick(eventData);
+                //if (selectedButton.transform.parent.gameObject.GetComponent<RadialMenu>())
+                //    Debug.Log("Clicked2");
 
-                if (!foodListPanel.activeSelf)
+                if (!foodListPanel.activeSelf && !ingredientListPanel.activeSelf && selectedButton.name != "Pause")
                 {
                     // If selecting Cooking Appliance(Frying Pan, Pot 1, Pot 2)
                     if (LevelManager.Instance.cookingAppliances.Any(x => x.gameObject.GetInstanceID() == selectedButton.transform.parent.parent.gameObject.GetInstanceID()))
@@ -731,82 +726,30 @@ public class Pointer1 : MonoBehaviour
 
                         var app = something[0].GetComponent<CookingAppliance>();
 
-                        // When not carrying ingredient
-                        if (!ingredientSO)
+                        // Haven't done cooking food
+                        if (!app.isDone)
                         {
-                            // Haven't done cooking food
-                            if (!app.isDone)
-                            {
-                                // Open up Food list to choose "food to cook"
-                                app.OpenCloseFoodMenu(true);
-                            }
-                            // Done cooking food
-                            else
-                            {
-                                // If previously selected another cooking Appliance
-                                if (cookingAppliance)
-                                {
-                                    DropItem(cookingAppliance);
-                                }
-
-                                // Select food and store it for serving customer
-                                cookingAppliance = app.gameObject;
-                                foodSO = app.TakeFood();
-
-                                // Change Hand Sprite to Food Sprite
-                                background.sprite = foodSO.sprite;
-
-                                // Enable highlight on selected cooking Appliance
-                                var o = cookingAppliance.GetComponentsInChildren<Outline>();
-                                foreach (var oL in o)
-                                {
-                                    oL.selected = true;
-                                    oL.color = 1;
-                                }
-                            }
+                            // Open up Food list to choose "food to cook"
+                            app.OpenCloseFoodMenu(true);
                         }
-                        // When carrying ingredient
+                        // Done cooking food
                         else
                         {
-                            if (!app.isDone)
+                            // If previously selected another cooking Appliance
+                            if (cookingAppliance)
                             {
-                                // Add ingredient into the Cooking Appliance
-                                app.AddIngredient(ingredientSO);
-
-                                DropItem(ingredient);
-                            }
-                        }
-                    }
-                    // If selecting ingredients(Banana Leaves, Tofus, Eggs, Noodle, Spice, Fishes, Prawns)
-                    else if (LevelManager.Instance.ingredients.Any(x => x.gameObject.GetInstanceID() == selectedButton.transform.parent.parent.gameObject.GetInstanceID()))
-                    {
-                        var something = LevelManager.Instance.ingredients.Where(x => x.gameObject.GetInstanceID() == selectedButton.transform.parent.parent.gameObject.GetInstanceID()).ToList();
-
-                        if (something.Count != 1)
-                            return;
-
-                        var ingre = something[0].GetComponent<Ingredient>();
-
-                        // Check if any Cooking Appliance is waiting for ingredient input
-                        if (LevelManager.Instance.cookingAppliances.Any(x => x.selectedFood != null))
-                        {
-                            // There is Cooking Appliance waiting for ingredient input
-
-                            // If previously selected another ingredient
-                            if (ingredient)
-                            {
-                                DropItem(ingredient);
+                                DropItem(cookingAppliance);
                             }
 
-                            // Set ingredient
-                            ingredient = ingre.gameObject;
-                            ingredientSO = ingre.ingredientSO;
+                            // Select food and store it for serving customer
+                            cookingAppliance = app.gameObject;
+                            foodSO = app.TakeFood();
 
-                            // Change Hand Sprite to Ingredient Sprite
-                            background.sprite = ingredientSO.sprite;
+                            // Change Hand Sprite to Food Sprite
+                            background.sprite = foodSO.sprite;
 
-                            // Enable highlight on selected ingredient
-                            var o = ingredient.GetComponentsInChildren<Outline>();
+                            // Enable highlight on selected cooking Appliance
+                            var o = cookingAppliance.GetComponentsInChildren<Outline>();
                             foreach (var oL in o)
                             {
                                 oL.selected = true;
@@ -854,8 +797,6 @@ public class Pointer1 : MonoBehaviour
                         }
                     }
                 }
-                // Call Button OnClick()
-                selectedButton.OnPointerClick(eventData);
             }
 
             #region Press 2D Button (Comment-ed)

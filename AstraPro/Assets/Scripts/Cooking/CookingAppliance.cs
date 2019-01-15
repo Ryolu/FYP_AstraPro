@@ -27,7 +27,7 @@ public class CookingAppliance : MonoBehaviour {
     /// The transform to display the ingredients left to put into this appliance
     /// This panel can be found in the canvas attached to this appliance
     /// </summary>
-    [Tooltip("This panel can be found in the canvas attached to this appliance")]
+    [Tooltip("This panel can be found in the main canvas")]
     [SerializeField] Transform ingredientPanel;
     /// <summary>
     /// The image which displays which food is being cooked
@@ -58,14 +58,14 @@ public class CookingAppliance : MonoBehaviour {
     /// </summary>
     [SerializeField] GameObject doneDisplay;
     /// <summary>
-    /// The prefab for displaying the buttons for the list of foods
+    /// The prefab for displaying the radial menu
     /// </summary>
-    [SerializeField] GameObject foodButtonPrefab;
+    [SerializeField] GameObject radialMenuButtonPrefab;
     /// <summary>
-    /// The prefab for displaying the ingredients left
+    /// The prefab for displaying the ingredients
     /// </summary>
     [SerializeField] GameObject ingredientDisplayPrefab;
-    
+
     bool isCooking;
     [HideInInspector] public bool isDone;
     float timer;
@@ -203,6 +203,8 @@ public class CookingAppliance : MonoBehaviour {
 
     public void ChooseFood(FoodSO foodSO)
     {
+        //Debug.Log("Choosing food");
+
         if (selectedFood)
             return;
 
@@ -262,7 +264,11 @@ public class CookingAppliance : MonoBehaviour {
         foreach (Transform child in ingredientPanel)
             Destroy(child.gameObject);
 
-        ingredientPanel.gameObject.SetActive(openclose);
+        ingredientPanel.transform.parent.gameObject.SetActive(openclose);
+
+        if (openclose)
+            ingredientPanel.parent.gameObject.GetComponentInChildren<RadialMenu>().CallThisInsteadIngredient(7);
+        //ingredientPanel.gameObject.SetActive(openclose);
     }
 
     /// <summary>
@@ -279,16 +285,17 @@ public class CookingAppliance : MonoBehaviour {
 
             foodListPanel.SetActive(openclose);
 
-            foreach (FoodSO foodSO in foodList)
-            {
-                GameObject prefab = Instantiate(foodButtonPrefab, foodButtonPanel);
-                TextMeshProUGUI foodName = prefab.GetComponentInChildren<TextMeshProUGUI>();
-                foodName.text = foodSO.foodName;
-                Image foodImage = prefab.GetComponentInChildren<Image>();
-                foodImage.sprite = foodSO.sprite;
-                Button foodButton = prefab.GetComponentInChildren<Button>();
-                foodButton.onClick.AddListener(() => ChooseFood(foodSO));
-            }
+            foodButtonPanel.GetComponent<RadialMenu>().CallThisInsteadFood(this);
+            //foreach (FoodSO foodSO in foodList)
+            //{
+                //GameObject prefab = Instantiate(radialMenuButtonPrefab, foodButtonPanel);
+                //TextMeshProUGUI foodName = prefab.GetComponentInChildren<TextMeshProUGUI>();
+                //foodName.text = foodSO.foodName;
+                //Image foodImage = prefab.GetComponentInChildren<Image>();
+                //foodImage.sprite = foodSO.sprite;
+                //Button foodButton = prefab.GetComponentInChildren<Button>();
+                //foodButton.onClick.AddListener(() => ChooseFood(foodSO));
+            //}
         }
         else
         {
