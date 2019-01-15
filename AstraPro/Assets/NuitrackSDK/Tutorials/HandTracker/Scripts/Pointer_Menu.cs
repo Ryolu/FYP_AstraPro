@@ -52,6 +52,10 @@ public class Pointer_Menu : MonoBehaviour
     [SerializeField] private float radius = 80f;
     private float angle = 0f;
 
+    public GameObject MainMenuSections;
+    public GameObject PlaySections;
+    public GameObject ExtraSections;
+
     private void Start()
     {
         NuitrackManager.onHandsTrackerUpdate += NuitrackManager_onHandsTrackerUpdate;
@@ -211,32 +215,50 @@ public class Pointer_Menu : MonoBehaviour
                 {
                     Menu_Manager.Instance.Credits();
                 }
+                else if (selectedButton.name == "Play")
+                {
+                    MainMenuSections.SetActive(false);
+                    ExtraSections.SetActive(false);
+                    PlaySections.SetActive(true);
+                }
+                else if (selectedButton.name == "Back_MenuSelect")
+                {
+                    MainMenuSections.SetActive(true);
+                    ExtraSections.SetActive(false);
+                    PlaySections.SetActive(false);
+                }
+                else if (selectedButton.name == "Extra")
+                {
+                    MainMenuSections.SetActive(false);
+                    ExtraSections.SetActive(true);
+                    PlaySections.SetActive(false);
+                }
                 else if (selectedButton.name == "SFX_Check")
                 {
                     //elapsedTime += Time.deltaTime;
                     //if (elapsedTime > endTime)
                     //{
-                        if (selectedButton.GetComponentInParent<Toggle>().isOn == true)
+                    if (selectedButton.GetComponentInParent<Toggle>().isOn == true)
+                    {
+                        selectedButton.GetComponentInParent<Toggle>().isOn = false;
+                        if (TemptSFX == 0.0f)
                         {
-                            selectedButton.GetComponentInParent<Toggle>().isOn = false;
-                            if (TemptSFX == 0.0f)
-                            {
-                                TemptSFX = 0.5f;
-                                Audio_Manager.Instance.SFXMaxAudio(TemptSFX);
-                            }
-                            else
-                                Audio_Manager.Instance.SFXMaxAudio(TemptSFX);
-
-                            elapsedTime = 0;
-                            Debug.Log("Off");
+                            TemptSFX = 0.5f;
+                            Audio_Manager.Instance.SFXMaxAudio(TemptSFX);
                         }
                         else
-                        {
-                            selectedButton.GetComponentInParent<Toggle>().isOn = true;
-                            Audio_Manager.Instance.SFXMinAudio();
-                            elapsedTime = 0;
-                            Debug.Log("On");
-                        }
+                            Audio_Manager.Instance.SFXMaxAudio(TemptSFX);
+
+                        elapsedTime = 0;
+                        Debug.Log("Off");
+                    }
+                    else
+                    {
+                        selectedButton.GetComponentInParent<Toggle>().isOn = true;
+                        Audio_Manager.Instance.SFXMinAudio();
+                        elapsedTime = 0;
+                        Debug.Log("On");
+                    }
                     //}
                     //selectedButton.OnDrag(eventData);
                 }
@@ -245,29 +267,29 @@ public class Pointer_Menu : MonoBehaviour
                     //elapsedTime += Time.deltaTime;
                     //if (elapsedTime > endTime)
                     //{
-                        if (selectedButton.GetComponentInParent<Toggle>().isOn == true)
+                    if (selectedButton.GetComponentInParent<Toggle>().isOn == true)
+                    {
+                        selectedButton.GetComponentInParent<Toggle>().isOn = false;
+                        if (TemptBGM == 0.0f)
                         {
-                            selectedButton.GetComponentInParent<Toggle>().isOn = false;
-                            if (TemptBGM == 0.0f)
-                            {
-                                TemptBGM = 0.5f;
-                                Audio_Manager.Instance.BGMMaxAudio(TemptBGM);
-                            }
-                            else
-                                Audio_Manager.Instance.BGMMaxAudio(TemptBGM);
-
-
-                            elapsedTime = 0;
-                            Debug.Log("Off");
+                            TemptBGM = 0.5f;
+                            Audio_Manager.Instance.BGMMaxAudio(TemptBGM);
                         }
                         else
-                        {
-                            selectedButton.GetComponentInParent<Toggle>().isOn = true;
-                            Audio_Manager.Instance.BGMMinAudio();
-                            elapsedTime = 0;
-                            Debug.Log("On");
-                        }
-                   // }
+                            Audio_Manager.Instance.BGMMaxAudio(TemptBGM);
+
+
+                        elapsedTime = 0;
+                        Debug.Log("Off");
+                    }
+                    else
+                    {
+                        selectedButton.GetComponentInParent<Toggle>().isOn = true;
+                        Audio_Manager.Instance.BGMMinAudio();
+                        elapsedTime = 0;
+                        Debug.Log("On");
+                    }
+                    // }
                 }
                 
             }
