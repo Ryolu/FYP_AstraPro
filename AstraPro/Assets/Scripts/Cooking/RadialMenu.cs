@@ -80,7 +80,7 @@ public class RadialMenu : MonoBehaviour {
         for (int i = 0; i < number; i++)
         {
             float angle = (i * 360 / number + 90) * Mathf.Deg2Rad;
-            float dist = -200;
+            float dist = -75;
 
             Button button = Instantiate(buttonPrefab, gameObject.transform);
             button.transform.Rotate(new Vector3(0, 0, angle * Mathf.Rad2Deg - 90));
