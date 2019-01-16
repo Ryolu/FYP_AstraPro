@@ -30,6 +30,11 @@ public class Customer : MonoBehaviour
 
     private void Start()
     {
+        InitiateData();
+    }
+
+    public void InitiateData()
+    {
         customerSizeX = transform.lossyScale.x * 25f;
         waitTiming = Random.Range((waitTiming / 3), waitTiming);
 
@@ -176,7 +181,7 @@ public class Customer : MonoBehaviour
             }
 
             // Check if still have customer
-            if (newDic.Count == 0)
+            if (Menu_Manager.Tutorial_Mode && newDic.Count == 0)
             {
                 // No more customer
                 Menu_Manager.Instance.OnGameMenu();

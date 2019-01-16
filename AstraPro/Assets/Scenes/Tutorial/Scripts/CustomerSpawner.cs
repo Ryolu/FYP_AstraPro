@@ -18,6 +18,9 @@ public class CustomerSpawner : MonoBehaviour
     [HideInInspector] public Dictionary<int, Customer> customerDic;
     [HideInInspector] public int customerCount = 0;
 
+    private float elapsedTime;
+    private float endTime = 3f;
+
     private void Awake ()
     {
         // Set instance for other Scripts to access
@@ -28,60 +31,74 @@ public class CustomerSpawner : MonoBehaviour
         customerDic = new Dictionary<int, Customer>();
 
         // Spawn 3 customers at start of game
-        for (int i = 0; i < 3; i++)
-        {
-            NewCustomer();
-        }
+        NewCustomer(3);
 	}
 	
     // Create/Pull a new Customer
-    private void NewCustomer()
+    private void NewCustomer(int count)
     {
-        var obj = ObjectPool.Instance.GetPooledObject(customerPrefab);
+        for (int i = 0; i < count; i++)
+        {
+            var obj = ObjectPool.Instance.GetPooledObject(customerPrefab);
 
-        if (!obj) return;
-        
-        obj.transform.position = spawnPoint.position;
-        obj.transform.rotation = Quaternion.Euler(0, 180, 0);
+            if (!obj) return;
 
-        customerCount += 1;
+            obj.transform.position = spawnPoint.position;
+            obj.transform.rotation = Quaternion.Euler(0, 180, 0);
 
-        // Set variables for each new Customer
-        obj.GetComponent<Customer>().customerId = customerCount;
-        obj.GetComponent<Customer>().queuePosition = queuePoint.position;
+            customerCount += 1;
 
-        // Customer Queue Up
-        //customerQueue.Enqueue(obj.GetComponent<Customer>());
-        customerDic.Add(customerCount, obj.GetComponent<Customer>());
+            // Set variables for each new Customer
+            obj.GetComponent<Customer>().customerId = customerCount;
+            obj.GetComponent<Customer>().queuePosition = queuePoint.position;
+            obj.GetComponent<Customer>().InitiateData();
+
+            // Customer Queue Up
+            //customerQueue.Enqueue(obj.GetComponent<Customer>());
+            customerDic.Add(customerCount, obj.GetComponent<Customer>());
+        }
     }
 
-    //private void Update()
-    //{
-    //    //// Customers order food 1 by 1 as they reached counter
-    //    //for (int i = 0; i < customerQueue.Count; i++)
-    //    //{
-    //    //    if (customerQueue.ElementAt(i).reachedTarget)
-    //    //    {
-    //    //        if (!customerQueue.ElementAt(i).orderedFood)
-    //    //        {
-    //    //            customerQueue.ElementAt(i).OrderFood((Customer.FoodOrder)Random.Range(1, 5));
-    //    //            customerQueue.Dequeue();
+    private void Update()
+    {
+        if(!Menu_Manager.Tutorial_Mode)
+        {
+            elapsedTime += Time.deltaTime;
+            if (elapsedTime >= endTime)
+            {
+                elapsedTime = 0f;
+                
+                // Spawn Customer base on how many customers left in the scene
+                NewCustomer(3 - customerCount);
+            }            
+        }
+        #region Order Food 1 by 1 (Comment-ed)
+        //// Customers order food 1 by 1 as they reached counter
+        //for (int i = 0; i < customerQueue.Count; i++)
+        //{
+        //    if (customerQueue.ElementAt(i).reachedTarget)
+        //    {
+        //        if (!customerQueue.ElementAt(i).orderedFood)
+        //        {
+        //            customerQueue.ElementAt(i).OrderFood((Customer.FoodOrder)Random.Range(1, 5));
+        //            customerQueue.Dequeue();
 
-    //    //            //waitingTime += Time.deltaTime;
+        //            //waitingTime += Time.deltaTime;
 
-    //    //            //// Wait for a few seconds(Let Customer "Think" before Ordering food)
-    //    //            //if (waitingTime > orderTiming)
-    //    //            //{
-    //    //            //    customerQueue.ElementAt(i).OrderFood();
-    //    //            //    waitingTime = 0f;
-    //    //            //    customerQueue.Dequeue();
-    //    //            //}
-    //    //            //else
-    //    //            //{
-    //    //            //    break;
-    //    //            //}
-    //    //        }
-    //    //    }
-    //    //}
-    //}
+        //            //// Wait for a few seconds(Let Customer "Think" before Ordering food)
+        //            //if (waitingTime > orderTiming)
+        //            //{
+        //            //    customerQueue.ElementAt(i).OrderFood();
+        //            //    waitingTime = 0f;
+        //            //    customerQueue.Dequeue();
+        //            //}
+        //            //else
+        //            //{
+        //            //    break;
+        //            //}
+        //        }
+        //    }
+        //}
+        #endregion Order Food 1 by 1 (Comment-ed)
+    }
 }
