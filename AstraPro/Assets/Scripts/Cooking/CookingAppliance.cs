@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 using TMPro;
 
 
@@ -60,7 +61,7 @@ public class CookingAppliance : MonoBehaviour {
     /// <summary>
     /// The prefab for displaying the radial menu
     /// </summary>
-    [SerializeField] GameObject radialMenuButtonPrefab;
+    // [SerializeField] GameObject radialMenuButtonPrefab;
     /// <summary>
     /// The prefab for displaying the ingredients
     /// </summary>
@@ -266,7 +267,7 @@ public class CookingAppliance : MonoBehaviour {
 
         ingredientPanel.transform.parent.gameObject.SetActive(openclose);
 
-        if (openclose)
+        if (openclose && ingredientPanel.transform.parent.GetChild(1).childCount == 1)
             ingredientPanel.parent.gameObject.GetComponentInChildren<RadialMenu>().CallThisInsteadIngredient(7);
         //ingredientPanel.gameObject.SetActive(openclose);
     }
@@ -277,7 +278,6 @@ public class CookingAppliance : MonoBehaviour {
     /// <param name="openclose"></param>
     public void OpenCloseFoodMenu(bool openclose)
     {
-
         if (openclose)
         {
             if (selectedFood || foodListPanel.activeInHierarchy)
@@ -299,7 +299,10 @@ public class CookingAppliance : MonoBehaviour {
         }
         else
         {
-            foreach (Transform child in foodButtonPanel)
+            List<Transform> children = foodButtonPanel.GetComponentsInChildren<Transform>().ToList();
+            children.RemoveRange(0, 2);
+
+            foreach (Transform child in children)
                 Destroy(child.gameObject);
             
             foodListPanel.SetActive(openclose);
