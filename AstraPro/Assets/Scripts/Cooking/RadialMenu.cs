@@ -14,7 +14,7 @@ public class RadialMenu : MonoBehaviour {
 
     private void Start()
     {
-        //CallThisInstead(7);
+        CallThisInsteadIngredient(7);
     }
 
     public void CallThisInsteadIngredient(int number)
