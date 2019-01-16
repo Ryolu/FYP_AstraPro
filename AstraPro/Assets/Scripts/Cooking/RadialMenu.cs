@@ -101,8 +101,10 @@ public class RadialMenu : MonoBehaviour {
         }
     }
 
-    void Test(FoodSO food)
+    public void Close()
     {
-        currentFood = food;
+        currentAppliance.NewFood();
+        currentAppliance = null;
+        currentFood = null;
     }
 }
