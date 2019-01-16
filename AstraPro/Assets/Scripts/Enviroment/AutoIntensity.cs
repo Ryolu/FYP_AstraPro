@@ -33,12 +33,17 @@ public class AutoIntensity : MonoBehaviour {
     Skybox sky;
     Material skyMat;
 
+    bool day, night;
+    int dayCount;
+
     void Start()
     {
 
         mainLight = GetComponent<Light>();
         skyMat = RenderSettings.skybox;
-
+        dayCount = 1;
+        night = false;
+        day = true;
     }
 
     void Update()
@@ -47,6 +52,22 @@ public class AutoIntensity : MonoBehaviour {
         float tRange = 1 - minPoint;
         float dot = Mathf.Clamp01((Vector3.Dot(mainLight.transform.forward, Vector3.down) - minPoint) / tRange);
         float i = ((maxIntensity - minIntensity) * dot) + minIntensity;
+
+        //Debug.Log("Dot is " + dot.ToString() + ", Day is " + dayCount.ToString() + ", Day is " + day.ToString() + ", Night is " + night.ToString());
+
+        if (dot == 0 && day == true && night == false)
+        {
+            dayCount++;
+            day = false;
+            night = true;
+
+            Debug.Log("Its a new day my dude. Day: " + dayCount.ToString());
+        }
+        else if (dot > 0.99f && day == false && night == true)
+        {
+            day = true;
+            night = false;
+        }
 
         mainLight.intensity = i;
 
