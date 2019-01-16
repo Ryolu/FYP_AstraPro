@@ -28,6 +28,8 @@ public class AutoIntensity : MonoBehaviour {
 
     float skySpeed = 1;
 
+    float timecount;
+    float timecount_2;
 
     Light mainLight;
     Skybox sky;

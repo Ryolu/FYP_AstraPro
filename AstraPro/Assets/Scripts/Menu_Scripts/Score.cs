@@ -12,9 +12,11 @@ public class Score : MonoBehaviour {
     public Image rateBar;
     public List<Image> Flower = new List<Image>();
     float elapsedTime;
-    float endTime2 = 0.5f;
+    float winGameTimerCount;
+    float endGameTime = 60.0f;
     float endTime = 5.0f;
     bool switching = false;
+    public bool maxStar = false;
 
     private void Awake()
     {
@@ -25,6 +27,7 @@ public class Score : MonoBehaviour {
     void Start () {
         HighScore.Instance.overall = 100.0f;
         switching = true;
+        maxStar = false;
         rate = .40f;
 
         Total_Rate();
@@ -46,15 +49,32 @@ public class Score : MonoBehaviour {
                 elapsedTime = 0;
             }
         }
-        //if (Input.GetKeyDown("space"))
-        //{
-        //    HighScore.Instance.overall += 100;
-        //    rate = 0;
-        //}
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            rate = 1.0f;
+        }
+        if (rate >= 1.0f)
+        {
+            maxStar = true;
+        }
+        else if (rate < 1.0f)
+        {
+            maxStar = false;
+        }
+        if (maxStar == true)
+        {
+            winGameTimerCount += Time.deltaTime;
+            if (winGameTimerCount >= endGameTime)
+            {
+                Menu_Manager.Instance.WinGame();
+            }
+        }
         if (rate <= 0)
         {
             Menu_Manager.Instance.GameOver();
         }
+
+        Debug.Log(winGameTimerCount);
 	}
 
     public void Total_Rate()
