@@ -6,9 +6,9 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
 public class Menu_Manager : MonoBehaviour {
 
-    static public bool Tutorial_Mode = false;
-    public GameObject usingAudio;
     public static Menu_Manager Instance;
+    public GameObject usingAudio;
+    public bool Tutorial_Mode = false;
 
     private void Awake()
     {
@@ -18,6 +18,11 @@ public class Menu_Manager : MonoBehaviour {
             Destroy(gameObject);
 
         DontDestroyOnLoad(this);
+    }
+
+    public void SetTutorial_Mode(bool mode)
+    {
+        Tutorial_Mode = mode;
     }
 
     public void OnGameMenu()

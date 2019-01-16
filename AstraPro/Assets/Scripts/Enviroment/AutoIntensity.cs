@@ -57,20 +57,26 @@ public class AutoIntensity : MonoBehaviour {
 
         //Debug.Log("Dot is " + dot.ToString() + ", Day is " + dayCount.ToString() + ", Day is " + day.ToString() + ", Night is " + night.ToString());
 
-        if (dot == 0 && day == true && night == false)
+        if (Score.Instance != null)
         {
-            dayCount++;
-            day = false;
-            night = true;
+            if (dot == 0 && day == true && night == false && Score.Instance.maxStar == true)
+            {
+                dayCount++;
+                day = false;
+                night = true;
 
-            Debug.Log("Its a new day my dude. Day: " + dayCount.ToString());
+                Debug.Log("Its a new day my dude. Day: " + dayCount.ToString());
+            }
+            else if (dot > 0.99f && day == false && night == true)
+            {
+                day = true;
+                night = false;
+            }
+            if (dayCount >= 3)
+            {
+                Menu_Manager.Instance.WinGame();
+            }
         }
-        else if (dot > 0.99f && day == false && night == true)
-        {
-            day = true;
-            night = false;
-        }
-
         mainLight.intensity = i;
 
         tRange = 1 - minAmbientPoint;

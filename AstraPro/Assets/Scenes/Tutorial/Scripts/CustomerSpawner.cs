@@ -61,7 +61,7 @@ public class CustomerSpawner : MonoBehaviour
 
     private void Update()
     {
-        if(!Menu_Manager.Tutorial_Mode)
+        if(!Menu_Manager.Instance.Tutorial_Mode)
         {
             elapsedTime += Time.deltaTime;
             if (elapsedTime >= endTime)

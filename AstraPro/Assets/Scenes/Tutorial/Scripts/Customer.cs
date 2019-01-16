@@ -28,11 +28,6 @@ public class Customer : MonoBehaviour
     private Gradient yellowRedGradient;
     private float timer = 0f;
 
-    private void Start()
-    {
-        InitiateData();
-    }
-
     public void InitiateData()
     {
         customerSizeX = transform.lossyScale.x * 25f;
@@ -116,9 +111,16 @@ public class Customer : MonoBehaviour
     public void Destroy()
     {
         gameObject.SetActive(false);
-        orderedFood = false;
+
+        timerImage.fillAmount = 1f;
+        movementSpeed = 2.5f;
         reachedTarget = false;
+        orderedFood = false;
         foodOrdered = null;
+        fighting = false;
+        othersFighting = false;
+        player = null;
+        timer = 0f;
     }
 
     // Leave the store
@@ -181,7 +183,7 @@ public class Customer : MonoBehaviour
             }
 
             // Check if still have customer
-            if (Menu_Manager.Tutorial_Mode && newDic.Count == 0)
+            if (Menu_Manager.Instance.Tutorial_Mode && newDic.Count == 0)
             {
                 // No more customer
                 Menu_Manager.Instance.OnGameMenu();
@@ -253,6 +255,7 @@ public class Customer : MonoBehaviour
                     else if (timerImage.fillAmount <= 0f)
                     {
                         fighting = true;
+                        player = Player.Instance.transform;
                     }
                 }
                 #endregion // Waiting State End
@@ -260,6 +263,10 @@ public class Customer : MonoBehaviour
             else
             {
                 #region Fighting State
+
+                // Hide Food Bubble Image
+                if (transform.GetChild(0).gameObject.activeSelf)
+                    transform.GetChild(0).gameObject.SetActive(false);
 
                 timer += Time.deltaTime;
                 if (timer >= fireCD)
@@ -289,6 +296,7 @@ public class Customer : MonoBehaviour
                                 if (c.Value.customerId != customerId)
                                 {
                                     c.Value.Leave(c.Value.customerId);
+                                    c.Value.transform.GetChild(0).gameObject.SetActive(false);
                                     break;
                                 }
                                 else

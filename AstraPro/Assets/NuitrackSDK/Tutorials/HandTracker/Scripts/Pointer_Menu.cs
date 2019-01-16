@@ -181,9 +181,11 @@ public class Pointer_Menu : MonoBehaviour
                 var offset1 = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * radius;
                 timerImage2.transform.localPosition = new Vector3(offset1.x, offset1.y, 0f);
 
+                selectedButton.OnPointerClick(eventData);
+
                 if (selectedButton.name == "Start")
                 {
-                    Menu_Manager.Tutorial_Mode = false;
+                    Menu_Manager.Instance.Tutorial_Mode = false;
                     Menu_Manager.Instance.In_Game();
                 }
                 else if (selectedButton.name == "Return_MainMenu")
@@ -192,7 +194,7 @@ public class Pointer_Menu : MonoBehaviour
                 }
                 else if (selectedButton.name == "Tutorial")
                 {
-                    Menu_Manager.Tutorial_Mode = true;
+                    Menu_Manager.Instance.Tutorial_Mode = true;
                     Menu_Manager.Instance.In_Game();
                 }
                 else if (selectedButton.name == "Options")
@@ -330,7 +332,6 @@ public class Pointer_Menu : MonoBehaviour
                     selectedButton.GetComponentInParent<Slider>().value = -80;
                 }
             }
-            selectedButton.OnPointerClick(eventData);
         }
     }
 }

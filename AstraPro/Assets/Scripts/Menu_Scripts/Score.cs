@@ -61,20 +61,13 @@ public class Score : MonoBehaviour {
         {
             maxStar = false;
         }
-        if (maxStar == true)
-        {
-            winGameTimerCount += Time.deltaTime;
-            if (winGameTimerCount >= endGameTime)
-            {
-                Menu_Manager.Instance.WinGame();
-            }
-        }
+
         if (rate <= 0)
         {
             Menu_Manager.Instance.GameOver();
         }
 
-        Debug.Log(winGameTimerCount);
+        //Debug.Log(winGameTimerCount);
 	}
 
     public void Total_Rate()
