@@ -213,7 +213,8 @@ public class Pointer1 : MonoBehaviour
                 }
             }
 
-            if (PauseManager.Instance != null && !PauseManager.Instance.isPaused && !foodListPanel.activeSelf && !ingredientListPanel.activeSelf && selectedButton.name != "Pause")
+            if (PauseManager.Instance != null && !PauseManager.Instance.isPaused && !foodListPanel.activeSelf && !ingredientListPanel.activeSelf
+                && selectedButton.name != "Pause" && selectedButton.name != "GuideImage")
             {
                 // If selecting Cooking Appliance(Frying Pan, Pot 1, Pot 2)
                 if (LevelManager.Instance.cookingAppliances.Any(x => x.gameObject.GetInstanceID() == selectedButton.transform.parent.parent.gameObject.GetInstanceID()))
@@ -265,8 +266,17 @@ public class Pointer1 : MonoBehaviour
                 //if (selectedButton.transform.parent.gameObject.GetComponent<RadialMenu>())
                 //    Debug.Log("Clicked2");
 
-                if (PauseManager.Instance != null && !PauseManager.Instance.isPaused && !foodListPanel.activeSelf && !ingredientListPanel.activeSelf && selectedButton.name != "Pause")
+                if (PauseManager.Instance != null && !PauseManager.Instance.isPaused && !foodListPanel.activeSelf && !ingredientListPanel.activeSelf
+                    && selectedButton.name != "Pause")
                 {
+                    if (selectedButton.name == "GuideImage")
+                    {
+                        if (!selectedButton.GetComponent<Guide>().finishedIntro || !selectedButton.GetComponent<Guide>().finishedOrder)
+                        {
+                            return;
+                        }
+                    }
+
                     // If selecting Cooking Appliance(Frying Pan, Pot 1, Pot 2)
                     if (LevelManager.Instance.cookingAppliances.Any(x => x.gameObject.GetInstanceID() == selectedButton.transform.parent.parent.gameObject.GetInstanceID()))
                     {
@@ -282,6 +292,11 @@ public class Pointer1 : MonoBehaviour
                         {
                             // Open up Food list to choose "food to cook"
                             app.OpenCloseFoodMenu(true);
+
+                            if (Menu_Manager.Instance.Tutorial_Mode == true)
+                            {
+                                Guide.Instance.gameObject.SetActive(true);
+                            }
                         }
                         // Done cooking food
                         else
@@ -338,6 +353,7 @@ public class Pointer1 : MonoBehaviour
                                     customer.fighting = true;
 
                                     customer.player = cam.transform.parent;
+                                    Guide.Instance.gameObject.SetActive(true);
                                 }
 
                                 // Reset cooking Appliance status

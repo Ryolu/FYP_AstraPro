@@ -258,6 +258,7 @@ public class Customer : MonoBehaviour
                     {
                         fighting = true;
                         player = Player.Instance.transform;
+                        Guide.Instance.gameObject.SetActive(true);
                     }
                 }
                 #endregion // Waiting State End
