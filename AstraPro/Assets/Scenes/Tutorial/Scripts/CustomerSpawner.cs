@@ -63,6 +63,8 @@ public class CustomerSpawner : MonoBehaviour
     {
         if(!Menu_Manager.Instance.Tutorial_Mode)
         {
+            if (PauseManager.Instance != null && PauseManager.Instance.isPaused) return;
+
             elapsedTime += Time.deltaTime;
             if (elapsedTime >= endTime)
             {

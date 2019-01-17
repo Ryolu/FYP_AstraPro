@@ -45,12 +45,14 @@ public class Pointer1 : MonoBehaviour
     [SerializeField] private GameObject pauseButton;
     [SerializeField] private GameObject foodListPanel;
     [SerializeField] private GameObject ingredientListPanel;
-    
+    [SerializeField] private float handTimer = 0.75f;
+    [SerializeField] private float shootingTimer = 0.15f;
+
     private Transform hitTransform;
     private FoodSO foodSO;
     private GameObject cookingAppliance;
-    private float elapsedTime;
-    private float endTime = 0.75f;
+    private float handElapsedTime;
+    private float shootingElapsedTime;
     private Image timerImage;
 
     // Flower
@@ -162,7 +164,7 @@ public class Pointer1 : MonoBehaviour
             if (selectedButton != null)
             {
                 selectedButton.OnPointerExit(eventData);
-                elapsedTime = 0f;
+                handElapsedTime = 0f;
                 timerImage.fillAmount = 0f;
 
                 timerImage2.gameObject.SetActive(false);
@@ -185,10 +187,10 @@ public class Pointer1 : MonoBehaviour
         }
         else if (selectedButton != null)
         {
-            elapsedTime += Time.deltaTime;
+            handElapsedTime += Time.deltaTime;
 
             // Reduce fillAmount of Timer Filler Image(visual feedback) over waitTiming
-            timerImage.fillAmount += (1f / endTime) * Time.deltaTime;
+            timerImage.fillAmount += (1f / handTimer) * Time.deltaTime;
 
             timerImage2.gameObject.SetActive(true);
             angle = -(timerImage.fillAmount * 360f + 90f) * Mathf.Deg2Rad;
@@ -211,7 +213,7 @@ public class Pointer1 : MonoBehaviour
                 }
             }
 
-            if (!foodListPanel.activeSelf && !ingredientListPanel.activeSelf && selectedButton.name != "Pause")
+            if (PauseManager.Instance != null && !PauseManager.Instance.isPaused && !foodListPanel.activeSelf && !ingredientListPanel.activeSelf && selectedButton.name != "Pause")
             {
                 // If selecting Cooking Appliance(Frying Pan, Pot 1, Pot 2)
                 if (LevelManager.Instance.cookingAppliances.Any(x => x.gameObject.GetInstanceID() == selectedButton.transform.parent.parent.gameObject.GetInstanceID()))
@@ -246,9 +248,9 @@ public class Pointer1 : MonoBehaviour
             }
             #endregion Highlight Code
 
-            if (elapsedTime >= endTime)
+            if (handElapsedTime >= handTimer)
             {
-                elapsedTime = 0f;
+                handElapsedTime = 0f;
                 timerImage.fillAmount = 0f;
 
                 timerImage2.gameObject.SetActive(false);
@@ -263,7 +265,7 @@ public class Pointer1 : MonoBehaviour
                 //if (selectedButton.transform.parent.gameObject.GetComponent<RadialMenu>())
                 //    Debug.Log("Clicked2");
 
-                if (!foodListPanel.activeSelf && !ingredientListPanel.activeSelf && selectedButton.name != "Pause")
+                if (PauseManager.Instance != null && !PauseManager.Instance.isPaused && !foodListPanel.activeSelf && !ingredientListPanel.activeSelf && selectedButton.name != "Pause")
                 {
                     // If selecting Cooking Appliance(Frying Pan, Pot 1, Pot 2)
                     if (LevelManager.Instance.cookingAppliances.Any(x => x.gameObject.GetInstanceID() == selectedButton.transform.parent.parent.gameObject.GetInstanceID()))
@@ -363,6 +365,8 @@ public class Pointer1 : MonoBehaviour
 
         if (CustomerSpawner.Instance.customerDic.Any(x => x.Value.fighting == true))
         {
+            if (PauseManager.Instance != null && PauseManager.Instance.isPaused) return;
+
             var something = CustomerSpawner.Instance.customerDic.Where(x => x.Value.fighting == true).ToList();
             
             foreach(var pair in something)
@@ -378,14 +382,21 @@ public class Pointer1 : MonoBehaviour
 
             if (!foodListPanel.activeSelf && !ingredientListPanel.activeSelf && press)
             {
-                // Shoot bullet towards hand icon
-                GameObject Projectile = ObjectPool.Instance.GetPooledObject(ProjectilePrefab);
+                shootingElapsedTime += Time.deltaTime;
 
-                if (!Projectile) return;
+                if (shootingElapsedTime >= shootingTimer)
+                {
+                    shootingElapsedTime = 0f;
 
-                Projectile.transform.position = transform.position;
-                Projectile.transform.rotation = Quaternion.identity;
-                Projectile.GetComponent<Projectile>().dir = (transform.position - cam.transform.position).normalized;
+                    // Shoot bullet towards hand icon
+                    GameObject Projectile = ObjectPool.Instance.GetPooledObject(ProjectilePrefab);
+
+                    if (!Projectile) return;
+
+                    Projectile.transform.position = transform.position;
+                    Projectile.transform.rotation = Quaternion.identity;
+                    Projectile.GetComponent<Projectile>().dir = (transform.position - cam.transform.position).normalized;
+                }
             }
         }
     }

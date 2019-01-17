@@ -23,6 +23,8 @@ public class Projectile : MonoBehaviour
     // Travel according to the Dir(Direction) stated when spawn
     private void Update()
     {
+        if (PauseManager.Instance != null && PauseManager.Instance.isPaused) return;
+
         transform.position += dir * 5 * Time.deltaTime;
     }
 }

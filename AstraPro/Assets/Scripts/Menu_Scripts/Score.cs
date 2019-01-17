@@ -36,7 +36,10 @@ public class Score : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
+        if (PauseManager.Instance != null && PauseManager.Instance.isPaused) return;
+
         if (switching)
         {
             elapsedTime += Time.deltaTime;

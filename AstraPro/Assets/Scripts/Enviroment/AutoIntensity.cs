@@ -50,6 +50,7 @@ public class AutoIntensity : MonoBehaviour {
 
     void Update()
     {
+        if (PauseManager.Instance != null && PauseManager.Instance.isPaused) return;
 
         float tRange = 1 - minPoint;
         float dot = Mathf.Clamp01((Vector3.Dot(mainLight.transform.forward, Vector3.down) - minPoint) / tRange);

@@ -21,7 +21,10 @@ public class SetSunLight : MonoBehaviour {
     bool lighton = false;
 
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
+        if (PauseManager.Instance != null && PauseManager.Instance.isPaused) return;
+
         stars.transform.rotation = transform.rotation;
 
         if (Input.GetKeyDown(KeyCode.T))

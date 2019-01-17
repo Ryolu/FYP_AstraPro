@@ -198,6 +198,8 @@ public class Customer : MonoBehaviour
 
     private void Update ()
     {
+        if (PauseManager.Instance != null && PauseManager.Instance.isPaused) return;
+
         if (!othersFighting)
         {
             if (!fighting)

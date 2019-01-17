@@ -29,7 +29,10 @@ public class Crowd_Spawner : MonoBehaviour {
     }
 
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
+        if (PauseManager.Instance != null && PauseManager.Instance.isPaused) return;
+
         ElapseTime += Time.deltaTime;
         if (ElapseTime > EndTime)
         {

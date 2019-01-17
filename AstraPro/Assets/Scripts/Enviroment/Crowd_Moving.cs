@@ -17,7 +17,8 @@ public class Crowd_Moving : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
-        
-       transform.Translate(Vector3.forward * movingSpeed * Time.deltaTime);
+        if (PauseManager.Instance != null && PauseManager.Instance.isPaused) return;
+
+        transform.Translate(Vector3.forward * movingSpeed * Time.deltaTime);
 	}
 }
