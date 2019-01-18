@@ -340,20 +340,28 @@ public class Pointer1 : MonoBehaviour
                             {
                                 if (foodSO == customer.foodOrdered)
                                 {
+                                    customer.SetAnim(customer.idle, false);
+                                    customer.SetAnim(customer.happy, true);
                                     // Served correct food, Add Score
                                     Score.Instance.Profit(customer.foodOrdered, customer.timerImage.fillAmount);
 
                                     // Customer leaves
-                                    customer.Leave(customer.customerId);
+                                    customer.Leave();
                                 }
                                 else
                                 {
+                                    customer.SetAnim(customer.idle, false);
+                                    customer.SetAnim(customer.angry, true);
                                     // Served wrong food, Decrease Rate
                                     Score.Instance.rate -= 0.1f;
                                     customer.fighting = true;
 
                                     customer.player = cam.transform.parent;
-                                    Guide.Instance.gameObject.SetActive(true);
+
+                                    if (Guide.Instance != null)
+                                    {
+                                        Guide.Instance.gameObject.SetActive(true);
+                                    }
                                 }
 
                                 // Reset cooking Appliance status

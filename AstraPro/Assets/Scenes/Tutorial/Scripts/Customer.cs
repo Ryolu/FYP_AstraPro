@@ -19,22 +19,47 @@ public class Customer : MonoBehaviour
     [HideInInspector] public FoodSO foodOrdered;
     [HideInInspector] public bool fighting = false;
     [HideInInspector] public bool othersFighting = false;
+    [HideInInspector] public bool leaving = false;
     [HideInInspector] public Transform player;
 
     private Vector3 dir;
     private Vector3 targetPosition;
     private float customerSizeX;
+    private float customerSizeZ;
     private Gradient greenYellowGradient;
     private Gradient yellowRedGradient;
     private float timer = 0f;
+    private Animator anim;
+    [HideInInspector] public string idle = "IsIdle";
+    [HideInInspector] public string walking = "IsWalking";
+    [HideInInspector] public string happy = "IsHappy";
+    [HideInInspector] public string angry = "IsAngry";
+    [HideInInspector] public string scared = "IsScared";
+    [HideInInspector] public string throwing = "IsThrowingStuff";
 
     public void InitiateData()
     {
-        customerSizeX = transform.lossyScale.x * 25f;
+        customerSizeX = transform.lossyScale.x * 0.275f;
+        customerSizeZ = transform.lossyScale.z * 0.275f;
         waitTiming = Random.Range((waitTiming / 3), waitTiming);
+        anim = GetComponent<Animator>();
+        SetAnim(idle, false);
+        SetAnim(walking, true);
 
         CalculateDir();
         InitiateColor();
+    }
+
+    private string GetAnim()
+    {
+        var state = "";
+        
+        return "";
+    }
+
+    public void SetAnim(string state, bool status)
+    {
+        anim.SetBool(state, status);
     }
 
     // Initiate Gradients, which is used to change color based on fillAmount of timerImage
@@ -119,12 +144,25 @@ public class Customer : MonoBehaviour
         foodOrdered = null;
         fighting = false;
         othersFighting = false;
+        leaving = false;
         player = null;
         timer = 0f;
     }
 
     // Leave the store
-    public void Leave(int customerId)
+    public void Leave()
+    {
+        //targetPosition = new Vector3(targetPosition.x + customerSizeZ, targetPosition.y, targetPosition.z);
+        transform.GetChild(0).gameObject.SetActive(false);
+        fighting = false;
+        othersFighting = false;
+        targetPosition = CustomerSpawner.Instance.spawnPoint.position;
+        dir = (targetPosition - transform.position).normalized;
+        reachedTarget = false;
+        leaving = true;
+    }
+
+    public void RemoveCustomer(int customerId)
     {
         // Remove Customer with stated customerId
         CustomerSpawner.Instance.customerCount -= 1;
@@ -196,9 +234,19 @@ public class Customer : MonoBehaviour
         }
     }
 
-    private void Update ()
+    private void Update()
     {
         if (PauseManager.Instance != null && PauseManager.Instance.isPaused) return;
+
+        if(Input.GetKeyDown(KeyCode.L))
+        {
+            if(customerId == 1)
+            {
+                SetAnim(idle, false);
+                SetAnim(happy, true);
+                Leave();
+            }
+        }
 
         if (!othersFighting)
         {
@@ -208,6 +256,9 @@ public class Customer : MonoBehaviour
                 // Move towards the Target position
                 if (Vector3.Distance(transform.position, targetPosition) >= 0.1f)
                 {
+                    SetAnim(idle, false);
+                    SetAnim(walking, true);
+
                     // Rotate to face Wall
                     if (orderedFood && Vector3.Angle(transform.forward, new Vector3(1, 0, 0)) != 90f)
                     {
@@ -229,6 +280,9 @@ public class Customer : MonoBehaviour
 
                         if (Vector3.Angle(transform.forward, new Vector3(1, 0, 0)) == 180f)
                         {
+                            SetAnim(walking, false);
+                            SetAnim(idle, true);
+
                             if (!orderedFood)
                             {
                                 OrderFood(foodOrder[Random.Range(0, foodOrder.Length)]);
@@ -258,7 +312,14 @@ public class Customer : MonoBehaviour
                     {
                         fighting = true;
                         player = Player.Instance.transform;
-                        Guide.Instance.gameObject.SetActive(true);
+
+                        if (Guide.Instance != null)
+                        {
+                            Guide.Instance.gameObject.SetActive(true);
+                        }
+
+                        SetAnim(idle, false);
+                        SetAnim(angry, true);
                     }
                 }
                 #endregion // Waiting State End
@@ -290,31 +351,52 @@ public class Customer : MonoBehaviour
                         Projectile.transform.rotation = Quaternion.identity;
                         Projectile.GetComponent<Projectile>().dir = (randPos - Projectile.transform.position).normalized;
 
-                        // Other customers got scared off
-                        while (CustomerSpawner.Instance.customerCount > 1)
+                        foreach(var pair in CustomerSpawner.Instance.customerDic)
                         {
-                            // Hit angry customer then all customer got scared off
-                            foreach (var c in CustomerSpawner.Instance.customerDic)
+                            if (pair.Value.customerId != customerId)
                             {
-                                if (c.Value.customerId != customerId)
-                                {
-                                    c.Value.Leave(c.Value.customerId);
-                                    c.Value.transform.GetChild(0).gameObject.SetActive(false);
-                                    break;
-                                }
-                                else
-                                {
-                                    continue;
-                                }
+                                pair.Value.othersFighting = true;
                             }
                         }
                     }
-
                     timer = 0f;
                 }
-
                 #endregion // Fighting State End
             }
+        }
+        else
+        {
+            SetAnim(idle, false);
+            SetAnim(angry, false);
+            SetAnim(scared, true);
+            Leave();
+        }
+
+        if(leaving)
+        {
+            #region Leaving State
+
+            Debug.Log(Vector3.Angle(transform.forward, new Vector3(1, 0, 0)));
+
+            if(Vector3.Distance(transform.position, targetPosition) >= 0.1f)
+            {
+                if (Vector3.Angle(transform.forward, new Vector3(0, 0, 1)) != 0f)
+                {
+                    //transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(transform.rotation.x, -180f, transform.rotation.z), rotateSpeed * Time.deltaTime);
+                    transform.rotation = Quaternion.FromToRotation(transform.forward, Vector3.Lerp(transform.forward, new Vector3(0, 0, 1), 0.01f));
+                }
+                else
+                {
+                    transform.position += dir * 0.1f * movementSpeed * Time.deltaTime;
+                }
+            }
+            else
+            {
+                reachedTarget = true;
+                RemoveCustomer(customerId);
+            }
+
+            #endregion Leaving State
         }
     }
 
@@ -324,7 +406,9 @@ public class Customer : MonoBehaviour
         {
             if (fighting)
             {
-                Leave(customerId);
+                SetAnim(throwing, false);
+                SetAnim(scared, true);
+                Leave();
                 other.transform.GetComponent<Projectile>().Destroy();
             }
         }

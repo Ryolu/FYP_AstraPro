@@ -135,7 +135,7 @@ public class Guide : MonoBehaviour
         }
         else if (finishedCookNServe)
         {
-            if (CustomerSpawner.Instance.customerDic.Any(x => x.Value.fighting == true || x.Value.othersFighting == true))
+            if (CustomerSpawner.Instance.customerDic.Any(x => x.Value.fighting == true))
             {
                 if (index > 17 && index <= images.Count)
                 {

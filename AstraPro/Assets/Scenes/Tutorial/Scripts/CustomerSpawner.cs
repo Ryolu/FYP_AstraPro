@@ -5,9 +5,10 @@ public class CustomerSpawner : MonoBehaviour
 {
     public static CustomerSpawner Instance;
 
+    [Tooltip("Spawn Point of Customer")] public Transform spawnPoint;
+
     [Tooltip("Queue Point of Customer")] [SerializeField] private Transform queuePoint;
-    [Tooltip("Spawn Point of Customer")] [SerializeField] private Transform spawnPoint;
-    [Tooltip("Prefab of Customer")] [SerializeField] private GameObject customerPrefab;
+    [Tooltip("Prefab of Customer")] [SerializeField] private GameObject caucasianPrefab;
     //[Tooltip("Time to wait before customer ordering food.")] [SerializeField] private float orderTiming = 0f;
 
     // For Ordering food 1 by 1
@@ -39,12 +40,13 @@ public class CustomerSpawner : MonoBehaviour
     {
         for (int i = 0; i < count; i++)
         {
-            var obj = ObjectPool.Instance.GetPooledObject(customerPrefab);
+            var obj = ObjectPool.Instance.GetPooledObject(caucasianPrefab);
 
             if (!obj) return;
 
             obj.transform.position = spawnPoint.position;
             obj.transform.rotation = Quaternion.Euler(0, 180, 0);
+            //obj.transform.rotation = Quaternion.LookRotation(new Vector3(0, 0, -1), Vector3.up);
 
             customerCount += 1;
 
