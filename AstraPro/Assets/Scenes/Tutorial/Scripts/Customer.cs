@@ -4,6 +4,14 @@ using System.Collections.Generic;
 
 public class Customer : MonoBehaviour
 {
+    enum LeavingStates
+    {
+        phase1,
+        phase2
+    }
+
+   LeavingStates leavingState;
+
     [Tooltip("Timer Filler Image")] public Image timerImage;
     [Tooltip("Movement Speed of Customer")] [SerializeField] private float movementSpeed = 2.5f;
     [Tooltip("Rotate Speed of Customer")] [SerializeField] private float rotateSpeed = 80f;
@@ -37,6 +45,8 @@ public class Customer : MonoBehaviour
     [HideInInspector] public string scared = "IsScared";
     [HideInInspector] public string throwing = "IsThrowingStuff";
 
+    public object LeavingState { get; private set; }
+
     public void InitiateData()
     {
         customerSizeX = transform.lossyScale.x * 0.275f;
@@ -45,6 +55,7 @@ public class Customer : MonoBehaviour
         anim = GetComponent<Animator>();
         SetAnim(idle, false);
         SetAnim(walking, true);
+        leavingState = LeavingStates.phase1;
 
         CalculateDir();
         InitiateColor();
@@ -156,10 +167,12 @@ public class Customer : MonoBehaviour
         transform.GetChild(0).gameObject.SetActive(false);
         fighting = false;
         othersFighting = false;
-        targetPosition = CustomerSpawner.Instance.spawnPoint.position;
+        targetPosition = CustomerSpawner.Instance.spawnPoint.position + new Vector3(customerSizeX * 0.75f, 0, customerSizeZ);
         dir = (targetPosition - transform.position).normalized;
         reachedTarget = false;
         leaving = true;
+
+        leavingState = LeavingStates.phase1;
     }
 
     public void RemoveCustomer(int customerId)
@@ -376,19 +389,44 @@ public class Customer : MonoBehaviour
         {
             #region Leaving State
 
-            Debug.Log(Vector3.Angle(transform.forward, new Vector3(1, 0, 0)));
+            //Debug.Log(Vector3.Angle(transform.forward, new Vector3(1, 0, 0)));
 
             if(Vector3.Distance(transform.position, targetPosition) >= 0.1f)
             {
-                if (Vector3.Angle(transform.forward, new Vector3(0, 0, 1)) != 0f)
+                //Debug.Log(Vector3.Angle(transform.forward, targetPosition - transform.forward));
+                Debug.Log(leavingState);
+                //Debug.Log(targetPosition);
+                switch (leavingState)
                 {
-                    //transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(transform.rotation.x, -180f, transform.rotation.z), rotateSpeed * Time.deltaTime);
-                    transform.rotation = Quaternion.FromToRotation(transform.forward, Vector3.Lerp(transform.forward, new Vector3(0, 0, 1), 0.01f));
+                    case LeavingStates.phase1:
+                        if (Vector3.Angle(transform.forward, new Vector3(1, 0, 0)) > 2.0f)
+                            //transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(new Vector3(1, 0, 0)), 0.01f);
+                            //transform.rotation = Quaternion.FromToRotation(transform.forward, Vector3.Lerp(transform.forward, new Vector3(0, 0, 1), 0.1f));
+                            //transform.rotation *= Quaternion.Euler(new Vector3(0, 180 * Time.deltaTime, 0));
+                            transform.forward = Vector3.RotateTowards(transform.forward, new Vector3(1, 0, 0), 0.05f, 0.0f);
+                        else
+                            leavingState = LeavingStates.phase2;
+                        break;
+                    case LeavingStates.phase2:
+                        if (Vector3.Angle(transform.forward, targetPosition - transform.position) != 0f)
+                        {
+                            Vector3 temp = targetPosition - transform.position;
+                            //transform.rotation = Quaternion.FromToRotation(transform.forward, Vector3.Lerp(transform.forward, new Vector3(1, 0, 0), 0.1f));
+                            transform.forward = Vector3.RotateTowards(transform.forward, new Vector3(temp.x, 0, temp.z), 0.075f, 0.0f);
+                            transform.position += transform.forward * Time.deltaTime * 2f;
+                        }
+                        break;
                 }
-                else
-                {
-                    transform.position += dir * 0.1f * movementSpeed * Time.deltaTime;
-                }
+                //if (Vector3.Angle(transform.forward, new Vector3(0, 0, 1)) != 0f)
+                //{
+                //    //transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(transform.rotation.x, -180f, transform.rotation.z), rotateSpeed * Time.deltaTime);
+                //    transform.rotation = Quaternion.FromToRotation(transform.forward, Vector3.Lerp(transform.forward, new Vector3(0, 0, 1), 0.01f));
+                //    transform.position += transform.forward * Time.deltaTime;
+                //}
+                //else
+                //{
+                //    transform.position += dir * 0.1f * movementSpeed * Time.deltaTime;
+                //}
             }
             else
             {
