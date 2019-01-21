@@ -37,6 +37,7 @@ public class Customer : MonoBehaviour
     private Gradient greenYellowGradient;
     private Gradient yellowRedGradient;
     private float timer = 0f;
+    private GameObject clockHand;
     private Animator anim;
     [HideInInspector] public string idle = "IsIdle";
     [HideInInspector] public string walking = "IsWalking";
@@ -60,14 +61,7 @@ public class Customer : MonoBehaviour
         CalculateDir();
         InitiateColor();
     }
-
-    private string GetAnim()
-    {
-        var state = "";
-        
-        return "";
-    }
-
+    
     public void SetAnim(string state, bool status)
     {
         anim.SetBool(state, status);
@@ -135,12 +129,20 @@ public class Customer : MonoBehaviour
         // Show Food Bubble Image
         GameObject canvas = transform.GetChild(0).gameObject;
         canvas.SetActive(true);
-        canvas.transform.GetChild(1).GetComponent<Image>().sprite = food.sprite;
-        canvas.transform.GetChild(1).GetComponent<Image>().preserveAspect = true;
+        clockHand = canvas.transform.GetChild(2).gameObject;
+        canvas.transform.GetChild(3).GetComponent<Image>().sprite = food.sprite;
+        canvas.transform.GetChild(3).GetComponent<Image>().preserveAspect = true;
 
         // Set Ordered Food
         foodOrdered = food;
         orderedFood = true;
+    }
+
+    // Turn clock hand image in Food Order canvas based on timer fill amount
+    private void TurnClockHand(float percentage)
+    {
+        var angle = percentage * 360f;
+        clockHand.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, angle));
     }
 
     // Set customer gameobject to inactive to simulate GameObject.Destory()
@@ -158,6 +160,7 @@ public class Customer : MonoBehaviour
         leaving = false;
         player = null;
         timer = 0f;
+        clockHand = null;
     }
 
     // Leave the store
@@ -165,11 +168,11 @@ public class Customer : MonoBehaviour
     {
         //targetPosition = new Vector3(targetPosition.x + customerSizeZ, targetPosition.y, targetPosition.z);
         transform.GetChild(0).gameObject.SetActive(false);
-        fighting = false;
-        othersFighting = false;
+        //fighting = false;
+        //othersFighting = false;
         targetPosition = CustomerSpawner.Instance.spawnPoint.position + new Vector3(customerSizeX * 0.75f, 0, customerSizeZ);
         dir = (targetPosition - transform.position).normalized;
-        reachedTarget = false;
+        //reachedTarget = false;
         leaving = true;
 
         leavingState = LeavingStates.phase1;
@@ -251,6 +254,7 @@ public class Customer : MonoBehaviour
     {
         if (PauseManager.Instance != null && PauseManager.Instance.isPaused) return;
 
+        // Debug Key => 1st customer leaves
         if(Input.GetKeyDown(KeyCode.L))
         {
             if(customerId == 1)
@@ -260,8 +264,18 @@ public class Customer : MonoBehaviour
                 Leave();
             }
         }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            if (customerId == 1)
+            {
+                SetAnim(idle, false);
+                SetAnim(scared, true);
+                Leave();
+            }
+        }
 
-        if (!othersFighting)
+
+        if (!leaving)
         {
             if (!fighting)
             {
@@ -303,13 +317,14 @@ public class Customer : MonoBehaviour
                         }
                     }
                 }
-                #endregion // Move & Order State End
+                #endregion Move & Order State
 
                 #region Waiting State
                 if (orderedFood)
                 {
                     // Reduce fillAmount of Timer Filler Image(visual feedback) over waitTiming
                     timerImage.fillAmount -= (1f / waitTiming) * Time.deltaTime;
+                    TurnClockHand(timerImage.fillAmount);
 
                     // Left more than half the time -> Image turning from green to yellow
                     if (timerImage.fillAmount >= 0.5f)
@@ -335,7 +350,7 @@ public class Customer : MonoBehaviour
                         SetAnim(angry, true);
                     }
                 }
-                #endregion // Waiting State End
+                #endregion Waiting State
             }
             else
             {
@@ -364,49 +379,54 @@ public class Customer : MonoBehaviour
                         Projectile.transform.rotation = Quaternion.identity;
                         Projectile.GetComponent<Projectile>().dir = (randPos - Projectile.transform.position).normalized;
 
-                        foreach(var pair in CustomerSpawner.Instance.customerDic)
+                        foreach (var pair in CustomerSpawner.Instance.customerDic)
                         {
                             if (pair.Value.customerId != customerId)
                             {
-                                pair.Value.othersFighting = true;
+                                if (!pair.Value.othersFighting)
+                                {
+                                    pair.Value.othersFighting = true;
+                                }
+                                else
+                                {
+                                    pair.Value.SetAnim(idle, false);
+                                    pair.Value.SetAnim(angry, false);
+                                    pair.Value.SetAnim(scared, true);
+                                    pair.Value.Leave();
+                                }
                             }
                         }
                     }
                     timer = 0f;
                 }
-                #endregion // Fighting State End
+                #endregion Fighting State
             }
         }
         else
         {
-            SetAnim(idle, false);
-            SetAnim(angry, false);
-            SetAnim(scared, true);
-            Leave();
-        }
-
-        if(leaving)
-        {
             #region Leaving State
 
-            //Debug.Log(Vector3.Angle(transform.forward, new Vector3(1, 0, 0)));
-
-            if(Vector3.Distance(transform.position, targetPosition) >= 0.1f)
+            if (Vector3.Distance(transform.position, targetPosition) >= 0.1f)
             {
                 //Debug.Log(Vector3.Angle(transform.forward, targetPosition - transform.forward));
-                Debug.Log(leavingState);
+                //Debug.Log(leavingState);
                 //Debug.Log(targetPosition);
                 switch (leavingState)
                 {
                     case LeavingStates.phase1:
                         if (Vector3.Angle(transform.forward, new Vector3(1, 0, 0)) > 2.0f)
+                        {
                             //transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(new Vector3(1, 0, 0)), 0.01f);
                             //transform.rotation = Quaternion.FromToRotation(transform.forward, Vector3.Lerp(transform.forward, new Vector3(0, 0, 1), 0.1f));
                             //transform.rotation *= Quaternion.Euler(new Vector3(0, 180 * Time.deltaTime, 0));
                             transform.forward = Vector3.RotateTowards(transform.forward, new Vector3(1, 0, 0), 0.05f, 0.0f);
+                        }
                         else
+                        {
                             leavingState = LeavingStates.phase2;
+                        }
                         break;
+
                     case LeavingStates.phase2:
                         if (Vector3.Angle(transform.forward, targetPosition - transform.position) != 0f)
                         {
@@ -430,7 +450,7 @@ public class Customer : MonoBehaviour
             }
             else
             {
-                reachedTarget = true;
+                //reachedTarget = true;
                 RemoveCustomer(customerId);
             }
 

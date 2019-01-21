@@ -21,4 +21,15 @@ public class PauseManager : MonoBehaviour
         isPaused = false;
         //Time.timeScale = 1f;
     }
+
+    public void Replay()
+    {
+        Menu_Manager.Instance.In_Game();
+    }
+
+    public void ExitGame()
+    {
+        Menu_Manager.Instance.OnGameMenu();
+    }
+    
 }
