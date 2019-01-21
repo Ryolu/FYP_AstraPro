@@ -7,7 +7,8 @@ public class Customer : MonoBehaviour
     enum LeavingStates
     {
         phase1,
-        phase2
+        phase2,
+        phase3
     }
 
    LeavingStates leavingState;
@@ -389,10 +390,13 @@ public class Customer : MonoBehaviour
                                 }
                                 else
                                 {
-                                    pair.Value.SetAnim(idle, false);
-                                    pair.Value.SetAnim(angry, false);
-                                    pair.Value.SetAnim(scared, true);
-                                    pair.Value.Leave();
+                                    if (!pair.Value.leaving)
+                                    {
+                                        pair.Value.SetAnim(idle, false);
+                                        pair.Value.SetAnim(angry, false);
+                                        pair.Value.SetAnim(scared, true);
+                                        pair.Value.Leave();
+                                    }
                                 }
                             }
                         }
@@ -435,6 +439,14 @@ public class Customer : MonoBehaviour
                             transform.forward = Vector3.RotateTowards(transform.forward, new Vector3(temp.x, 0, temp.z), 0.075f, 0.0f);
                             transform.position += transform.forward * Time.deltaTime * 2f;
                         }
+                        else
+                        {
+                            leavingState = LeavingStates.phase3;
+                        }
+                        break;
+
+                    case LeavingStates.phase3:
+                            transform.position += transform.forward * Time.deltaTime * 2f;
                         break;
                 }
                 //if (Vector3.Angle(transform.forward, new Vector3(0, 0, 1)) != 0f)
@@ -450,7 +462,6 @@ public class Customer : MonoBehaviour
             }
             else
             {
-                //reachedTarget = true;
                 RemoveCustomer(customerId);
             }
 
