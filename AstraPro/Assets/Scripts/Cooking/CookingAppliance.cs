@@ -59,10 +59,6 @@ public class CookingAppliance : MonoBehaviour {
     /// </summary>
     [SerializeField] GameObject doneDisplay;
     /// <summary>
-    /// The prefab for displaying the radial menu
-    /// </summary>
-    // [SerializeField] GameObject radialMenuButtonPrefab;
-    /// <summary>
     /// The prefab for displaying the ingredients
     /// </summary>
     [SerializeField] GameObject ingredientDisplayPrefab;
@@ -87,7 +83,7 @@ public class CookingAppliance : MonoBehaviour {
             if (timer > 0)
             {
                 timer -= Time.deltaTime;
-                float speed = foodTimerFront.rectTransform.rect.width / selectedFood.timer;
+                float speed = 3.5f / selectedFood.timer;
                 float step = speed * Time.deltaTime;
                 foodTimerFront.rectTransform.localPosition = Vector3.MoveTowards(foodTimerFront.rectTransform.localPosition, Vector3.zero, step);
                 foodTimerText.text = Mathf.CeilToInt(timer).ToString() + "s";
@@ -253,7 +249,7 @@ public class CookingAppliance : MonoBehaviour {
         OpenCloseIngredients(false);
         OpenCloseTimer(true);
 
-        ResizeCanvas(5.2f, 1.2f);
+        ResizeCanvas(5.5f, 1.2f);
     }
 
     /// <summary>
@@ -320,7 +316,7 @@ public class CookingAppliance : MonoBehaviour {
             cleanTimer = selectedFood.cleanTimer;
             foodDisplay.sprite = selectedFood.sprite;
             foodDisplay.preserveAspect = true;
-            foodTimerFront.rectTransform.localPosition = new Vector3(-4, 0);
+            foodTimerFront.rectTransform.localPosition = new Vector3(-3.5f, 0);
             foodTimerText.text = Mathf.CeilToInt(timer).ToString();
         }
     }
