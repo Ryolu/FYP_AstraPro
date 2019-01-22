@@ -1,0 +1,272 @@
+fileFormatVersion: 2
+guid: 53b4d5cc365d4dd46a73841706843876
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Chest
+    100004: group
+    100006: group1
+    100008: group2
+    100010: Head_01
+    100012: Head_02
+    100014: ikHandle1
+    100016: ikHandle3
+    100018: ikHandle4
+    100020: ikHandle5
+    100022: ikHandle6
+    100024: ikHandle7
+    100026: L_Ankle
+    100028: L_Elbow
+    100030: L_Elbow_Ctrl
+    100032: L_Foot
+    100034: L_Foot 1
+    100036: L_Knee
+    100038: L_Knee_Ctrl
+    100040: L_Palm
+    100042: L_Shoulder
+    100044: L_Thigh
+    100046: L_Toe
+    100048: L_Wrist
+    100050: L_Wrist_Ctrl
+    100052: Main_Ctrl
+    100054: Neck
+    100056: Neck_Ctrl
+    100058: pasted__Main_Ctrl
+    100060: pasted__Main_Ctrl 1
+    100062: pasted__pCube11
+    100064: pasted__Pelvis_Ctrl
+    100066: pasted__Pelvis_Ctrl 1
+    100068: pasted__Spine01_Ctrl
+    100070: pasted__Spine01_Ctrl 1
+    100072: pasted__Spine02_Ctrl
+    100074: pasted__Spine02_Ctrl 1
+    100076: Pelvis
+    100078: Pelvis_Ctrl
+    100080: polySurface10
+    100082: polySurface10 1
+    100084: polySurface11
+    100086: polySurface12
+    100088: polySurface12 1
+    100090: polySurface13
+    100092: polySurface14
+    100094: polySurface15
+    100096: polySurface5
+    100098: polySurface6
+    100100: polySurface7
+    100102: polySurface8
+    100104: polySurface8 1
+    100106: polySurface9
+    100108: pPlane3
+    100110: pPlane4
+    100112: R_Ankle
+    100114: R_Elbow
+    100116: R_Elbow_Ctrl
+    100118: R_Foot
+    100120: R_Foot 1
+    100122: R_Knee
+    100124: R_Knee_Ctrl
+    100126: R_Palm
+    100128: R_Shoulder
+    100130: R_Thigh
+    100132: R_Toe
+    100134: R_Wrist
+    100136: R_Wrist_Ctrl
+    100138: Spine01_Ctrl
+    100140: Spine02_Ctrl
+    100142: transform1
+    100144: transform10
+    100146: transform11
+    100148: transform12
+    100150: transform13
+    100152: transform14
+    100154: transform3
+    100156: transform4
+    100158: transform5
+    100160: transform6
+    100162: transform7
+    100164: transform8
+    100166: transform9
+    100168: Waist
+    400000: //RootNode
+    400002: Chest
+    400004: group
+    400006: group1
+    400008: group2
+    400010: Head_01
+    400012: Head_02
+    400014: ikHandle1
+    400016: ikHandle3
+    400018: ikHandle4
+    400020: ikHandle5
+    400022: ikHandle6
+    400024: ikHandle7
+    400026: L_Ankle
+    400028: L_Elbow
+    400030: L_Elbow_Ctrl
+    400032: L_Foot
+    400034: L_Foot 1
+    400036: L_Knee
+    400038: L_Knee_Ctrl
+    400040: L_Palm
+    400042: L_Shoulder
+    400044: L_Thigh
+    400046: L_Toe
+    400048: L_Wrist
+    400050: L_Wrist_Ctrl
+    400052: Main_Ctrl
+    400054: Neck
+    400056: Neck_Ctrl
+    400058: pasted__Main_Ctrl
+    400060: pasted__Main_Ctrl 1
+    400062: pasted__pCube11
+    400064: pasted__Pelvis_Ctrl
+    400066: pasted__Pelvis_Ctrl 1
+    400068: pasted__Spine01_Ctrl
+    400070: pasted__Spine01_Ctrl 1
+    400072: pasted__Spine02_Ctrl
+    400074: pasted__Spine02_Ctrl 1
+    400076: Pelvis
+    400078: Pelvis_Ctrl
+    400080: polySurface10
+    400082: polySurface10 1
+    400084: polySurface11
+    400086: polySurface12
+    400088: polySurface12 1
+    400090: polySurface13
+    400092: polySurface14
+    400094: polySurface15
+    400096: polySurface5
+    400098: polySurface6
+    400100: polySurface7
+    400102: polySurface8
+    400104: polySurface8 1
+    400106: polySurface9
+    400108: pPlane3
+    400110: pPlane4
+    400112: R_Ankle
+    400114: R_Elbow
+    400116: R_Elbow_Ctrl
+    400118: R_Foot
+    400120: R_Foot 1
+    400122: R_Knee
+    400124: R_Knee_Ctrl
+    400126: R_Palm
+    400128: R_Shoulder
+    400130: R_Thigh
+    400132: R_Toe
+    400134: R_Wrist
+    400136: R_Wrist_Ctrl
+    400138: Spine01_Ctrl
+    400140: Spine02_Ctrl
+    400142: transform1
+    400144: transform10
+    400146: transform11
+    400148: transform12
+    400150: transform13
+    400152: transform14
+    400154: transform3
+    400156: transform4
+    400158: transform5
+    400160: transform6
+    400162: transform7
+    400164: transform8
+    400166: transform9
+    400168: Waist
+    2100000: StingrayPBS1
+    2300000: polySurface10
+    2300002: polySurface11
+    3300000: polySurface10
+    3300002: polySurface11
+    4300000: polySurface11
+    4300002: polySurface10
+    4300004: polySurface8
+    7400000: Happy_walkaway
+    9500000: //RootNode
+    13700000: polySurface8
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: StingrayPBS1
+    second: {fileID: 2100000, guid: 12e3804932e633442b239a0ae211d5de, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

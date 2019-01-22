@@ -11,7 +11,17 @@ public class Customer : MonoBehaviour
         phase3
     }
 
-   LeavingStates leavingState;
+    LeavingStates leavingState;
+
+    enum FightPositions
+    {
+        left = 1,
+        middle = 2,
+        right = 3
+    }
+
+    FightPositions fightPositions;
+    private bool dodge = false;
 
     [Tooltip("Timer Filler Image")] public Image timerImage;
     [Tooltip("Movement Speed of Customer")] [SerializeField] private float movementSpeed = 2.5f;
@@ -58,6 +68,8 @@ public class Customer : MonoBehaviour
         SetAnim(idle, false);
         SetAnim(walking, true);
         leavingState = LeavingStates.phase1;
+        fightPositions = (FightPositions)customerId;
+        dodge = false;
 
         CalculateDir();
         InitiateColor();
@@ -162,18 +174,17 @@ public class Customer : MonoBehaviour
         player = null;
         timer = 0f;
         clockHand = null;
+        leavingState = LeavingStates.phase1;
+        fightPositions = (FightPositions)customerId;
+        dodge = false;
     }
 
     // Leave the store
     public void Leave()
     {
-        //targetPosition = new Vector3(targetPosition.x + customerSizeZ, targetPosition.y, targetPosition.z);
         transform.GetChild(0).gameObject.SetActive(false);
-        //fighting = false;
-        //othersFighting = false;
         targetPosition = CustomerSpawner.Instance.spawnPoint.position + new Vector3(customerSizeX * 0.75f, 0, customerSizeZ);
         dir = (targetPosition - transform.position).normalized;
-        //reachedTarget = false;
         leaving = true;
 
         leavingState = LeavingStates.phase1;
@@ -355,55 +366,104 @@ public class Customer : MonoBehaviour
             }
             else
             {
-                #region Fighting State
-
-                // Hide Food Bubble Image
-                if (transform.GetChild(0).gameObject.activeSelf)
-                    transform.GetChild(0).gameObject.SetActive(false);
-
-                timer += Time.deltaTime;
-                if (timer >= fireCD)
+                if (dodge)
                 {
-                    if (player)
+                    #region Dodge State
+                    if (Vector3.Distance(transform.position, targetPosition) >= 0.1f)
                     {
-                        // Shoot bullet towards hand icon
-                        var Projectile = ObjectPool.Instance.GetPooledObject(customerBulletPrefab);
+                        transform.position += dir * (movementSpeed * movementSpeed) * Time.deltaTime;
+                    }
+                    else
+                    {
+                        dodge = false;
+                    }
+                    #endregion Dodge State
+                }
+                else
+                {
+                    #region Fighting State
+                    // Hide Food Bubble Image
+                    if (transform.GetChild(0).gameObject.activeSelf)
+                        transform.GetChild(0).gameObject.SetActive(false);
 
-                        if (!Projectile) return;
-
-                        var a = Random.Range(0.01f, 1f);
-                        var randPos = new Vector3(Random.Range(player.position.x - a, player.position.x + a),
-                            Random.Range(player.position.y - a, player.position.y + a),
-                            Random.Range(player.position.z - a, player.position.z + a));
-
-                        Projectile.transform.position = transform.GetChild(2).position;
-                        Projectile.transform.rotation = Quaternion.identity;
-                        Projectile.GetComponent<Projectile>().dir = (randPos - Projectile.transform.position).normalized;
-
-                        foreach (var pair in CustomerSpawner.Instance.customerDic)
+                    timer += Time.deltaTime;
+                    if (timer >= fireCD)
+                    {
+                        if (player)
                         {
-                            if (pair.Value.customerId != customerId)
+                            // Shoot bullet towards hand icon
+                            var Projectile = ObjectPool.Instance.GetPooledObject(customerBulletPrefab);
+
+                            if (!Projectile) return;
+
+                            var a = Random.Range(0.01f, 1f);
+                            var randPos = new Vector3(Random.Range(player.position.x - a, player.position.x + a),
+                                Random.Range(player.position.y - a, player.position.y + a),
+                                Random.Range(player.position.z - a, player.position.z + a));
+
+                            Projectile.transform.position = transform.GetChild(2).position;
+                            Projectile.transform.rotation = Quaternion.identity;
+                            Projectile.GetComponent<Projectile>().dir = (randPos - Projectile.transform.position).normalized;
+
+                            // Scare off other customers
+                            foreach (var pair in CustomerSpawner.Instance.customerDic)
                             {
-                                if (!pair.Value.othersFighting)
+                                if (pair.Value.customerId != customerId)
                                 {
-                                    pair.Value.othersFighting = true;
-                                }
-                                else
-                                {
-                                    if (!pair.Value.leaving)
+                                    if (!pair.Value.othersFighting)
                                     {
-                                        pair.Value.SetAnim(idle, false);
-                                        pair.Value.SetAnim(angry, false);
-                                        pair.Value.SetAnim(scared, true);
-                                        pair.Value.Leave();
+                                        pair.Value.othersFighting = true;
+                                    }
+                                    else
+                                    {
+                                        if (!pair.Value.leaving)
+                                        {
+                                            pair.Value.SetAnim(idle, false);
+                                            pair.Value.SetAnim(angry, false);
+                                            pair.Value.SetAnim(scared, true);
+                                            pair.Value.Leave();
+                                        }
                                     }
                                 }
                             }
+
+                            #region Dodge Decision State
+                            var rand = Random.Range(1, 4);
+                            if (rand == customerId || (FightPositions)rand == fightPositions)
+                            {
+                                dodge = false;
+                            }
+                            else
+                            {
+                                dodge = true;
+                                fightPositions = (FightPositions)rand;
+
+                                switch (fightPositions)
+                                {
+                                    case FightPositions.left:
+                                        {
+                                            targetPosition = new Vector3(queuePosition.x, queuePosition.y, queuePosition.z + (customerSizeX * 2));
+                                        }
+                                        break;
+                                    case FightPositions.middle:
+                                        {
+                                            targetPosition = new Vector3(queuePosition.x, queuePosition.y, queuePosition.z + customerSizeX);
+                                        }
+                                        break;
+                                    case FightPositions.right:
+                                        {
+                                            targetPosition = queuePosition;
+                                        }
+                                        break;
+                                }
+                                dir = (targetPosition - transform.position).normalized;
+                            }
+                            #endregion Dodge Decision State
                         }
+                        timer = 0f;
                     }
-                    timer = 0f;
+                    #endregion Fighting State
                 }
-                #endregion Fighting State
             }
         }
         else
@@ -412,17 +472,11 @@ public class Customer : MonoBehaviour
 
             if (Vector3.Distance(transform.position, targetPosition) >= 0.1f)
             {
-                //Debug.Log(Vector3.Angle(transform.forward, targetPosition - transform.forward));
-                //Debug.Log(leavingState);
-                //Debug.Log(targetPosition);
                 switch (leavingState)
                 {
                     case LeavingStates.phase1:
                         if (Vector3.Angle(transform.forward, new Vector3(1, 0, 0)) > 2.0f)
                         {
-                            //transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(new Vector3(1, 0, 0)), 0.01f);
-                            //transform.rotation = Quaternion.FromToRotation(transform.forward, Vector3.Lerp(transform.forward, new Vector3(0, 0, 1), 0.1f));
-                            //transform.rotation *= Quaternion.Euler(new Vector3(0, 180 * Time.deltaTime, 0));
                             transform.forward = Vector3.RotateTowards(transform.forward, new Vector3(1, 0, 0), 0.05f, 0.0f);
                         }
                         else
@@ -435,7 +489,6 @@ public class Customer : MonoBehaviour
                         if (Vector3.Angle(transform.forward, targetPosition - transform.position) != 0f)
                         {
                             Vector3 temp = targetPosition - transform.position;
-                            //transform.rotation = Quaternion.FromToRotation(transform.forward, Vector3.Lerp(transform.forward, new Vector3(1, 0, 0), 0.1f));
                             transform.forward = Vector3.RotateTowards(transform.forward, new Vector3(temp.x, 0, temp.z), 0.075f, 0.0f);
                             transform.position += transform.forward * Time.deltaTime * 2f;
                         }
@@ -446,19 +499,11 @@ public class Customer : MonoBehaviour
                         break;
 
                     case LeavingStates.phase3:
+                        {
                             transform.position += transform.forward * Time.deltaTime * 2f;
+                        }
                         break;
                 }
-                //if (Vector3.Angle(transform.forward, new Vector3(0, 0, 1)) != 0f)
-                //{
-                //    //transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(transform.rotation.x, -180f, transform.rotation.z), rotateSpeed * Time.deltaTime);
-                //    transform.rotation = Quaternion.FromToRotation(transform.forward, Vector3.Lerp(transform.forward, new Vector3(0, 0, 1), 0.01f));
-                //    transform.position += transform.forward * Time.deltaTime;
-                //}
-                //else
-                //{
-                //    transform.position += dir * 0.1f * movementSpeed * Time.deltaTime;
-                //}
             }
             else
             {

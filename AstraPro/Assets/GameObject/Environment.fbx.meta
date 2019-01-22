@@ -34,6 +34,8 @@ ModelImporter:
     100056: ground
     100058: Pot_1
     100060: Pot_2
+    100062: Exterior
+    100064: Signboard
     400000: Banana_Leaves
     400002: Bowls
     400004: Cookware
@@ -65,6 +67,8 @@ ModelImporter:
     400056: ground
     400058: Pot_1
     400060: Pot_2
+    400062: Exterior
+    400064: Signboard
     2100000: Interactable
     2100002: Wall_Floor
     2100004: Furniturez
@@ -92,6 +96,8 @@ ModelImporter:
     2300042: ground
     2300044: Pot_1
     2300046: Pot_2
+    2300048: Exterior
+    2300050: Signboard
     3300000: Banana_Leaves
     3300002: Bowls
     3300004: Eggs
@@ -116,6 +122,8 @@ ModelImporter:
     3300042: ground
     3300044: Pot_1
     3300046: Pot_2
+    3300048: Exterior
+    3300050: Signboard
     4300000: Fishes
     4300002: Prawns
     4300004: Tofus
@@ -140,6 +148,8 @@ ModelImporter:
     4300042: Pot_2
     4300044: ground
     4300046: Building
+    4300048: Exterior
+    4300050: Signboard
   externalObjects: {}
   materials:
     importMaterials: 1

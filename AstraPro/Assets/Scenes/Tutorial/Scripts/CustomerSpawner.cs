@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Linq;
 using System.Collections.Generic;
 
 public class CustomerSpawner : MonoBehaviour
@@ -66,6 +67,8 @@ public class CustomerSpawner : MonoBehaviour
         if(!Menu_Manager.Instance.Tutorial_Mode)
         {
             if (PauseManager.Instance != null && PauseManager.Instance.isPaused) return;
+
+            if (customerDic.Any(x => x.Value.fighting == true)) return;
 
             elapsedTime += Time.deltaTime;
             if (elapsedTime >= endTime)
