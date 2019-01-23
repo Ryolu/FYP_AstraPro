@@ -142,9 +142,9 @@ public class Customer : MonoBehaviour
         // Show Food Bubble Image
         GameObject canvas = transform.GetChild(0).gameObject;
         canvas.SetActive(true);
-        clockHand = canvas.transform.GetChild(2).gameObject;
-        canvas.transform.GetChild(3).GetComponent<Image>().sprite = food.sprite;
-        canvas.transform.GetChild(3).GetComponent<Image>().preserveAspect = true;
+        clockHand = canvas.transform.GetChild(3).gameObject;
+        canvas.transform.GetChild(4).GetComponent<Image>().sprite = food.sprite;
+        canvas.transform.GetChild(4).GetComponent<Image>().preserveAspect = true;
 
         // Set Ordered Food
         foodOrdered = food;
