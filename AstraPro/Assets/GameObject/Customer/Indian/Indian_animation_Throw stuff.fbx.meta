@@ -1,0 +1,258 @@
+fileFormatVersion: 2
+guid: ce3b663b72d50c34b88f0e36e457ea70
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: Body
+    100002: Chest
+    100004: Eyebrows
+    100006: Eyes
+    100008: face:polySurface8
+    100010: group
+    100012: Head_01
+    100014: Head_02
+    100016: ikHandle1
+    100018: ikHandle1 1
+    100020: ikHandle2
+    100022: ikHandle3
+    100024: ikHandle6
+    100026: ikHandle7
+    100028: //RootNode
+    100030: L_Ankle
+    100032: L_Elbow
+    100034: L_Foot
+    100036: L_Foot 1
+    100038: L_Knee
+    100040: L_Knee_Ctrl
+    100042: L_Palm
+    100044: L_Shoulder
+    100046: L_Thigh
+    100048: L_Toe
+    100050: L_Wrist
+    100052: L_Wrist_Ctrl
+    100054: Main_Ctrl
+    100056: Mouth
+    100058: Neck
+    100060: Neck_Ctrl
+    100062: Pelvis
+    100064: Pelvis_Ctrl
+    100066: polySurface1
+    100068: polySurface2
+    100070: polySurface4
+    100072: polySurface5
+    100074: pPlane3
+    100076: pPlane4
+    100078: pPlane8
+    100080: R_Ankle
+    100082: R_Elbow
+    100084: R_Foot
+    100086: R_Foot 1
+    100088: R_Knee
+    100090: R_Knee_Ctrl
+    100092: R_Palm
+    100094: R_Shoulder
+    100096: R_Thigh
+    100098: R_Toe
+    100100: R_Wrist
+    100102: R_Wrist_Ctrl
+    100104: Spine01_Ctrl
+    100106: Spine02_Ctrl
+    100108: transform1
+    100110: transform10
+    100112: transform11
+    100114: transform4
+    100116: transform7
+    100118: transform8
+    100120: transform9
+    100122: Waist
+    400000: Body
+    400002: Chest
+    400004: Eyebrows
+    400006: Eyes
+    400008: face:polySurface8
+    400010: group
+    400012: Head_01
+    400014: Head_02
+    400016: ikHandle1
+    400018: ikHandle1 1
+    400020: ikHandle2
+    400022: ikHandle3
+    400024: ikHandle6
+    400026: ikHandle7
+    400028: //RootNode
+    400030: L_Ankle
+    400032: L_Elbow
+    400034: L_Foot
+    400036: L_Foot 1
+    400038: L_Knee
+    400040: L_Knee_Ctrl
+    400042: L_Palm
+    400044: L_Shoulder
+    400046: L_Thigh
+    400048: L_Toe
+    400050: L_Wrist
+    400052: L_Wrist_Ctrl
+    400054: Main_Ctrl
+    400056: Mouth
+    400058: Neck
+    400060: Neck_Ctrl
+    400062: Pelvis
+    400064: Pelvis_Ctrl
+    400066: polySurface1
+    400068: polySurface2
+    400070: polySurface4
+    400072: polySurface5
+    400074: pPlane3
+    400076: pPlane4
+    400078: pPlane8
+    400080: R_Ankle
+    400082: R_Elbow
+    400084: R_Foot
+    400086: R_Foot 1
+    400088: R_Knee
+    400090: R_Knee_Ctrl
+    400092: R_Palm
+    400094: R_Shoulder
+    400096: R_Thigh
+    400098: R_Toe
+    400100: R_Wrist
+    400102: R_Wrist_Ctrl
+    400104: Spine01_Ctrl
+    400106: Spine02_Ctrl
+    400108: transform1
+    400110: transform10
+    400112: transform11
+    400114: transform4
+    400116: transform7
+    400118: transform8
+    400120: transform9
+    400122: Waist
+    2100000: StingrayPBS1
+    2300000: Eyebrows
+    2300002: Eyes
+    2300004: Mouth
+    3300000: Eyebrows
+    3300002: Eyes
+    3300004: Mouth
+    4300000: Body
+    4300002: Mouth
+    4300004: Eyes
+    4300006: Eyebrows
+    7400000: Throw stuff
+    9500000: //RootNode
+    13700000: Body
+    2186277476908879412: ImportLogs
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: StingrayPBS1
+    second: {fileID: 2100000, guid: 99a7442b248ee434bafdc4f006cee699, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Throw stuff
+      takeName: Throw stuff
+      firstFrame: 125
+      lastFrame: 150
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
