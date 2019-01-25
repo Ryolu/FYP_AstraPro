@@ -24,9 +24,9 @@ public class Customer : MonoBehaviour
     private bool dodge = false;
 
     [Tooltip("Timer Filler Image")] public Image timerImage;
+    [Tooltip("How long the Customer will wait for food")] public float waitTiming = 30f;
     [Tooltip("Movement Speed of Customer")] [SerializeField] private float movementSpeed = 2.5f;
     [Tooltip("Rotate Speed of Customer")] [SerializeField] private float rotateSpeed = 80f;
-    [Tooltip("How long the Customer will wait for food")] [SerializeField] private float waitTiming = 30f;
     [Tooltip("Cool down timing of shooting player")] [SerializeField] private float fireCD = 1f;
     [Tooltip("Foods that customer can order")] [SerializeField] private FoodSO[] foodOrder;
     [Tooltip("Customer Bullet Prefab to shoot player")] [SerializeField] private GameObject customerBulletPrefab;
@@ -516,7 +516,7 @@ public class Customer : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Bullet")
+        if (other.gameObject.tag == "Knife")
         {
             if (fighting)
             {

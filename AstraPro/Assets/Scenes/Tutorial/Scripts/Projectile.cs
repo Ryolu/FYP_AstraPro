@@ -31,6 +31,5 @@ public class Projectile : MonoBehaviour
 
         transform.position += dir * 5 * Time.deltaTime;
         rigidbody.AddRelativeTorque(Vector3.forward * torque);
-        //transform.rotation = new Quaternion(0, Time.deltaTime, 0, 0); 
     }
 }

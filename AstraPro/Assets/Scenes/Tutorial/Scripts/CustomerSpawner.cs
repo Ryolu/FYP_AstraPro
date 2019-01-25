@@ -10,6 +10,7 @@ public class CustomerSpawner : MonoBehaviour
 
     [Tooltip("Queue Point of Customer")] [SerializeField] private Transform queuePoint;
     [Tooltip("Prefabs of Customers")] [SerializeField] private List<GameObject> customerPrefabs;
+    [Tooltip("Spawn Delay of customer")] [SerializeField] private float endTime = 3f;
     //[Tooltip("Time to wait before customer ordering food.")] [SerializeField] private float orderTiming = 0f;
 
     // For Ordering food 1 by 1
@@ -21,7 +22,6 @@ public class CustomerSpawner : MonoBehaviour
     [HideInInspector] public int customerCount = 0;
 
     private float elapsedTime;
-    private float endTime = 3f;
 
     private void Awake ()
     {

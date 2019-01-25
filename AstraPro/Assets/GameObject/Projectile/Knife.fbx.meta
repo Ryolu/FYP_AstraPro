@@ -1,18 +1,20 @@
 fileFormatVersion: 2
-guid: beebe31088fc9ea4699c50bc49cd3ada
+guid: 97f102ac5ae087241a271857cb234114
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
-    100002: polySurface1
     400000: //RootNode
-    400002: polySurface1
-    2100000: polySurface1Mat
-    2300000: polySurface1
-    3300000: polySurface1
-    4300000: polySurface1
-    6400000: polySurface1
-  externalObjects: {}
+    2100000: StingrayPBS1
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: pCube1
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: StingrayPBS1
+    second: {fileID: 2100000, guid: da04a1a37091c0c48abbff4e84bfaafb, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -45,7 +47,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 1
+    addColliders: 0
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
