@@ -30,6 +30,16 @@ public class Projectile : MonoBehaviour
         if (PauseManager.Instance != null && PauseManager.Instance.isPaused) return;
 
         transform.position += dir * 5 * Time.deltaTime;
-        rigidbody.AddRelativeTorque(Vector3.forward * torque);
+
+        //if (transform.tag != "Knife")
+        //{
+        //    rigidbody.AddRelativeTorque(Vector3.forward * torque);
+        //}
+        //else
+        //{
+            rigidbody.AddRelativeTorque(Vector3.forward * torque);
+            rigidbody.AddRelativeTorque(Vector3.up * torque);
+            rigidbody.AddRelativeTorque(Vector3.right * torque);
+        //}
     }
 }

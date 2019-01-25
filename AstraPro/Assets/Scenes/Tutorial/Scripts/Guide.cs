@@ -76,7 +76,7 @@ public class Guide : MonoBehaviour
     {
         if (finishedGuide) return;
 
-        Debug.Log(index); 
+        //Debug.Log(index); 
         if (!finishedIntro && !finishedOrder && !finishedCookNServe)
         {
             // 0,1,2,3 is about satisfying bar and game objective (Intro)

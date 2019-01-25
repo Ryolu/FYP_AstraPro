@@ -77,7 +77,7 @@ public class AutoIntensity : MonoBehaviour {
                     pair.Value.waitTiming -= (pair.Value.waitTiming * 0.2f);
                 }
 
-                Debug.Log("Its a new day my dude. Day: " + dayCount.ToString());
+                //Debug.Log("Its a new day my dude. Day: " + dayCount.ToString());
             }
             else if (dot > 0.99f && day == false && night == true)
             {

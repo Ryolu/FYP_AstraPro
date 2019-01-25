@@ -278,7 +278,7 @@ public class Pointer1 : MonoBehaviour
                     }
 
                     // If selecting Cooking Appliance(Frying Pan, Pot 1, Pot 2)
-                    if (LevelManager.Instance.cookingAppliances.Any(x => x.gameObject.GetInstanceID() == selectedButton.transform.parent.parent.gameObject.GetInstanceID()))
+                    else if (LevelManager.Instance.cookingAppliances.Any(x => x.gameObject.GetInstanceID() == selectedButton.transform.parent.parent.gameObject.GetInstanceID()))
                     {
                         var something = LevelManager.Instance.cookingAppliances.Where(x => x.gameObject.GetInstanceID() == selectedButton.transform.parent.parent.gameObject.GetInstanceID()).ToList();
 
@@ -418,7 +418,7 @@ public class Pointer1 : MonoBehaviour
                     if (!Projectile) return;
 
                     Projectile.transform.position = transform.position;
-                    Projectile.transform.rotation = Quaternion.identity;
+                    //Projectile.transform.rotation = Quaternion.identity;
                     Projectile.GetComponent<Projectile>().dir = (transform.position - cam.transform.position).normalized;
                 }
             }
