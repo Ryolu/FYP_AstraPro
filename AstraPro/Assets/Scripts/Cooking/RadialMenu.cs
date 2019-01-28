@@ -137,7 +137,7 @@ public class RadialMenu : MonoBehaviour
     {
         List<Sprite> sprites = foodSO.ingredientList.Select(x => x.sprite).ToList();
 
-        for (int i = 1; i < transform.childCount - 1; i++)//Transform child in transform)
+        for (int i = 1; i < transform.childCount; i++)//Transform child in transform)
         {
             if (sprites.Contains(transform.GetChild(i).GetChild(0).GetComponent<Image>().sprite))
             {
