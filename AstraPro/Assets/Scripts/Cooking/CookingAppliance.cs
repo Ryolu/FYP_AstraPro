@@ -135,11 +135,6 @@ public class CookingAppliance : MonoBehaviour {
                     }
                 }
             }
-            else
-            {
-                Failed();
-                return;
-            }
 
             // Once there are all the needed ingredients
             if (ingredients.Count == selectedFood.ingredientList.Count)
@@ -191,12 +186,12 @@ public class CookingAppliance : MonoBehaviour {
     /// This happens when the player adds in the wrong ingredient.
     /// It resets all the ingredients in this cooking appliance.
     /// </summary>
-    void Failed()
-    {
-        // Do Failed stuffs here
-
-        NewFood();
-    }
+    //void Failed()
+    //{
+    //    // Do Failed stuffs here
+    //
+    //    NewFood();
+    //}
 
     public void ChooseFood(FoodSO foodSO)
     {
