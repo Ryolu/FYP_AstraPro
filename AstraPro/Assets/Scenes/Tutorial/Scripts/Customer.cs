@@ -63,7 +63,7 @@ public class Customer : MonoBehaviour
     {
         customerSizeX = transform.lossyScale.x * 0.275f;
         customerSizeZ = transform.lossyScale.z * 0.275f;
-        waitTiming = Random.Range((waitTiming / 3), waitTiming);
+        waitTiming = Random.Range((waitTiming / 2), waitTiming);
         anim = GetComponent<Animator>();
         SetAnim(idle, false);
         SetAnim(walking, true);

@@ -21,10 +21,7 @@ public class Score : MonoBehaviour {
     private void Awake()
     {
         Instance = this;
-    }
 
-    // Use this for initialization
-    void Start () {
         HighScore.Instance.overall = 100.0f;
         switching = true;
         maxStar = false;
@@ -33,6 +30,11 @@ public class Score : MonoBehaviour {
         Total_Rate();
         rateBar.fillAmount = rate;
         money.text = HighScore.Instance.overall.ToString();
+    }
+
+    // Use this for initialization
+    void Start () {
+        
     }
 	
 	// Update is called once per frame
@@ -89,18 +91,18 @@ public class Score : MonoBehaviour {
     public void Profit(FoodSO food, float time)
     {
         if (food.foodName == "Curry Fish Head")
-            rate += (0.1f * time);
+            rate += (0.2f * time);
         else if (food.foodName == "Laksa")
-            rate += (0.03f * time);
-        else if (food.foodName == "Mee Siam")
-            rate += (0.01f * time);
-        else if (food.foodName == "Otah")
             rate += (0.05f * time);
+        else if (food.foodName == "Mee Siam")
+            rate += (0.05f * time);
+        else if (food.foodName == "Otah")
+            rate += (0.1f * time);
 
         switching = true;
-        Total_Rate();
         rateBar.fillAmount = rate;
-        money.text = HighScore.Instance.overall.ToString();
+        Total_Rate();
         HighScore.Instance.overall += food.cost;
+        money.text = HighScore.Instance.overall.ToString();
     }
 }
