@@ -22,6 +22,9 @@ public class RadialMenu : MonoBehaviour
     public void CallThisInsteadIngredient(int number)
     {
         StartCoroutine(GenerateIngredientButtons(number));
+
+        if (currentFood)
+            ChangeColor(currentFood);
     }
 
     public void CallThisInsteadFood(CookingAppliance appliance)
@@ -66,9 +69,6 @@ public class RadialMenu : MonoBehaviour
 
             yield return new WaitForSeconds(0.075f);
         }
-
-        if (currentFood)
-            ChangeColor(currentFood);
     }
 
     IEnumerator GenerateFoodButtons(CookingAppliance appliance)
