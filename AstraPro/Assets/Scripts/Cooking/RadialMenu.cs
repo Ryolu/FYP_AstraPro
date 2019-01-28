@@ -65,6 +65,9 @@ public class RadialMenu : MonoBehaviour
             button.onClick.AddListener(() => currentAppliance.AddIngredient(ingredient));
 
             yield return new WaitForSeconds(0.075f);
+
+            if (currentFood)
+                ChangeColor(currentFood);
         }
     }
 
@@ -94,7 +97,7 @@ public class RadialMenu : MonoBehaviour
                 //button.onClick.AddListener(() => Test(appliance.foodList[0]));
                 button.onClick.AddListener(() => appliance.ChooseFood(food));
                 if (otherMenu)
-                    button.onClick.AddListener(() => otherMenu.ChangeColor(food));
+                    button.onClick.AddListener(() => otherMenu.currentFood = food);
 
                 Image radialButton = button.GetComponent<Image>();
                 radialButton.sprite = buttonTypes[1];
