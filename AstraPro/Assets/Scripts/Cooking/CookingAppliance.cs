@@ -221,6 +221,10 @@ public class CookingAppliance : MonoBehaviour {
             ingredientDisplayList.Add(ingredientImage);
         }
 
+        RadialMenu radialMenu = ingredientPanel.parent.gameObject.GetComponentInChildren<RadialMenu>();
+        if (radialMenu.currentFood)
+            radialMenu.ChangeColor(radialMenu.currentFood);
+
         ResizeCanvas(2.9f, 1.2f * Mathf.CeilToInt(foodSO.ingredientList.Count) / 2 + 0.5f);
     }
 
@@ -270,8 +274,6 @@ public class CookingAppliance : MonoBehaviour {
         if (openclose && ingredientPanel.transform.parent.GetChild(1).childCount == 1)
             radialMenu.CallThisInsteadIngredient(7);
 
-        if (radialMenu.currentFood)
-            radialMenu.ChangeColor(radialMenu.currentFood);
         //ingredientPanel.gameObject.SetActive(openclose);
     }
 

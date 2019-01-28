@@ -67,8 +67,8 @@ public class RadialMenu : MonoBehaviour
             yield return new WaitForSeconds(0.075f);
         }
 
-        if (currentFood)
-            ChangeColor(currentFood);
+        //if (currentFood)
+        //    ChangeColor(currentFood);
     }
 
     IEnumerator GenerateFoodButtons(CookingAppliance appliance)
