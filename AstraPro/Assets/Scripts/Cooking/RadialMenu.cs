@@ -129,21 +129,21 @@ public class RadialMenu : MonoBehaviour
         currentFood = null;
     }
 
-    public void ChangeColor(FoodSO foodSO)
+    void ChangeColor(FoodSO foodSO)
     {
         List<Sprite> sprites = foodSO.ingredientList.Select(x => x.sprite).ToList();
 
-        foreach (Transform child in transform)
+        for (int i = 1; i < transform.childCount - 1; i++)//Transform child in transform)
         {
-            if (sprites.Contains(child.GetChild(0).GetComponent<Image>().sprite))
+            if (sprites.Contains(transform.GetChild(i).GetChild(0).GetComponent<Image>().sprite))
             {
-                Button button = child.GetComponent<Button>();
+                Button button = transform.GetChild(i).GetComponent<Button>();
                 ColorBlock cb = button.colors;
                 cb.highlightedColor = Color.green - Color.white * 0.3f;
             }
             else
             {
-                Button button = child.GetComponent<Button>();
+                Button button = transform.GetChild(i).GetComponent<Button>();
                 ColorBlock cb = button.colors;
                 cb.highlightedColor = Color.red - Color.white * 0.3f;
             }
