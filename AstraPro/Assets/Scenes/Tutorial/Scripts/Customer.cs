@@ -73,6 +73,7 @@ public class Customer : MonoBehaviour
 
         CalculateDir();
         InitiateColor();
+        AllowHover(false);
     }
     
     public void SetAnim(string state, bool status)
@@ -186,8 +187,14 @@ public class Customer : MonoBehaviour
         targetPosition = CustomerSpawner.Instance.spawnPoint.position + new Vector3(customerSizeX * 0.75f, 0, customerSizeZ);
         dir = (targetPosition - transform.position).normalized;
         leaving = true;
+        fighting = false;
 
         leavingState = LeavingStates.phase1;
+    }
+
+    public void AllowHover(bool allow)
+    {
+        transform.GetChild(1).gameObject.SetActive(allow);
     }
 
     public void RemoveCustomer(int customerId)
@@ -325,6 +332,11 @@ public class Customer : MonoBehaviour
                             if (!orderedFood)
                             {
                                 OrderFood(foodOrder[Random.Range(0, foodOrder.Length)]);
+
+                                if(Menu_Manager.Instance.Tutorial_Mode && !Guide.Instance.gameObject.activeSelf)
+                                {
+                                    Guide.Instance.Show();
+                                }
                             }
                         }
                     }
