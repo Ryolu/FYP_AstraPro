@@ -266,8 +266,12 @@ public class CookingAppliance : MonoBehaviour {
 
         ingredientPanel.transform.parent.gameObject.SetActive(openclose);
 
+        RadialMenu radialMenu = ingredientPanel.parent.gameObject.GetComponentInChildren<RadialMenu>();
         if (openclose && ingredientPanel.transform.parent.GetChild(1).childCount == 1)
-            ingredientPanel.parent.gameObject.GetComponentInChildren<RadialMenu>().CallThisInsteadIngredient(7);
+            radialMenu.CallThisInsteadIngredient(7);
+
+        if (radialMenu.currentFood)
+            radialMenu.ChangeColor(radialMenu.currentFood);
         //ingredientPanel.gameObject.SetActive(openclose);
     }
 
