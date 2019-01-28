@@ -93,6 +93,7 @@ public class RadialMenu : MonoBehaviour
                 var food = appliance.foodList[i];
                 //button.onClick.AddListener(() => Test(appliance.foodList[0]));
                 button.onClick.AddListener(() => appliance.ChooseFood(food));
+                button.onClick.AddListener(() => ChangeColor(food));
 
                 Image radialButton = button.GetComponent<Image>();
                 radialButton.sprite = buttonTypes[1];
