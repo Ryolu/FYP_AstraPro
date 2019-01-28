@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
-public class RadialMenu : MonoBehaviour {
+public class RadialMenu : MonoBehaviour
+{
 
     [SerializeField] List<IngredientSO> ingredientList;
     [SerializeField] List<Sprite> buttonTypes;
@@ -124,5 +126,26 @@ public class RadialMenu : MonoBehaviour {
         currentAppliance.NewFood();
         currentAppliance = null;
         currentFood = null;
+    }
+
+    public void ChangeColor(FoodSO foodSO)
+    {
+        List<Sprite> sprites = foodSO.ingredientList.Select(x => x.sprite).ToList();
+
+        foreach (Transform child in transform)
+        {
+            if (sprites.Contains(child.GetChild(0).GetComponent<Image>().sprite))
+            {
+                Button button = child.GetComponent<Button>();
+                ColorBlock cb = button.colors;
+                cb.highlightedColor = Color.green - Color.white * 0.3f;
+            }
+            else
+            {
+                Button button = child.GetComponent<Button>();
+                ColorBlock cb = button.colors;
+                cb.highlightedColor = Color.red - Color.white * 0.3f;
+            }
+        }
     }
 }
