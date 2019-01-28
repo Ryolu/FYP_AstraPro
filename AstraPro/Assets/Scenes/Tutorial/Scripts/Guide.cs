@@ -30,14 +30,16 @@ public class Guide : MonoBehaviour
         thisImage.sprite = images[index];
 	}
 	
-    private void Show()
+    public void Show()
     {
+        gameObject.SetActive(true);
         thisImage.color = new Color(thisImage.color.r, thisImage.color.g, thisImage.color.b, 1f);
         hidden = false;
     }
 
     private void Hide()
     {
+        gameObject.SetActive(false);
         thisImage.color = new Color(thisImage.color.r, thisImage.color.g, thisImage.color.b, 0f);
         hidden = true;
         PauseManager.Instance.Resume();
@@ -72,11 +74,16 @@ public class Guide : MonoBehaviour
         }
     }
 
+    public bool CheckIfGuidedCook()
+    {
+        return (index > 17) ? true : false;
+    }
+
     private void Update()
     {
         if (finishedGuide) return;
 
-        Debug.Log(index); 
+        //Debug.Log(index); 
         if (!finishedIntro && !finishedOrder && !finishedCookNServe)
         {
             // 0,1,2,3 is about satisfying bar and game objective (Intro)
@@ -109,7 +116,6 @@ public class Guide : MonoBehaviour
                     {
                         Hide();
                     }
-                    gameObject.SetActive(false);
                 }
             }
         }
@@ -129,7 +135,6 @@ public class Guide : MonoBehaviour
                     {
                         Hide();
                     }
-                    gameObject.SetActive(false);
                 }
             }
         }
@@ -144,8 +149,10 @@ public class Guide : MonoBehaviour
                 else
                 {
                     finishedGuide = true;
-                    PauseManager.Instance.Resume();
-                    gameObject.SetActive(false);
+                    if (!hidden)
+                    {
+                        Hide();
+                    }
                 }
             }
         }

@@ -278,7 +278,7 @@ public class Pointer1 : MonoBehaviour
                     }
 
                     // If selecting Cooking Appliance(Frying Pan, Pot 1, Pot 2)
-                    if (LevelManager.Instance.cookingAppliances.Any(x => x.gameObject.GetInstanceID() == selectedButton.transform.parent.parent.gameObject.GetInstanceID()))
+                    else if (LevelManager.Instance.cookingAppliances.Any(x => x.gameObject.GetInstanceID() == selectedButton.transform.parent.parent.gameObject.GetInstanceID()))
                     {
                         var something = LevelManager.Instance.cookingAppliances.Where(x => x.gameObject.GetInstanceID() == selectedButton.transform.parent.parent.gameObject.GetInstanceID()).ToList();
 
@@ -293,9 +293,12 @@ public class Pointer1 : MonoBehaviour
                             // Open up Food list to choose "food to cook"
                             app.OpenCloseFoodMenu(true);
 
-                            if (Menu_Manager.Instance.Tutorial_Mode == true)
+                            if (Menu_Manager.Instance.Tutorial_Mode && !Guide.Instance.gameObject.activeSelf)
                             {
-                                Guide.Instance.gameObject.SetActive(true);
+                                if(!Guide.Instance.CheckIfGuidedCook())
+                                {
+                                    Guide.Instance.Show();
+                                }
                             }
                         }
                         // Done cooking food
@@ -310,6 +313,11 @@ public class Pointer1 : MonoBehaviour
                             // Select food and store it for serving customer
                             cookingAppliance = app.gameObject;
                             foodSO = app.TakeFood();
+
+                            foreach(var pair in CustomerSpawner.Instance.customerDic)
+                            {
+                                pair.Value.AllowHover(true);
+                            }
 
                             // Change Hand Sprite to Food Sprite
                             background.sprite = foodSO.sprite;
@@ -362,6 +370,11 @@ public class Pointer1 : MonoBehaviour
                                     {
                                         Guide.Instance.gameObject.SetActive(true);
                                     }
+                                }
+
+                                foreach(var pair in CustomerSpawner.Instance.customerDic)
+                                {
+                                    pair.Value.AllowHover(false);
                                 }
 
                                 // Reset cooking Appliance status
@@ -418,7 +431,7 @@ public class Pointer1 : MonoBehaviour
                     if (!Projectile) return;
 
                     Projectile.transform.position = transform.position;
-                    Projectile.transform.rotation = Quaternion.identity;
+                    //Projectile.transform.rotation = Quaternion.identity;
                     Projectile.GetComponent<Projectile>().dir = (transform.position - cam.transform.position).normalized;
                 }
             }

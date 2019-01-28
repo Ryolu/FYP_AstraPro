@@ -12,7 +12,8 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "CustomerBullet")
+        if (other.gameObject.tag == "Lipstick" || other.gameObject.tag == "Phone" ||
+            other.gameObject.tag == "Purse" || other.gameObject.tag == "Slipper")
         {
             Score.Instance.rate -= 0.1f;
             other.GetComponent<Projectile>().Destroy();

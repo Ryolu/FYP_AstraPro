@@ -1,0 +1,290 @@
+fileFormatVersion: 2
+guid: c0b64b3dbbb648545b3076b396f65957
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: Angry1
+    100002: Chest
+    100004: eyebrows
+    100006: eyes
+    100008: face:polySurface8
+    100010: group
+    100012: Head_01
+    100014: Head_02
+    100016: ikHandle1
+    100018: ikHandle1 1
+    100020: ikHandle2
+    100022: ikHandle3
+    100024: ikHandle6
+    100026: ikHandle7
+    100028: L_Ankle
+    100030: L_arm_ctrl
+    100032: L_Elbow
+    100034: L_Foot
+    100036: L_Foot 1
+    100038: L_Knee
+    100040: L_Knee_Ctrl
+    100042: L_Palm
+    100044: L_Shoulder
+    100046: L_Thigh
+    100048: L_Toe
+    100050: L_Wrist
+    100052: L_Wrist_Ctrl
+    100054: Main_Ctrl
+    100056: malayboy:polySurface1
+    100058: //RootNode
+    100060: mouth
+    100062: mouth 1
+    100064: Neck
+    100066: Neck_Ctrl
+    100068: Pelvis
+    100070: Pelvis_Ctrl
+    100072: polySurface1
+    100074: polySurface10
+    100076: polySurface11
+    100078: polySurface3
+    100080: polySurface4
+    100082: polySurface4 1
+    100084: polySurface5
+    100086: polySurface6
+    100088: polySurface6 1
+    100090: polySurface8
+    100092: polySurface9
+    100094: pPlane3
+    100096: pPlane4
+    100098: pPlane8
+    100100: R_Ankle
+    100102: R_arm_ctrl
+    100104: R_Elbow
+    100106: R_Foot
+    100108: R_Foot 1
+    100110: R_Knee
+    100112: R_Knee_Ctrl
+    100114: R_Palm
+    100116: R_Shoulder
+    100118: R_Thigh
+    100120: R_Toe
+    100122: R_Wrist
+    100124: R_Wrist_Ctrl
+    100126: Spine01_Ctrl
+    100128: Spine02_Ctrl
+    100130: transform1
+    100132: transform10
+    100134: transform11
+    100136: transform12
+    100138: transform13
+    100140: transform14
+    100142: transform15
+    100144: transform16
+    100146: transform17
+    100148: transform18
+    100150: transform19
+    100152: transform20
+    100154: transform21
+    100156: transform4
+    100158: transform7
+    100160: transform8
+    100162: transform9
+    100164: Waist
+    400000: Angry1
+    400002: Chest
+    400004: eyebrows
+    400006: eyes
+    400008: face:polySurface8
+    400010: group
+    400012: Head_01
+    400014: Head_02
+    400016: ikHandle1
+    400018: ikHandle1 1
+    400020: ikHandle2
+    400022: ikHandle3
+    400024: ikHandle6
+    400026: ikHandle7
+    400028: L_Ankle
+    400030: L_arm_ctrl
+    400032: L_Elbow
+    400034: L_Foot
+    400036: L_Foot 1
+    400038: L_Knee
+    400040: L_Knee_Ctrl
+    400042: L_Palm
+    400044: L_Shoulder
+    400046: L_Thigh
+    400048: L_Toe
+    400050: L_Wrist
+    400052: L_Wrist_Ctrl
+    400054: Main_Ctrl
+    400056: malayboy:polySurface1
+    400058: //RootNode
+    400060: mouth
+    400062: mouth 1
+    400064: Neck
+    400066: Neck_Ctrl
+    400068: Pelvis
+    400070: Pelvis_Ctrl
+    400072: polySurface1
+    400074: polySurface10
+    400076: polySurface11
+    400078: polySurface3
+    400080: polySurface4
+    400082: polySurface4 1
+    400084: polySurface5
+    400086: polySurface6
+    400088: polySurface6 1
+    400090: polySurface8
+    400092: polySurface9
+    400094: pPlane3
+    400096: pPlane4
+    400098: pPlane8
+    400100: R_Ankle
+    400102: R_arm_ctrl
+    400104: R_Elbow
+    400106: R_Foot
+    400108: R_Foot 1
+    400110: R_Knee
+    400112: R_Knee_Ctrl
+    400114: R_Palm
+    400116: R_Shoulder
+    400118: R_Thigh
+    400120: R_Toe
+    400122: R_Wrist
+    400124: R_Wrist_Ctrl
+    400126: Spine01_Ctrl
+    400128: Spine02_Ctrl
+    400130: transform1
+    400132: transform10
+    400134: transform11
+    400136: transform12
+    400138: transform13
+    400140: transform14
+    400142: transform15
+    400144: transform16
+    400146: transform17
+    400148: transform18
+    400150: transform19
+    400152: transform20
+    400154: transform21
+    400156: transform4
+    400158: transform7
+    400160: transform8
+    400162: transform9
+    400164: Waist
+    2100000: StingrayPBS3
+    4300000: polySurface6
+    7400000: Idle
+    9500000: //RootNode
+    13700000: polySurface6
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: StingrayPBS3
+    second: {fileID: 2100000, guid: a080d027792d887469221873c02a273b, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Idle
+      takeName: Idle
+      firstFrame: 1
+      lastFrame: 20
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

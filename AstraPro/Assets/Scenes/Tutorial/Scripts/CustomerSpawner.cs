@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Linq;
 using System.Collections.Generic;
 
 public class CustomerSpawner : MonoBehaviour
@@ -8,7 +9,8 @@ public class CustomerSpawner : MonoBehaviour
     [Tooltip("Spawn Point of Customer")] public Transform spawnPoint;
 
     [Tooltip("Queue Point of Customer")] [SerializeField] private Transform queuePoint;
-    [Tooltip("Prefab of Customer")] [SerializeField] private GameObject caucasianPrefab;
+    [Tooltip("Prefabs of Customers")] [SerializeField] private List<GameObject> customerPrefabs;
+    [Tooltip("Spawn Delay of customer")] [SerializeField] private float endTime = 3f;
     //[Tooltip("Time to wait before customer ordering food.")] [SerializeField] private float orderTiming = 0f;
 
     // For Ordering food 1 by 1
@@ -20,7 +22,6 @@ public class CustomerSpawner : MonoBehaviour
     [HideInInspector] public int customerCount = 0;
 
     private float elapsedTime;
-    private float endTime = 3f;
 
     private void Awake ()
     {
@@ -31,16 +32,24 @@ public class CustomerSpawner : MonoBehaviour
         //customerQueue = new Queue<Customer>();
         customerDic = new Dictionary<int, Customer>();
 
-        // Spawn 3 customers at start of game
-        NewCustomer(3);
+        // Spawn 1 customer at start of game
+        NewCustomer(1);
 	}
 	
+    // Randomly choose a customer prefab for NewCustomer(int count) to spawn
+    private GameObject RandomCustomer()
+    {
+        var rand = Random.Range(0, 4);
+
+        return customerPrefabs[rand];
+    }
+
     // Create/Pull a new Customer
     private void NewCustomer(int count)
     {
         for (int i = 0; i < count; i++)
         {
-            var obj = ObjectPool.Instance.GetPooledObject(caucasianPrefab);
+            var obj = ObjectPool.Instance.GetPooledObject(RandomCustomer());
 
             if (!obj) return;
 
@@ -67,13 +76,18 @@ public class CustomerSpawner : MonoBehaviour
         {
             if (PauseManager.Instance != null && PauseManager.Instance.isPaused) return;
 
+            if (customerDic.Any(x => x.Value.fighting == true)) return;
+
             elapsedTime += Time.deltaTime;
             if (elapsedTime >= endTime)
             {
                 elapsedTime = 0f;
-                
-                // Spawn Customer base on how many customers left in the scene
-                NewCustomer(3 - customerCount);
+
+                // Spawn Customer
+                if (customerCount < 3)
+                {
+                    NewCustomer(1);
+                }
             }            
         }
         #region Order Food 1 by 1 (Comment-ed)

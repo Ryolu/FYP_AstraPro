@@ -60,13 +60,24 @@ public class AutoIntensity : MonoBehaviour {
 
         if (Score.Instance != null)
         {
-            if (dot == 0 && day == true && night == false && Score.Instance.maxStar == true)
+            if (dot == 0 && day == true && night == false)
             {
-                dayCount++;
+                // Count Days required to clear game
+                if (Score.Instance.maxStar == true)
+                {
+                    dayCount++;
+                }
+
                 day = false;
                 night = true;
 
-                Debug.Log("Its a new day my dude. Day: " + dayCount.ToString());
+                // Make customer wait for shorter timing as day past
+                foreach(var pair in CustomerSpawner.Instance.customerDic)
+                {
+                    pair.Value.waitTiming -= (pair.Value.waitTiming * 0.2f);
+                }
+
+                //Debug.Log("Its a new day my dude. Day: " + dayCount.ToString());
             }
             else if (dot > 0.99f && day == false && night == true)
             {

@@ -55,7 +55,7 @@ public class RadialMenu : MonoBehaviour {
             button.transform.localPosition += new Vector3(Mathf.Cos(angle) * dist, Mathf.Sin(angle) * dist, 0);
             radialButton.alphaHitTestMinimumThreshold = 0.5f;
             //button.image.fillAmount = 1f / number;
-            
+
             Image foodPic = button.transform.GetChild(0).GetComponent<Image>();
             foodPic.sprite = ingredientList[i].sprite;
             foodPic.transform.rotation = Quaternion.identity * Quaternion.Euler(0, 90, 0);
@@ -68,7 +68,7 @@ public class RadialMenu : MonoBehaviour {
 
     IEnumerator GenerateFoodButtons(CookingAppliance appliance)
     {
-        int number = appliance.foodList.Count;
+        int number = 3;
         otherMenu.currentAppliance = currentAppliance = appliance;
         //string list = "";
         //foreach (FoodSO foodso in appliance.foodList)
@@ -85,19 +85,37 @@ public class RadialMenu : MonoBehaviour {
             Button button = Instantiate(buttonPrefab, gameObject.transform);
             button.transform.Rotate(new Vector3(0, 0, angle * Mathf.Rad2Deg - 90));
             button.transform.localPosition += new Vector3(Mathf.Cos(angle) * dist, Mathf.Sin(angle) * dist, 0);
-            Debug.Log(appliance.foodList[i]);
-            var food = appliance.foodList[i];
-            //button.onClick.AddListener(() => Test(appliance.foodList[0]));
-            button.onClick.AddListener(() => appliance.ChooseFood(food));
 
-            Image radialButton = button.GetComponent<Image>();
-            radialButton.sprite = buttonTypes[1];
-            radialButton.alphaHitTestMinimumThreshold = 0.5f;
+            if (i < appliance.foodList.Count)
+            {
+                var food = appliance.foodList[i];
+                //button.onClick.AddListener(() => Test(appliance.foodList[0]));
+                button.onClick.AddListener(() => appliance.ChooseFood(food));
 
-            Image foodPic = button.transform.GetChild(0).GetComponent<Image>();
-            foodPic.sprite = appliance.foodList[i].sprite;
-            foodPic.transform.rotation = Quaternion.identity * Quaternion.Euler(0, 90, 0);
-            yield return new WaitForSeconds(0.075f);
+                Image radialButton = button.GetComponent<Image>();
+                radialButton.sprite = buttonTypes[1];
+                radialButton.alphaHitTestMinimumThreshold = 0.5f;
+
+                Image foodPic = button.transform.GetChild(0).GetComponent<Image>();
+                foodPic.sprite = appliance.foodList[i].sprite;
+                foodPic.transform.rotation = Quaternion.identity * Quaternion.Euler(0, 90, 0);
+                foodPic.enabled = true;
+                yield return new WaitForSeconds(0.075f);
+            }
+            else
+            {
+                Image radialButton = button.GetComponent<Image>();
+                radialButton.sprite = buttonTypes[1];
+                Color color = radialButton.color;
+                color.a = 0.5f;
+                radialButton.color = color;
+                radialButton.alphaHitTestMinimumThreshold = 0.5f;
+                button.interactable = false;
+
+                Image foodPic = button.transform.GetChild(0).GetComponent<Image>();
+                foodPic.enabled = false;
+                yield return new WaitForSeconds(0.075f);
+            }
         }
     }
 

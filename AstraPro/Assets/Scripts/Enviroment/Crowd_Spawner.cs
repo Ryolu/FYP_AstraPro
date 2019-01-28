@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Crowd_Spawner : MonoBehaviour {
     //GameObject Spawner
-    public GameObject People_1;
+    public GameObject[] People_1;
     public GameObject C_Spawner;
     //Time of Spawning objects
     float ElapseTime;
@@ -13,11 +13,11 @@ public class Crowd_Spawner : MonoBehaviour {
 
     private void onSpawnCrowd()
     {
-        GameObject Spawner = ObjectPool.Instance.GetPooledObject(People_1);
+        GameObject Spawner = ObjectPool.Instance.GetPooledObject(People_1[Random.Range(0,4)]);
 
-        if (Reversed)
-            if (Spawner.transform.forward.z > 0)
-                Spawner.transform.Rotate(new Vector3(0, 180, 0));
+        //if (Reversed)
+        if (Spawner.transform.forward.z != gameObject.transform.forward.z)
+            Spawner.transform.forward = Vector3.RotateTowards(Spawner.transform.forward, gameObject.transform.forward, Mathf.PI, 0.0f);
 
         MeshRenderer renderer = Spawner.GetComponent<MeshRenderer>();
         renderer.lightProbeUsage = UnityEngine.Rendering.LightProbeUsage.Off;

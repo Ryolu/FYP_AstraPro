@@ -1,0 +1,266 @@
+fileFormatVersion: 2
+guid: 5ff6b907a684fa64f8dba32595f11879
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: Angry1
+    100002: Chest
+    100004: //RootNode
+    100006: face:polySurface8
+    100008: group
+    100010: Head_01
+    100012: Head_02
+    100014: ikHandle1
+    100016: ikHandle1 1
+    100018: ikHandle2
+    100020: ikHandle3
+    100022: ikHandle6
+    100024: ikHandle7
+    100026: L_Ankle
+    100028: L_Elbow
+    100030: L_Foot
+    100032: L_Foot 1
+    100034: L_Knee
+    100036: L_Knee_Ctrl
+    100038: L_Palm
+    100040: L_Shoulder
+    100042: L_Thigh
+    100044: L_Toe
+    100046: L_Wrist
+    100048: L_Wrist_Ctrl
+    100050: left_ctrl
+    100052: left_eyebrow
+    100054: lips
+    100056: Main_Ctrl
+    100058: Neck
+    100060: Neck_Ctrl
+    100062: Pelvis
+    100064: Pelvis_Ctrl
+    100066: polySurface1
+    100068: polySurface2
+    100070: polySurface2 1
+    100072: polySurface3
+    100074: polySurface4
+    100076: polySurface5
+    100078: polySurface5 1
+    100080: pPlane3
+    100082: pPlane4
+    100084: pPlane8
+    100086: R_Ankle
+    100088: R_Elbow
+    100090: R_Foot
+    100092: R_Foot 1
+    100094: R_Knee
+    100096: R_Knee_Ctrl
+    100098: R_Palm
+    100100: R_Shoulder
+    100102: R_Thigh
+    100104: R_Toe
+    100106: R_Wrist
+    100108: R_Wrist_Ctrl
+    100110: right_ctrl
+    100112: right_eyebrow
+    100114: Spine01_Ctrl
+    100116: Spine02_Ctrl
+    100118: transform1
+    100120: transform10
+    100122: transform11
+    100124: transform12
+    100126: transform13
+    100128: transform14
+    100130: transform15
+    100132: transform4
+    100134: transform7
+    100136: transform8
+    100138: transform9
+    100140: Waist
+    400000: Angry1
+    400002: Chest
+    400004: //RootNode
+    400006: face:polySurface8
+    400008: group
+    400010: Head_01
+    400012: Head_02
+    400014: ikHandle1
+    400016: ikHandle1 1
+    400018: ikHandle2
+    400020: ikHandle3
+    400022: ikHandle6
+    400024: ikHandle7
+    400026: L_Ankle
+    400028: L_Elbow
+    400030: L_Foot
+    400032: L_Foot 1
+    400034: L_Knee
+    400036: L_Knee_Ctrl
+    400038: L_Palm
+    400040: L_Shoulder
+    400042: L_Thigh
+    400044: L_Toe
+    400046: L_Wrist
+    400048: L_Wrist_Ctrl
+    400050: left_ctrl
+    400052: left_eyebrow
+    400054: lips
+    400056: Main_Ctrl
+    400058: Neck
+    400060: Neck_Ctrl
+    400062: Pelvis
+    400064: Pelvis_Ctrl
+    400066: polySurface1
+    400068: polySurface2
+    400070: polySurface2 1
+    400072: polySurface3
+    400074: polySurface4
+    400076: polySurface5
+    400078: polySurface5 1
+    400080: pPlane3
+    400082: pPlane4
+    400084: pPlane8
+    400086: R_Ankle
+    400088: R_Elbow
+    400090: R_Foot
+    400092: R_Foot 1
+    400094: R_Knee
+    400096: R_Knee_Ctrl
+    400098: R_Palm
+    400100: R_Shoulder
+    400102: R_Thigh
+    400104: R_Toe
+    400106: R_Wrist
+    400108: R_Wrist_Ctrl
+    400110: right_ctrl
+    400112: right_eyebrow
+    400114: Spine01_Ctrl
+    400116: Spine02_Ctrl
+    400118: transform1
+    400120: transform10
+    400122: transform11
+    400124: transform12
+    400126: transform13
+    400128: transform14
+    400130: transform15
+    400132: transform4
+    400134: transform7
+    400136: transform8
+    400138: transform9
+    400140: Waist
+    2100000: StingrayPBS2
+    4300000: polySurface2
+    7400000: 'Happy and walk away '
+    9500000: //RootNode
+    13700000: polySurface2
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: StingrayPBS2
+    second: {fileID: 2100000, guid: b1493ca842c9f3743b96524bff873992, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: 'Happy and walk away '
+      takeName: 'Happy and walk away '
+      firstFrame: 260
+      lastFrame: 284
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

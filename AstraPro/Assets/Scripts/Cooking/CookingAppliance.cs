@@ -62,6 +62,10 @@ public class CookingAppliance : MonoBehaviour {
     /// The prefab for displaying the ingredients
     /// </summary>
     [SerializeField] GameObject ingredientDisplayPrefab;
+    /// <summary>
+    /// The particle system
+    /// </summary>
+    [SerializeField] GameObject particleSystem;
 
     bool isCooking;
     [HideInInspector] public bool isDone;
@@ -160,6 +164,8 @@ public class CookingAppliance : MonoBehaviour {
         OpenCloseFoodMenu(false);
         OpenCloseIngredients(false);
         OpenCloseTimer(false);
+
+        particleSystem.SetActive(false);
     }
 
     /// <summary>
@@ -180,6 +186,7 @@ public class CookingAppliance : MonoBehaviour {
         foodImage.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(2, 2);
 
         ResizeCanvas(2.5f, 2.5f);
+        particleSystem.SetActive(false);
     }
 
     /// <summary>
@@ -245,6 +252,7 @@ public class CookingAppliance : MonoBehaviour {
         OpenCloseTimer(true);
 
         ResizeCanvas(5.5f, 1.2f);
+        particleSystem.SetActive(true);
     }
 
     /// <summary>
