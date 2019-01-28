@@ -45,7 +45,7 @@ public class Pointer1 : MonoBehaviour
     [SerializeField] private GameObject pauseButton;
     [SerializeField] private GameObject foodListPanel;
     [SerializeField] private GameObject ingredientListPanel;
-    [SerializeField] private float handTimer = 0.75f;
+    [SerializeField] private float handTimer = 0.5f;
     [SerializeField] private float shootingTimer = 0.15f;
 
     private Transform hitTransform;
