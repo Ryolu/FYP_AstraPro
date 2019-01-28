@@ -221,9 +221,9 @@ public class CookingAppliance : MonoBehaviour {
             ingredientDisplayList.Add(ingredientImage);
         }
 
-        RadialMenu radialMenu = ingredientPanel.parent.gameObject.GetComponentInChildren<RadialMenu>();
-        if (radialMenu.currentFood)
-            radialMenu.ChangeColor(radialMenu.currentFood);
+        //RadialMenu radialMenu = ingredientPanel.parent.gameObject.GetComponentInChildren<RadialMenu>();
+        //if (radialMenu.currentFood)
+        //    radialMenu.ChangeColor(radialMenu.currentFood);
 
         ResizeCanvas(2.9f, 1.2f * Mathf.CeilToInt(foodSO.ingredientList.Count) / 2 + 0.5f);
     }
@@ -271,7 +271,7 @@ public class CookingAppliance : MonoBehaviour {
         ingredientPanel.transform.parent.gameObject.SetActive(openclose);
 
         RadialMenu radialMenu = ingredientPanel.parent.gameObject.GetComponentInChildren<RadialMenu>();
-        if (openclose && ingredientPanel.transform.parent.GetChild(1).childCount == 1)
+        if (openclose)// && ingredientPanel.transform.parent.GetChild(1).childCount == 1)
             radialMenu.CallThisInsteadIngredient(7);
 
         //ingredientPanel.gameObject.SetActive(openclose);

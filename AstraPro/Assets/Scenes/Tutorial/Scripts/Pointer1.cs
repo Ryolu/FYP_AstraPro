@@ -363,6 +363,9 @@ public class Pointer1 : MonoBehaviour
                                     // Served wrong food, Decrease Rate
                                     Score.Instance.rate -= 0.1f;
                                     customer.fighting = true;
+                                    foreach (CookingAppliance appliance in LevelManager.Instance.cookingAppliances)
+                                        if (!appliance.isDone)
+                                            appliance.NewFood();
 
                                     customer.player = cam.transform.parent;
 
