@@ -41,7 +41,7 @@ public class Pointer_Menu : MonoBehaviour
     float dragSensitivity = 5f;
 
     float elapsedTime;
-    float endTime = 0.75f;
+    float endTime = 0.5f;
     float TemptBGM, TemptSFX;
     private Gradient greyGreenGradient;
     private Image timerImage;
