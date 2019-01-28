@@ -146,6 +146,7 @@ public class RadialMenu : MonoBehaviour
                 Button button = transform.GetChild(i).GetComponent<Button>();
                 ColorBlock cb = button.colors;
                 cb.highlightedColor = Color.red - Color.white * 0.3f;
+                button.colors = cb;
             }
         }
     }
