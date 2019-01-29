@@ -63,7 +63,7 @@ public class CookingAppliance : MonoBehaviour {
     /// The hints for what food this appliance can cook
     /// </summary>
     [Tooltip("Child of applianceCanvas")]
-    [SerializeField] GameObject hoverHint;
+    public GameObject hoverHint;
     /// <summary>
     /// The gameobject holding timer stuff
     /// </summary>
@@ -383,19 +383,19 @@ public class CookingAppliance : MonoBehaviour {
     /// True means open and false means close
     /// </summary>
     /// <param name="openclose"></param>
-    void OpenCloseHint(bool openclose)
+    public void OpenCloseHint(bool openclose)
     {
         hoverHint.SetActive(openclose);
 
         if (openclose)
-            ResizeCanvas(2.5f, 2.5f);
+            ResizeCanvas(foodList.Count * 1.5f + 0.5f, 2.5f);
     }
 
     /// <summary>
     /// True means open and false means close
     /// </summary>
     /// <param name="openclose"></param>
-    void OpenCloseCanvas(bool openclose)
+    public void OpenCloseCanvas(bool openclose)
     {
         applianceCanvas.SetActive(openclose);
     }
