@@ -5,10 +5,10 @@ using UnityEngine.UI;
 using System.Linq;
 using TMPro;
 
-
-
 public class CookingAppliance : MonoBehaviour {
 
+    [Header("Appliance Data")]
+    [Space(5)]
     /// <summary>
     /// The list of foods which can be cooked by this appliance
     /// </summary>
@@ -16,8 +16,12 @@ public class CookingAppliance : MonoBehaviour {
     /// <summary>
     /// Currently selected food
     /// </summary>
+    [HideInInspector]
     public FoodSO selectedFood;
+    [Space(10)]
 
+    [Header("Main Canvas Objects")]
+    [Space(5)]
     /// <summary>
     /// The transform to display the buttons which determine which food will be cooked
     /// This panel can be found in the main canvas
@@ -26,49 +30,73 @@ public class CookingAppliance : MonoBehaviour {
     [SerializeField] Transform foodButtonPanel;
     /// <summary>
     /// The transform to display the ingredients left to put into this appliance
-    /// This panel can be found in the canvas attached to this appliance
     /// </summary>
     [Tooltip("This panel can be found in the main canvas")]
     [SerializeField] Transform ingredientPanel;
-    /// <summary>
-    /// The image which displays which food is being cooked
-    /// </summary>
-    [Tooltip("This image can be found in the canvas attached to this appliance under the Display Timer panel")]
-    [SerializeField] Image foodDisplay;
-
-    [Tooltip("This image can be found in the canvas attached to this appliance under the Display Timer panel")]
-    [SerializeField] Image foodTimerFront;
-
-    [Tooltip("This text can be found in the canvas attached to this appliance under the Display Timer panel")]
-    [SerializeField] TextMeshProUGUI foodTimerText;
     /// <summary>
     /// Panel containing the list of foods to choose from
     /// </summary>
     [Tooltip("Look for 'Food List Panel' in the main canvas")]
     [SerializeField] GameObject foodListPanel;
+
+    [Space(10)]
+
+    [Header("Appliance-specific Objects")]
+    [Space(5)]
+    /// <summary>
+    /// The image which displays which food is being cooked
+    /// </summary>
+    [Tooltip("This image can be found in the canvas attached to this appliance under the Display Timer Panel")]
+    [SerializeField] Image foodDisplay;
+
+    [Tooltip("This image can be found in the canvas attached to this appliance under the Display Timer Panel")]
+    [SerializeField] Image foodTimerFront;
+
+    [Tooltip("This text can be found in the canvas attached to this appliance under the Display Timer Panel")]
+    [SerializeField] TextMeshProUGUI foodTimerText;
     /// <summary>
     /// The canvas
     /// </summary>
+    [Tooltip("Literally the only immediate child of this GameObject")]
     [SerializeField] GameObject applianceCanvas;
+    /// <summary>
+    /// The hints for what food this appliance can cook
+    /// </summary>
+    [Tooltip("Child of applianceCanvas")]
+    [SerializeField] GameObject hoverHint;
     /// <summary>
     /// The gameobject holding timer stuff
     /// </summary>
+    [Tooltip("Child of applianceCanvas")]
     [SerializeField] GameObject displayTimer;
     /// <summary>
     /// The gameobject called done display
     /// </summary>
+    [Tooltip("Child of applianceCanvas")]
     [SerializeField] GameObject doneDisplay;
-    /// <summary>
-    /// The prefab for displaying the ingredients
-    /// </summary>
-    [SerializeField] GameObject ingredientDisplayPrefab;
     /// <summary>
     /// The particle system
     /// </summary>
+    [Tooltip("This can be found under the Particle System empty GameObject")]
     [SerializeField] GameObject particleSystem;
+    [Space(10)]
 
-    bool isCooking;
+    [Header("Prefabs")]
+    [Space(5)]
+    /// <summary>
+    /// The prefab for displaying the ingredients
+    /// </summary>
+    [Tooltip("This can be found in gesture project's Prefabs folder, literally named the same")]
+    [SerializeField] GameObject ingredientDisplayPrefab;
+    /// <summary>
+    /// The prefab for displaying the available foods
+    /// </summary>
+    [Tooltip("This can be found in gesture project's Prefabs folder, literally named the same")]
+    [SerializeField] GameObject hoverHintPrefab;
+
     [HideInInspector] public bool isDone;
+    bool isCooking;
+    bool changeThisOnce;
     float timer;
     float cleanTimer;
     List<IngredientSO> ingredients;
@@ -76,8 +104,18 @@ public class CookingAppliance : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        changeThisOnce = false;
         NewFood();
-	}
+
+        for (int i = 0; i < foodList.Count; i++)
+        {
+            GameObject temp = Instantiate(hoverHintPrefab, hoverHint.transform);
+            Image foodImage = hoverHint.transform.GetChild(i).gameObject.GetComponent<Image>();
+            foodImage.sprite = foodList[i].sprite;
+
+            foodImage.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(1.5f, 1.5f);
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -164,6 +202,7 @@ public class CookingAppliance : MonoBehaviour {
         OpenCloseFoodMenu(false);
         OpenCloseIngredients(false);
         OpenCloseTimer(false);
+        OpenCloseHint(false);
 
         particleSystem.SetActive(false);
     }
@@ -183,23 +222,20 @@ public class CookingAppliance : MonoBehaviour {
         Image foodImage = doneDisplay.transform.GetChild(0).gameObject.GetComponent<Image>();
         foodImage.sprite = selectedFood.sprite;
 
-        foodImage.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(2, 2);
+        if (!changeThisOnce)
+        {
+            foodImage.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(2, 2);
+            changeThisOnce = true;
+        }
 
         ResizeCanvas(2.5f, 2.5f);
         particleSystem.SetActive(false);
     }
-
+    
     /// <summary>
-    /// This happens when the player adds in the wrong ingredient.
-    /// It resets all the ingredients in this cooking appliance.
+    /// Selects the food the player chooses as the food to be cooked
     /// </summary>
-    //void Failed()
-    //{
-    //    // Do Failed stuffs here
-    //
-    //    NewFood();
-    //}
-
+    /// <param name="foodSO"></param>
     public void ChooseFood(FoodSO foodSO)
     {
         //Debug.Log("Choosing food");
@@ -314,6 +350,10 @@ public class CookingAppliance : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// True means open and false means close
+    /// </summary>
+    /// <param name="openclose"></param>
     public void OpenCloseTimer(bool openclose)
     {
         displayTimer.SetActive(openclose);
@@ -330,19 +370,44 @@ public class CookingAppliance : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// True means open and false means close
+    /// </summary>
+    /// <param name="openclose"></param>
     public void OpenCloseDoneDisplay(bool openclose)
     {
         doneDisplay.SetActive(openclose);
     }
 
-    void ResizeCanvas(float x, float y)
+    /// <summary>
+    /// True means open and false means close
+    /// </summary>
+    /// <param name="openclose"></param>
+    void OpenCloseHint(bool openclose)
     {
-        applianceCanvas.GetComponent<RectTransform>().sizeDelta = new Vector2(x, y);
+        hoverHint.SetActive(openclose);
+
+        if (openclose)
+            ResizeCanvas(2.5f, 2.5f);
     }
 
+    /// <summary>
+    /// True means open and false means close
+    /// </summary>
+    /// <param name="openclose"></param>
     void OpenCloseCanvas(bool openclose)
     {
         applianceCanvas.SetActive(openclose);
+    }
+
+    /// <summary>
+    /// Wrapper for resizing the canvas
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    void ResizeCanvas(float x, float y)
+    {
+        applianceCanvas.GetComponent<RectTransform>().sizeDelta = new Vector2(x, y);
     }
 
     /// <summary>
