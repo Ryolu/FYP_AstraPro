@@ -7,6 +7,8 @@ using UnityEngine.Audio;
 public class Menu_Manager : MonoBehaviour {
 
     public static Menu_Manager Instance;
+    public GameObject mainCanvas;
+    public GameObject guideBookCanvas;
     public GameObject usingAudio;
     public bool Tutorial_Mode = false;
 
@@ -70,6 +72,16 @@ public class Menu_Manager : MonoBehaviour {
         //Audio_Manager.Instance.GetComponent<AudioSource>().clip = Audio_Manager.Instance.audioDictionary["Score_Board"];
         //Audio_Manager.Instance.GetComponent<AudioSource>().Play();
         SceneManager.LoadScene("Scenes/WinGame");
+    }
+
+    public void OpenGuideBook()
+    {
+        guideBookCanvas.SetActive(true);
+    }
+
+    public void CloseGuideBook()
+    {
+        guideBookCanvas.SetActive(false);
     }
 
     public void In_Game()
