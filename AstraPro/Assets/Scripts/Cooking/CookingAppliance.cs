@@ -57,7 +57,7 @@ public class CookingAppliance : MonoBehaviour {
     /// <summary>
     /// The canvas
     /// </summary>
-    [Tooltip("Literally the only immediate child of this GameObject")]
+    [Tooltip("Literally the first immediate child of this GameObject")]
     [SerializeField] GameObject applianceCanvas;
     /// <summary>
     /// The hints for what food this appliance can cook
@@ -75,11 +75,16 @@ public class CookingAppliance : MonoBehaviour {
     [Tooltip("Child of applianceCanvas")]
     [SerializeField] GameObject doneDisplay;
     /// <summary>
+    /// The visual feedback for starting cooking process
+    /// </summary>
+    [Tooltip("Literally the third immediate child of this GameObject")]
+    [SerializeField] GameObject cookingModel;
+    [Space(10)]
+    /// <summary>
     /// The particle system
     /// </summary>
     [Tooltip("This can be found under the Particle System empty GameObject")]
     [SerializeField] GameObject particleSystem;
-    [Space(10)]
 
     [Header("Prefabs")]
     [Space(5)]
@@ -129,6 +134,9 @@ public class CookingAppliance : MonoBehaviour {
                 float step = speed * Time.deltaTime;
                 foodTimerFront.rectTransform.localPosition = Vector3.MoveTowards(foodTimerFront.rectTransform.localPosition, Vector3.zero, step);
                 foodTimerText.text = Mathf.CeilToInt(timer).ToString() + "s";
+
+                if (foodList.Count > 1)
+                    cookingModel.transform.position += new Vector3(0, (0.01f + 0.0025f) / selectedFood.timer * Time.deltaTime, 0);
             }
             else
                 IsDone();
@@ -205,6 +213,7 @@ public class CookingAppliance : MonoBehaviour {
         OpenCloseHint(false);
 
         particleSystem.SetActive(false);
+        cookingModel.SetActive(false);
     }
 
     /// <summary>
@@ -293,6 +302,8 @@ public class CookingAppliance : MonoBehaviour {
 
         ResizeCanvas(5.5f, 1.2f);
         particleSystem.SetActive(true);
+        cookingModel.SetActive(true);
+        cookingModel.transform.position = new Vector3(cookingModel.transform.position.x, -0.0025f, cookingModel.transform.position.z);
     }
 
     /// <summary>
