@@ -136,7 +136,7 @@ public class CookingAppliance : MonoBehaviour {
                 foodTimerText.text = Mathf.CeilToInt(timer).ToString() + "s";
 
                 if (foodList.Count > 1)
-                    cookingModel.transform.position += new Vector3(0, (0.01f + 0.0025f) / selectedFood.timer * Time.deltaTime, 0);
+                    cookingModel.transform.localPosition += new Vector3(0, (0.01f + 0.0025f) / selectedFood.timer * Time.deltaTime, 0);
             }
             else
                 IsDone();
@@ -303,7 +303,7 @@ public class CookingAppliance : MonoBehaviour {
         ResizeCanvas(5.5f, 1.2f);
         particleSystem.SetActive(true);
         cookingModel.SetActive(true);
-        cookingModel.transform.position = new Vector3(cookingModel.transform.position.x, -0.0025f, cookingModel.transform.position.z);
+        cookingModel.transform.localPosition = new Vector3(cookingModel.transform.localPosition.x, -0.0025f, cookingModel.transform.localPosition.z);
     }
 
     /// <summary>
