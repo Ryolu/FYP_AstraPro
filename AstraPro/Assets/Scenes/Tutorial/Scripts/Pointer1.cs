@@ -174,6 +174,18 @@ public class Pointer1 : MonoBehaviour
 
                 if (selectedButton.GetComponent<IngredientPanel>())
                     selectedButton.GetComponent<IngredientPanel>().Zoomasaurus(false);
+
+                if (LevelManager.Instance.cookingAppliances.Any(x => x.hoverHint.activeSelf))
+                {
+                    foreach (var app in LevelManager.Instance.cookingAppliances)
+                    {
+                        if (app.hoverHint.activeSelf)
+                        {
+                            app.OpenCloseHint(false);
+                            app.OpenCloseCanvas(false);
+                        }
+                    }
+                }
             }
         
             selectedButton = newButton;
@@ -226,8 +238,10 @@ public class Pointer1 : MonoBehaviour
 
                     var app = something[0].GetComponent<CookingAppliance>();
 
-                    hitTransform = app.transform;
-                    ShowOutline(app.gameObject);
+                    //hitTransform = app.transform;
+                    //ShowOutline(app.gameObject);
+                    app.OpenCloseHint(true);
+                    app.OpenCloseCanvas(true);
                 }
                 // When Carrying food
                 else if (foodSO)
@@ -363,6 +377,9 @@ public class Pointer1 : MonoBehaviour
                                     // Served wrong food, Decrease Rate
                                     Score.Instance.rate -= 0.1f;
                                     customer.fighting = true;
+                                    foreach (CookingAppliance appliance in LevelManager.Instance.cookingAppliances)
+                                        if (!appliance.isDone)
+                                            appliance.NewFood();
 
                                     customer.player = cam.transform.parent;
 

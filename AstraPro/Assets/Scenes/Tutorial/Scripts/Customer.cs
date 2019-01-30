@@ -363,6 +363,11 @@ public class Customer : MonoBehaviour
                     else if (timerImage.fillAmount <= 0f)
                     {
                         fighting = true;
+
+                        foreach (CookingAppliance appliance in LevelManager.Instance.cookingAppliances)
+                            if (!appliance.isDone)
+                                appliance.NewFood();
+
                         player = Player.Instance.transform;
 
                         if (Guide.Instance != null)
