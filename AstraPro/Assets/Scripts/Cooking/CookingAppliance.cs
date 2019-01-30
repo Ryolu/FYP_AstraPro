@@ -385,7 +385,11 @@ public class CookingAppliance : MonoBehaviour {
     /// <param name="openclose"></param>
     public void OpenCloseHint(bool openclose)
     {
+        if (selectedFood)
+            return;
+
         hoverHint.SetActive(openclose);
+        OpenCloseCanvas(openclose);
 
         if (openclose)
             ResizeCanvas(foodList.Count * 1.5f + 0.5f, 2.5f);
