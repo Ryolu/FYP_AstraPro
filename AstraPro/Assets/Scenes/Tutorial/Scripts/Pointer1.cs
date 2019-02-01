@@ -364,6 +364,8 @@ public class Pointer1 : MonoBehaviour
                                 {
                                     customer.SetAnim(customer.idle, false);
                                     customer.SetAnim(customer.happy, true);
+                                    customer.SetClip(Audio_Manager.Instance.audioDictionary["Coin Drop"]);
+
                                     // Served correct food, Add Score
                                     Score.Instance.Profit(customer.foodOrdered, customer.timerImage.fillAmount);
 

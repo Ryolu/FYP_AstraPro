@@ -50,6 +50,7 @@ public class Customer : MonoBehaviour
     private float timer = 0f;
     private GameObject clockHand;
     private Animator anim;
+    private AudioSource audio;
     [HideInInspector] public string idle = "IsIdle";
     [HideInInspector] public string walking = "IsWalking";
     [HideInInspector] public string happy = "IsHappy";
@@ -70,6 +71,7 @@ public class Customer : MonoBehaviour
         leavingState = LeavingStates.phase1;
         fightPositions = (FightPositions)customerId;
         dodge = false;
+        audio = GetComponent<AudioSource>();
 
         CalculateDir();
         InitiateColor();
@@ -79,6 +81,13 @@ public class Customer : MonoBehaviour
     public void SetAnim(string state, bool status)
     {
         anim.SetBool(state, status);
+    }
+
+    public void SetClip(AudioClip audioClip)
+    {
+        audio.Stop();
+        audio.clip = audioClip;
+        audio.Play();
     }
 
     // Initiate Gradients, which is used to change color based on fillAmount of timerImage
