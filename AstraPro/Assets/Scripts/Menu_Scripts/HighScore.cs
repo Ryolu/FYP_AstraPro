@@ -10,6 +10,7 @@ public class HighScore : MonoBehaviour {
 
     public List<Text> highestScoreText;
     string path;
+    public string fileName;
     string jsonString;
     public static HighScore Instance;
     public float overall;
@@ -23,11 +24,15 @@ public class HighScore : MonoBehaviour {
         }
         else
             Destroy(gameObject);
+        fileName = "highScoreStorage.json";
     }
 
     void Start()
     {
-        path = Application.dataPath + "/Scripts/Menu_Scripts/highScoreStorage.json";
+        if (Debug.isDebugBuild)
+            path = Application.dataPath + "/Scripts/Menu_Scripts/" + fileName;
+        else
+            path = Application.dataPath + "/" + fileName;
         jsonString = File.ReadAllText(path);
     }
 

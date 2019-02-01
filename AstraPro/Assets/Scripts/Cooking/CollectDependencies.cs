@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
+#if UNITY_EDITOR
 public class CollectDependencies : EditorWindow
 {
     static GameObject obj = null;
@@ -34,3 +35,4 @@ public class CollectDependencies : EditorWindow
         Repaint();
     }
 }
+#endif
