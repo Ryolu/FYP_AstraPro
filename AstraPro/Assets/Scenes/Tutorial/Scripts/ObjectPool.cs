@@ -6,7 +6,7 @@ public class ObjectPool : MonoBehaviour
     public static ObjectPool Instance;
 
     [Tooltip("Objects that will be add into the pool of GameObjects.")] [SerializeField] private List<GameObject> pooledPrefabs;
-    [Tooltip("Initial amount of objects in the pool.")] [SerializeField] private int pooledAmount = 5;
+    [Tooltip("Initial amount of objects in the pool.")] [SerializeField] private int pooledAmount = 3;
     [Tooltip("Boolean to decide if the pool will grow.")] [SerializeField] private bool willGrow = true;
 
     private List<GameObject> pooledObjects = null;
