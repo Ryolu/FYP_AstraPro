@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
             other.gameObject.tag == "Purse" || other.gameObject.tag == "Slipper")
         {
             Score.Instance.rate -= 0.1f;
+            Score.Instance.fillimage.GetComponent<Animation>().Play();
             other.GetComponent<Projectile>().Destroy();
         }
     }

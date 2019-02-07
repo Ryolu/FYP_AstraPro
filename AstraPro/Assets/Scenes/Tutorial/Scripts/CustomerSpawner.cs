@@ -10,7 +10,7 @@ public class CustomerSpawner : MonoBehaviour
 
     [Tooltip("Queue Point of Customer")] [SerializeField] private Transform queuePoint;
     [Tooltip("Prefabs of Customers")] [SerializeField] private List<GameObject> customerPrefabs;
-    [Tooltip("Spawn Delay of customer")] [SerializeField] private float endTime = 3f;
+    [Tooltip("Spawn Delay of customer")] [SerializeField] private float spawnDelay = 10f;
     //[Tooltip("Time to wait before customer ordering food.")] [SerializeField] private float orderTiming = 0f;
 
     // For Ordering food 1 by 1
@@ -79,7 +79,7 @@ public class CustomerSpawner : MonoBehaviour
             if (customerDic.Any(x => x.Value.fighting == true)) return;
 
             elapsedTime += Time.deltaTime;
-            if (elapsedTime >= endTime)
+            if (elapsedTime >= spawnDelay)
             {
                 elapsedTime = 0f;
 

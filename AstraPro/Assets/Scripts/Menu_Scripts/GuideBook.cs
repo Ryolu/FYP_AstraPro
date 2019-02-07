@@ -26,9 +26,9 @@ public class GuideBook : MonoBehaviour {
     public void NextImage()
     {
         index += 1;
-        if (index >= 21)
+        if (index >= images.Count)
         {
-            index = 21;
+            index = images.Count;
             return;
         }
         thisImage.sprite = images[index];

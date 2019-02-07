@@ -104,8 +104,8 @@ public class Guide : MonoBehaviour
         {
             if (CustomerSpawner.Instance.customerDic.All(x => x.Value.reachedTarget == true))
             {
-                // 4,5,6,7 is about customer order (Order)
-                if (index > 3 && index <= 7)
+                // 4,5,6,7,8,9 is about customer order (Order)
+                if (index > 3 && index <= 9)
                 {
                     TimeUpdateImage();
                 }
@@ -123,8 +123,8 @@ public class Guide : MonoBehaviour
         {
             if (foodListPanel.activeSelf)
             {
-                // 8,9,10,11,12,13,14,15,16,17 is about Cooking & Serving food (CookNServe)
-                if (index > 7 && index <= 17)
+                // 10,11,12,13,14,15,16,17,18,19 is about Cooking & Serving food (CookNServe)
+                if (index > 9 && index <= 19)
                 {
                     TimeUpdateImage();
                 }
@@ -142,7 +142,7 @@ public class Guide : MonoBehaviour
         {
             if (CustomerSpawner.Instance.customerDic.Any(x => x.Value.fighting == true))
             {
-                if (index > 17 && index <= images.Count)
+                if (index > 19 && index <= images.Count)
                 {
                     TimeUpdateImage();
                 }
