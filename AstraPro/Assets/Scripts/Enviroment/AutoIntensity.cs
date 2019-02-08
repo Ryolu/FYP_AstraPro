@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class AutoIntensity : MonoBehaviour {
 
+    //Adjust the color of the direction light
     public Gradient nightDayColor;
 
+    //Intensity of the light
     public float maxIntensity = 3f;
     public float minIntensity = 0f;
     public float minPoint = -0.2f;
@@ -14,33 +16,38 @@ public class AutoIntensity : MonoBehaviour {
     public float minAmbient = 0f;
     public float minAmbientPoint = -0.2f;
 
+    //For game light switches
     public GameObject lightSwitch;
 
     public Gradient nightDayFogColor;
     public AnimationCurve fogDensityCurve;
     public float fogScale = 1f;
 
+    //Checking light how strong it is
     public float dayAtmosphereThickness = 0.4f;
     public float nightAtmosphereThickness = 0.87f;
 
+    //Day and night rotation
     public Vector3 dayRotateSpeed;
     public Vector3 nightRotateSpeed;
 
     float skySpeed = 1;
 
+    //Day counter
     float timecount;
     float timecount_2;
+    bool day, night;
+    int dayCount;
 
+    //Materials and lights stuffs
     Light mainLight;
     Skybox sky;
     Material skyMat;
 
-    bool day, night;
-    int dayCount;
 
     void Start()
     {
-
+        //Starting of the counter
         mainLight = GetComponent<Light>();
         skyMat = RenderSettings.skybox;
         dayCount = 1;
@@ -105,18 +112,22 @@ public class AutoIntensity : MonoBehaviour {
         i = ((dayAtmosphereThickness - nightAtmosphereThickness) * dot) + nightAtmosphereThickness;
         skyMat.SetFloat("_AtmosphereThickness", i);
 
+        //Rotating of day and night cycle
         if (dot > 0)
             transform.Rotate(dayRotateSpeed * Time.deltaTime * skySpeed);
         else
             transform.Rotate(nightRotateSpeed * Time.deltaTime * skySpeed);
 
+        //Increase and decrease light speed
         if (Input.GetKeyDown(KeyCode.Q)) skySpeed *= 0.5f;
         if (Input.GetKeyDown(KeyCode.E)) skySpeed *= 2f;
 
+        //Reaching Night time
         if (gameObject.GetComponent<Light>().intensity < 0.6)
         {
             lightSwitch.SetActive(true);
         }
+        //On Day Time
         else if (gameObject.GetComponent<Light>().intensity > 0.6)
         {
             lightSwitch.SetActive(false);

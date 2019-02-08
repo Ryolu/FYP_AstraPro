@@ -23,6 +23,7 @@ public class highScoreControls : MonoBehaviour
     int focus = 0;
     List<LayoutElement> generatedSprites;
 
+    //Generate all score and text into the highscore menus
     void Start()
     {
         generatedSprites = new List<LayoutElement>();
@@ -54,6 +55,7 @@ public class highScoreControls : MonoBehaviour
         NuitrackManager.onNewGesture -= NuitrackManager_onNewGesture;
     }
 
+    //Swipe Gesture to move up and down
     private void NuitrackManager_onNewGesture(nuitrack.Gesture gesture)
     {
         if (gesture.Type == nuitrack.GestureType.GestureSwipeUp)
@@ -67,6 +69,7 @@ public class highScoreControls : MonoBehaviour
         }
     }
 
+    //Pin point to the middle of the target of score
     public void ChangeFocus()
     {
         focus = Mathf.FloorToInt(( 1 - scrollRect.verticalScrollbar.value ) * 10);

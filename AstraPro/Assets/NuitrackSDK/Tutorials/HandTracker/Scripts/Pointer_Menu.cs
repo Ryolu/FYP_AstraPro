@@ -40,6 +40,7 @@ public class Pointer_Menu : MonoBehaviour
     [SerializeField]
     float dragSensitivity = 5f;
 
+    //Checking win
     float elapsedTime;
     float endTime = 0.5f;
     float TemptBGM, TemptSFX;
@@ -52,10 +53,12 @@ public class Pointer_Menu : MonoBehaviour
     [SerializeField] private float radius = 80f;
     private float angle = 0f;
 
+    //for Canvas
     public GameObject MainMenuSections;
     public GameObject PlaySections;
     public GameObject ExtraSections;
 
+    //for the hands sprite to appeared
     private void Start()
     {
         NuitrackManager.onHandsTrackerUpdate += NuitrackManager_onHandsTrackerUpdate;
@@ -183,58 +186,70 @@ public class Pointer_Menu : MonoBehaviour
 
                 selectedButton.OnPointerClick(eventData);
 
+                //Go to Start game from the button check
                 if (selectedButton.name == "Start")
                 {
                     Menu_Manager.Instance.Tutorial_Mode = false;
                     Menu_Manager.Instance.In_Game();
                 }
+                //Return to main menu
                 else if (selectedButton.name == "Return_MainMenu")
                 {
                     Menu_Manager.Instance.OnGameMenu();
                 }
+                //Go to Tutorial Scene
                 else if (selectedButton.name == "Tutorial")
                 {
                     Menu_Manager.Instance.Tutorial_Mode = true;
                     Menu_Manager.Instance.In_Game();
                 }
+                //Go to Options Scene
                 else if (selectedButton.name == "Options")
                 {
                     Menu_Manager.Instance.OnOptions();
                 }
+                //Go back to previous gameplay/selections
                 else if (selectedButton.name == "Back")
                 {
                     Menu_Manager.Instance.Resume();
                 }
+                //Close applications
                 else if (selectedButton.name == "Exit")
                 {
                     Menu_Manager.Instance.Exit();
                 }
+                //Go to HighScore Scene
                 else if (selectedButton.name == "HighScore")
                 {
                     Menu_Manager.Instance.HighScore();
                 }
+                //Go to Credits Scene
                 else if (selectedButton.name == "Credits")
                 {
                     Menu_Manager.Instance.Credits();
                 }
+                //Open Play section of canvas
                 else if (selectedButton.name == "Play")
                 {
                     MainMenuSections.SetActive(false);
                     ExtraSections.SetActive(false);
                     PlaySections.SetActive(true);
                 }
+                //Open MenuSelect section of canvas
                 else if (selectedButton.name == "Back_MenuSelect")
                 {
                     MainMenuSections.SetActive(true);
                     ExtraSections.SetActive(false);
                     PlaySections.SetActive(false);
                 }
+                //Open Extras section of canvas
                 else if (selectedButton.name == "Extra")
                 {
                     MainMenuSections.SetActive(false);
                     ExtraSections.SetActive(true);
                     PlaySections.SetActive(false);
                 }
+                //Option Menu to check if SFX if mute or unmute
                 else if (selectedButton.name == "SFX_Check")
                 {
                     //elapsedTime += Time.deltaTime;
@@ -264,6 +279,7 @@ public class Pointer_Menu : MonoBehaviour
                     //}
                     //selectedButton.OnDrag(eventData);
                 }
+                //Option Menu to check if BGM if mute or unmute
                 else if (selectedButton.name == "BGM_Check")
                 {
                     //elapsedTime += Time.deltaTime;
@@ -295,6 +311,7 @@ public class Pointer_Menu : MonoBehaviour
                 }
                 
             }
+            //Option Menu to increase sounds
             if (selectedButton.name == "Increase_SFX" || selectedButton.name == "Increase_BGM")
             {
                 if (selectedButton.name == "Increase_BGM")
@@ -314,6 +331,7 @@ public class Pointer_Menu : MonoBehaviour
                     selectedButton.GetComponentInParent<Slider>().value = 0;
                 }
             }
+            //Option Menu to decrease sounds
             else if (selectedButton.name == "Decrease_SFX" || selectedButton.name == "Decrease_BGM")
             {
                 if (selectedButton.name == "Decrease_BGM")

@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 using System.Linq;
 
 public class HighScore : MonoBehaviour {
-
+    //taking file from json file and read all the text to place into the game
     public List<Text> highestScoreText;
     string path;
     public string fileName;
@@ -15,6 +15,7 @@ public class HighScore : MonoBehaviour {
     public static HighScore Instance;
     public float overall;
 
+    //going to highscore and do not destory the game object
     private void Awake()
     {
         if (Instance == null)
@@ -27,6 +28,7 @@ public class HighScore : MonoBehaviour {
         fileName = "highScoreStorage.json";
     }
 
+    //find the game file and read the file from scripts
     void Start()
     {
         if (Debug.isDebugBuild)
@@ -36,6 +38,7 @@ public class HighScore : MonoBehaviour {
         jsonString = File.ReadAllText(path);
     }
 
+    //Score change if win or lose
     public void OnHighScore()
     {
         ScoreStorage ScoreCheck = JsonUtility.FromJson<ScoreStorage>(jsonString);
