@@ -58,7 +58,6 @@ public class RadialMenu : MonoBehaviour
                 }
                 button.transform.localPosition += new Vector3(Mathf.Cos(angle) * dist, Mathf.Sin(angle) * dist, 0);
                 radialButton.alphaHitTestMinimumThreshold = 0.5f;
-                //button.image.fillAmount = 1f / number;
 
                 Image foodPic = button.transform.GetChild(0).GetComponent<Image>();
                 foodPic.sprite = ingredientList[i].sprite;
@@ -78,12 +77,6 @@ public class RadialMenu : MonoBehaviour
     {
         int number = 3;
         otherMenu.currentAppliance = currentAppliance = appliance;
-        //string list = "";
-        //foreach (FoodSO foodso in appliance.foodList)
-        //{
-        //    list += foodso.foodName + ", ";
-        //}
-        //Debug.Log(list);
 
         for (int i = 0; i < number; i++)
         {
@@ -97,7 +90,6 @@ public class RadialMenu : MonoBehaviour
             if (i < appliance.foodList.Count)
             {
                 var food = appliance.foodList[i];
-                //button.onClick.AddListener(() => Test(appliance.foodList[0]));
                 if (otherMenu)
                     button.onClick.AddListener(() => otherMenu.currentFood = food);
                 button.onClick.AddListener(() => appliance.ChooseFood(food));
@@ -140,7 +132,7 @@ public class RadialMenu : MonoBehaviour
     {
         List<Sprite> sprites = foodSO.ingredientList.Select(x => x.sprite).ToList();
 
-        for (int i = 1; i < transform.childCount; i++)//Transform child in transform)
+        for (int i = 1; i < transform.childCount; i++)
         {
             if (sprites.Contains(transform.GetChild(i).GetChild(0).GetComponent<Image>().sprite))
             {
