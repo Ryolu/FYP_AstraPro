@@ -101,16 +101,16 @@ public class AutoIntensity : MonoBehaviour {
         tRange = 1 - minAmbientPoint;
         dot = Mathf.Clamp01((Vector3.Dot(mainLight.transform.forward, Vector3.down) - minAmbientPoint) / tRange);
         i = ((maxAmbient - minAmbient) * dot) + minAmbient;
-        RenderSettings.ambientIntensity = i;
+        //RenderSettings.ambientIntensity = i;
 
-        mainLight.color = nightDayColor.Evaluate(dot);
-        RenderSettings.ambientLight = mainLight.color;
+        //mainLight.color = nightDayColor.Evaluate(dot);
+        //RenderSettings.ambientLight = mainLight.color;
 
-        RenderSettings.fogColor = nightDayFogColor.Evaluate(dot);
-        RenderSettings.fogDensity = fogDensityCurve.Evaluate(dot) * fogScale;
+        //RenderSettings.fogColor = nightDayFogColor.Evaluate(dot);
+        //RenderSettings.fogDensity = fogDensityCurve.Evaluate(dot) * fogScale;
 
         i = ((dayAtmosphereThickness - nightAtmosphereThickness) * dot) + nightAtmosphereThickness;
-        skyMat.SetFloat("_AtmosphereThickness", i);
+        //skyMat.SetFloat("_AtmosphereThickness", i);
 
         //Rotating of day and night cycle
         if (dot > 0)

@@ -37,7 +37,7 @@ public class GuideBook : MonoBehaviour {
     public void PreviousImage()
     {
         index -= 1;
-        if (index <= 0)
+        if (index < 0)
         {
             index = 0;
             return;

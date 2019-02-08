@@ -71,9 +71,13 @@ public class Score : MonoBehaviour {
         {
             Menu_Manager.Instance.GameOver();
         }
+        if (rate >= 1.0f)
+        {
+            Menu_Manager.Instance.WinGame();
+        }
 
         //Debug.Log(winGameTimerCount);
-	}
+    }
 
     public void Total_Rate()
     {

@@ -87,8 +87,6 @@ public class Pointer1 : MonoBehaviour
             oL.color = 0;
         }
 
-        cookingAppliance.GetComponent<CookingAppliance>().ShowProcess(false, true);
-
         if (item == cookingAppliance)
         {
             // Reset Food
@@ -328,7 +326,6 @@ public class Pointer1 : MonoBehaviour
 
                             // Select food and store it for serving customer
                             cookingAppliance = app.gameObject;
-                            app.ShowProcess(false);
                             foodSO = app.TakeFood();
 
                             foreach(var pair in CustomerSpawner.Instance.customerDic)
@@ -338,14 +335,6 @@ public class Pointer1 : MonoBehaviour
 
                             // Change Hand Sprite to Food Sprite
                             background.sprite = foodSO.sprite;
-
-                            // Enable highlight on selected cooking Appliance
-                            var o = cookingAppliance.GetComponentsInChildren<Outline>();
-                            foreach (var oL in o)
-                            {
-                                oL.selected = true;
-                                oL.color = 1;
-                            }
                         }
                     }
                     // When Carrying food
@@ -400,7 +389,8 @@ public class Pointer1 : MonoBehaviour
                                 }
 
                                 // Reset cooking Appliance status
-                                cookingAppliance.GetComponent<CookingAppliance>().NewFood();
+                                CookingAppliance app = cookingAppliance.GetComponent<CookingAppliance>();
+                                app.NewFood();
 
                                 DropItem(cookingAppliance);
                             }

@@ -140,7 +140,7 @@ public class CookingAppliance : MonoBehaviour {
             }
             else
                 IsDone();
-        }   NewFood();
+        }
 
         if (Input.GetKeyUp(KeyCode.Space))
         {
