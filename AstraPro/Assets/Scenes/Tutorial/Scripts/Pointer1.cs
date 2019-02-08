@@ -87,6 +87,8 @@ public class Pointer1 : MonoBehaviour
             oL.color = 0;
         }
 
+        cookingAppliance.GetComponent<CookingAppliance>().ShowProcess(false, true);
+
         if (item == cookingAppliance)
         {
             // Reset Food
@@ -326,6 +328,7 @@ public class Pointer1 : MonoBehaviour
 
                             // Select food and store it for serving customer
                             cookingAppliance = app.gameObject;
+                            app.ShowProcess(false);
                             foodSO = app.TakeFood();
 
                             foreach(var pair in CustomerSpawner.Instance.customerDic)

@@ -140,12 +140,7 @@ public class CookingAppliance : MonoBehaviour {
             }
             else
                 IsDone();
-        }
-        //
-        //if (cleanTimer > 0)
-        //    cleanTimer -= Time.deltaTime;
-        //else
-        //    NewFood();
+        }   NewFood();
 
         if (Input.GetKeyUp(KeyCode.Space))
         {
@@ -213,7 +208,7 @@ public class CookingAppliance : MonoBehaviour {
         OpenCloseHint(false);
 
         particleSystem.SetActive(false);
-        cookingModel.SetActive(false);
+        ShowProcess(false);
     }
 
     /// <summary>
@@ -302,8 +297,9 @@ public class CookingAppliance : MonoBehaviour {
 
         ResizeCanvas(5.5f, 1.2f);
         particleSystem.SetActive(true);
-        cookingModel.SetActive(true);
-        cookingModel.transform.localPosition = new Vector3(cookingModel.transform.localPosition.x, -0.0025f, cookingModel.transform.localPosition.z);
+        ShowProcess(true);
+        if (foodList.Count > 1)
+            cookingModel.transform.localPosition = new Vector3(cookingModel.transform.localPosition.x, -0.0025f, cookingModel.transform.localPosition.z);
     }
 
     /// <summary>
@@ -318,10 +314,8 @@ public class CookingAppliance : MonoBehaviour {
         ingredientPanel.transform.parent.gameObject.SetActive(openclose);
 
         RadialMenu radialMenu = ingredientPanel.parent.gameObject.GetComponentInChildren<RadialMenu>();
-        if (openclose)// && ingredientPanel.transform.parent.GetChild(1).childCount == 1)
+        if (openclose)
             radialMenu.CallThisInsteadIngredient(7);
-
-        //ingredientPanel.gameObject.SetActive(openclose);
     }
 
     /// <summary>
@@ -338,16 +332,6 @@ public class CookingAppliance : MonoBehaviour {
             foodListPanel.SetActive(openclose);
 
             foodButtonPanel.GetComponent<RadialMenu>().CallThisInsteadFood(this);
-            //foreach (FoodSO foodSO in foodList)
-            //{
-                //GameObject prefab = Instantiate(radialMenuButtonPrefab, foodButtonPanel);
-                //TextMeshProUGUI foodName = prefab.GetComponentInChildren<TextMeshProUGUI>();
-                //foodName.text = foodSO.foodName;
-                //Image foodImage = prefab.GetComponentInChildren<Image>();
-                //foodImage.sprite = foodSO.sprite;
-                //Button foodButton = prefab.GetComponentInChildren<Button>();
-                //foodButton.onClick.AddListener(() => ChooseFood(foodSO));
-            //}
         }
         else
         {
@@ -432,5 +416,14 @@ public class CookingAppliance : MonoBehaviour {
     public FoodSO TakeFood()
     {
         return selectedFood;
+    }
+
+    public void ShowProcess(bool show, bool putBack = false)
+    {
+        cookingModel.SetActive(show);
+
+        if(show && !putBack)
+            if (foodList.Count > 1)
+                cookingModel.transform.localPosition = new Vector3(cookingModel.transform.localPosition.x, -0.0025f, cookingModel.transform.localPosition.z);
     }
 }
