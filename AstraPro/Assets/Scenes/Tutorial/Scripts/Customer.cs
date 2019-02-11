@@ -52,6 +52,8 @@ public class Customer : MonoBehaviour
     private GameObject clockHand;
     private Animator anim;
     private AudioSource audio;
+    private Pointer1 playerLHand;
+    private Pointer1 playerRHand;
     [HideInInspector] public string idle = "IsIdle";
     [HideInInspector] public string walking = "IsWalking";
     [HideInInspector] public string happy = "IsHappy";
@@ -76,6 +78,19 @@ public class Customer : MonoBehaviour
 
         var spawnPos = CustomerSpawner.Instance.spawnPoint.position;
         leavingPosition = new Vector3(spawnPos.x + customerSizeX * 0.75f, spawnPos.y, spawnPos.z + customerSizeZ);
+
+        var hands = PauseManager.Instance.GetComponentsInChildren<Pointer1>();
+        foreach(var hand in hands)
+        {
+            if (hand.currentHand == Pointer1.Hands.left)
+            {
+                playerLHand = hand;
+            }
+            else if(hand.currentHand == Pointer1.Hands.right)
+            {
+                playerRHand = hand;
+            }
+        }
 
         CalculateDir();
         InitiateColor();
@@ -387,6 +402,9 @@ public class Customer : MonoBehaviour
 
                         SetAnim(idle, false);
                         SetAnim(angry, true);
+
+                        playerLHand.DropItem(null);
+                        playerRHand.DropItem(null);
                     }
                 }
                 #endregion Waiting State

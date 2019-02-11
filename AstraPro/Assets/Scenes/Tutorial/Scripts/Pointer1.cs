@@ -7,9 +7,8 @@ using System.Linq;
 public class Pointer1 : MonoBehaviour
 {
     public enum Hands { left = 0, right = 1 };
-
-    [SerializeField]
-    Hands currentHand;
+    
+    public Hands currentHand;
 
     [Header ("Visualization")]
     [SerializeField]
@@ -74,10 +73,12 @@ public class Pointer1 : MonoBehaviour
         NuitrackManager.onHandsTrackerUpdate -= NuitrackManager_onHandsTrackerUpdate;
     }
 
-    private void DropItem(GameObject item)
+    public void DropItem(GameObject item)
     {
         // Change Ingredient Sprite back to Hand Sprite
         background.sprite = defaultSprite;
+
+        if (item == null) return;
 
         // Disable highlight on selected ingredient
         var o = item.GetComponentsInChildren<Outline>();
