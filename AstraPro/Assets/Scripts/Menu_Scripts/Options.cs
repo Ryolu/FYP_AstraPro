@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 public class Options : MonoBehaviour {
+
+    //Slider for BGM and SFX
     public Slider BGM, SFX;
 
 	// Use this for initialization

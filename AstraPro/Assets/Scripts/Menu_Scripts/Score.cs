@@ -6,18 +6,19 @@ using UnityEngine.UI;
 public class Score : MonoBehaviour {
 
     public static Score Instance;    
-    public float rate = .20f;
-    public Text money;
-    public GameObject fillimage;
-    public Image rateBar;
-    public List<Image> Flower = new List<Image>();
-    float elapsedTime;
-    float winGameTimerCount;
-    float endGameTime = 60.0f;
-    float endTime = 5.0f;
-    bool switching = false;
-    public bool maxStar = false;
+    public float rate = .20f; //set the rate 
+    public Text money; //for setting the text
+    public GameObject fillimage; //setting a image for the fill bar
+    public Image rateBar; //for the back ground of the bar
+    public List<Image> Flower = new List<Image>(); //for the rate flower to be set in
+    float elapsedTime; // for timer to run
+    float winGameTimerCount; //for win timer count down
+    float endGameTime = 60.0f; //if after 60 of the game reached max rate go to win
+    float endTime = 5.0f; //timer set to fade out the image behind
+    bool switching = false; //switching on and off the fade
+    public bool maxStar = false; //if you reached all 5 stars
 
+    //for the start of the score being called
     private void Awake()
     {
         Instance = this;
@@ -31,15 +32,11 @@ public class Score : MonoBehaviour {
         rateBar.fillAmount = rate;
         money.text = HighScore.Instance.overall.ToString();
     }
-
-    // Use this for initialization
-    void Start () {
-        
-    }
 	
 	// Update is called once per frame
 	void Update ()
     {
+        //if game not paused then go back to all on
         if (PauseManager.Instance != null && PauseManager.Instance.isPaused) return;
 
         if (switching)
@@ -79,6 +76,7 @@ public class Score : MonoBehaviour {
         //Debug.Log(winGameTimerCount);
     }
 
+    //if rate up will have a flower will appeared
     public void Total_Rate()
     {
         int starCount = (int)(rate * 5);
@@ -92,6 +90,7 @@ public class Score : MonoBehaviour {
         }
     }
 
+    //profit counter for the game
     public void Profit(FoodSO food, float time)
     {
         if (food.foodName == "Curry Fish Head")

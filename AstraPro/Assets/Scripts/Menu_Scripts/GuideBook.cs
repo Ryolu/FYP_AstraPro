@@ -7,8 +7,8 @@ public class GuideBook : MonoBehaviour {
 
     private static GuideBook Instances;
 
-    [SerializeField] private List<Sprite> images;
-    private Image thisImage;
+    [SerializeField] private List<Sprite> images; // slot in image for up to 24 for the guidebook 
+    private Image thisImage; //put image in
     private int index = 0;
 
     private void Awake()
@@ -23,6 +23,7 @@ public class GuideBook : MonoBehaviour {
         thisImage.sprite = images[index];
     }
 
+    //press to go to the next image
     public void NextImage()
     {
         index += 1;
@@ -34,6 +35,7 @@ public class GuideBook : MonoBehaviour {
         thisImage.sprite = images[index];
     }
 
+    //press to go to the previous image
     public void PreviousImage()
     {
         index -= 1;
@@ -44,8 +46,5 @@ public class GuideBook : MonoBehaviour {
         }
         thisImage.sprite = images[index];
     }
-	// Update is called once per frame
-	void Update () {
-		
-	}
+	
 }
