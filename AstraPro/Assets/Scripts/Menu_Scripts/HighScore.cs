@@ -6,7 +6,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
 
-public class HighScore : MonoBehaviour {
+public class HighScore : MonoBehaviour
+{
     //taking file from json file and read all the text to place into the game
     public List<Text> highestScoreText;
     string path;
@@ -36,25 +37,43 @@ public class HighScore : MonoBehaviour {
         else
             path = Application.dataPath + "/" + fileName;
         jsonString = File.ReadAllText(path);
+
+
+        ScoreStorage ScoreCheck = JsonUtility.FromJson<ScoreStorage>(jsonString);
+        List<float> tempList = new List<float>() { 1, 2, 34, 51234, 1 };
+        foreach (int score in ScoreCheck.scoreList)
+            tempList.Add(score);
+
+        tempList.Add(overall);
+        tempList = tempList.OrderByDescending(x => x).ToList();
+
+        for (int i = 0; i < highestScoreText.Count; i++)
+            highestScoreText[i].text = tempList[i].ToString();
+
+        var cat = JsonUtility.ToJson(tempList);
+
+        File.WriteAllText(path, cat);
     }
 
     //Score change if win or lose
     public void OnHighScore()
     {
         ScoreStorage ScoreCheck = JsonUtility.FromJson<ScoreStorage>(jsonString);
-        List<float> tempList = new List<float>();
-        foreach (int score in ScoreCheck.scoreList)
-            tempList.Add(score);
+        
+        ScoreCheck.scoreList.Add(overall);
+        ScoreCheck.scoreList = ScoreCheck.scoreList.OrderByDescending(x => x).ToList();
 
-        tempList.Add(overall);
-        tempList = tempList.OrderByDescending(x => x).ToList();
         for (int i = 0; i < highestScoreText.Count; i++)
-            highestScoreText[i].text = tempList[i].ToString();
+            highestScoreText[i].text = ScoreCheck.scoreList[i].ToString();
+
+        Debug.Log("Saved JSON string: " + JsonUtility.ToJson(ScoreCheck));
+
+        File.WriteAllText(path, JsonUtility.ToJson(ScoreCheck));
     }
 
     [System.Serializable]
     public class ScoreStorage
     {
-        public List<int> scoreList;
+        public List<float> scoreList;
     }
 }

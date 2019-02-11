@@ -32,8 +32,6 @@ public class CustomerSpawner : MonoBehaviour
         //customerQueue = new Queue<Customer>();
         customerDic = new Dictionary<int, Customer>();
 
-        // Spawn 1 customer at start of game
-        NewCustomer(1);
 	}
 	
     // Randomly choose a customer prefab for NewCustomer(int count) to spawn

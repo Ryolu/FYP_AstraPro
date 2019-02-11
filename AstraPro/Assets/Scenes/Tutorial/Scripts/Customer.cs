@@ -43,6 +43,7 @@ public class Customer : MonoBehaviour
 
     private Vector3 dir;
     private Vector3 targetPosition;
+    private Vector3 leavingPosition;
     private float customerSizeX;
     private float customerSizeZ;
     private Gradient greenYellowGradient;
@@ -72,6 +73,9 @@ public class Customer : MonoBehaviour
         fightPositions = (FightPositions)customerId;
         dodge = false;
         audio = GetComponent<AudioSource>();
+
+        var spawnPos = CustomerSpawner.Instance.spawnPoint.position;
+        leavingPosition = new Vector3(spawnPos.x + customerSizeX * 0.75f, spawnPos.y, spawnPos.z + customerSizeZ);
 
         CalculateDir();
         InitiateColor();
@@ -193,10 +197,7 @@ public class Customer : MonoBehaviour
     public void Leave()
     {
         transform.GetChild(0).gameObject.SetActive(false);
-        targetPosition = CustomerSpawner.Instance.spawnPoint.position + new Vector3(customerSizeX * 0.75f, 0, customerSizeZ);
-        dir = (targetPosition - transform.position).normalized;
         leaving = true;
-        fighting = false;
 
         leavingState = LeavingStates.phase1;
     }
@@ -496,7 +497,7 @@ public class Customer : MonoBehaviour
         {
             #region Leaving State
 
-            if (Vector3.Distance(transform.position, targetPosition) >= 0.1f)
+            if (Vector3.Distance(transform.position, leavingPosition) >= 0.1f)
             {
                 switch (leavingState)
                 {
@@ -512,9 +513,9 @@ public class Customer : MonoBehaviour
                         break;
 
                     case LeavingStates.phase2:
-                        if (Vector3.Angle(transform.forward, targetPosition - transform.position) != 0f)
+                        if (Vector3.Angle(transform.forward, leavingPosition - transform.position) != 0f)
                         {
-                            Vector3 temp = targetPosition - transform.position;
+                            Vector3 temp = leavingPosition - transform.position;
                             transform.forward = Vector3.RotateTowards(transform.forward, new Vector3(temp.x, 0, temp.z), 0.075f, 0.0f);
                             transform.position += transform.forward * Time.deltaTime * 2f;
                         }
