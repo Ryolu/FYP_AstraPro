@@ -55,6 +55,13 @@ public class CustomerSpawner : MonoBehaviour
     /// </summary>
     private float elapsedTime;
 
+    /// <summary>
+    /// A boolean that determines to spawn Customer in Tutorial Scene or not.
+    /// 
+    /// Default: False
+    /// </summary>
+    private bool spawnedGuideCustomer = false;
+
     private void Awake ()
     {
         // Set instance for other Scripts to access
@@ -142,6 +149,31 @@ public class CustomerSpawner : MonoBehaviour
                     NewCustomer();
                 }
             }            
+        }
+        else
+        {
+            // If already spawned a Customer for Tutorial, do not do anything anymore
+            if(spawnedGuideCustomer)
+            {
+                return;
+            }
+
+            // Runs the Spawning Timer
+            elapsedTime += Time.deltaTime;
+
+            // When Timer Reach limit
+            if (elapsedTime >= spawnDelay)
+            {
+                // Reset Timer
+                elapsedTime = 0f;
+
+                // Spawn Customer if total count is less than 3
+                if (customerCount < 3)
+                {
+                    NewCustomer();
+                    spawnedGuideCustomer = true;
+                }
+            }
         }
     }
 }

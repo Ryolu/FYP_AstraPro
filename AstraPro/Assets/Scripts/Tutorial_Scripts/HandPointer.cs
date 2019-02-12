@@ -189,7 +189,6 @@ public class HandPointer : MonoBehaviour
     {
         baseRect = GetComponent<RectTransform>();
         background = GetComponent<Image>();
-        cam = Player.Instance.transform.GetChild(0).GetComponent<Camera>();
         timerImage = transform.GetChild(0).GetComponent<Image>();
         timerImage2 = transform.GetChild(1).GetComponent<Image>();
     }
@@ -200,6 +199,8 @@ public class HandPointer : MonoBehaviour
 
         // Initialise this GameObject's sprite
         background.sprite = defaultSprite;
+
+        cam = Player.Instance.transform.GetChild(0).GetComponent<Camera>();
     }
 
     private void OnDestroy()
