@@ -2,67 +2,273 @@
 using UnityEngine.UI;
 using System.Collections.Generic;
 
+/// <summary>
+/// This class manages everything of Customer AI.
+/// 
+/// Can be found attached in Assets -> Prefabs -> Customers
+/// </summary>
 public class Customer : MonoBehaviour
 {
-    enum LeavingStates
+    /// <summary>
+    /// Enumeration to determine Leaving States of Customer.
+    /// </summary>
+    private enum LeavingStates
     {
         phase1,
         phase2,
         phase3
     }
 
-    LeavingStates leavingState;
+    public object LeavingState { get; private set; }
 
-    enum FightPositions
+    /// <summary>
+    /// Enumeration to determine Fight Positions.
+    /// </summary>
+    private enum FightPositions
     {
         left = 1,
         middle = 2,
         right = 3
     }
+    
+    /// <summary>
+    /// Image Component of Rotating Timer(Color)
+    /// </summary>
+    [Tooltip("Image Component of Rotating Timer(Color)")]
+    public Image timerImage;
 
-    FightPositions fightPositions;
-    private bool dodge = false;
+    /// <summary>
+    /// A float that determines how long the customer will wait for food.
+    /// 
+    /// Default: 30
+    /// </summary>
+    [Tooltip("A float that determines how long the customer will wait for food.\n" +
+        "\n" +
+        "Default: 30")]
+    public float waitTiming = 30f;
 
-    [Tooltip("Timer Filler Image")] public Image timerImage;
-    [Tooltip("How long the Customer will wait for food")] public float waitTiming = 30f;
-    [Tooltip("Movement Speed of Customer")] [SerializeField] private float movementSpeed = 2.5f;
-    [Tooltip("Rotate Speed of Customer")] [SerializeField] private float rotateSpeed = 80f;
-    [Tooltip("Cool down timing of shooting player")] [SerializeField] private float fireCD = 1f;
-    [Tooltip("Foods that customer can order")] [SerializeField] private FoodSO[] foodOrder;
-    [Tooltip("Customer Bullet Prefab to shoot player")] [SerializeField] private GameObject customerBulletPrefab;
+    /// <summary>
+    /// A float that determines Movement Speed of Customer.
+    /// 
+    /// Default: 2.5
+    /// </summary>
+    [Tooltip("A float that determines Movement Speed of Customer.\n" +
+        "\n" +
+        "Default: 2.5")]
+    [SerializeField] private float movementSpeed = 2.5f;
 
+    /// <summary>
+    /// A float that determines Rotate Speed of Customer.
+    /// 
+    /// Default: 80
+    /// </summary>
+    [Tooltip("A float that determines Rotate Speed of Customer.\n" +
+        "\n" +
+        "Default: 80")]
+    [SerializeField] private float rotateSpeed = 80f;
+
+    /// <summary>
+    /// A float that determines Cool down timing of shooting player.
+    /// 
+    /// Default: 1
+    /// </summary>
+    [Tooltip("A float that determines Cool down timing of shooting player.\n" +
+        "\n" +
+        "Default: 1")]
+    [SerializeField] private float fireCD = 1f;
+
+    /// <summary>
+    /// An array of Foods that customer can order.
+    /// </summary>
+    [Tooltip("An array of Foods that customer can order.")]
+    [SerializeField] private FoodSO[] foodOrder;
+
+    /// <summary>
+    /// A GameObject Prefab of Customer Bullet.
+    /// </summary>
+    [Tooltip("Customer Bullet Prefab to shoot player")]
+    [SerializeField] private GameObject customerBulletPrefab;
+
+    /// <summary>
+    /// A Vector3 Postion for Customer to queue towards.
+    /// </summary>
     [HideInInspector] public Vector3 queuePosition;
+
+    /// <summary>
+    /// An integer that stores customer's ID.
+    /// </summary>
     [HideInInspector] public int customerId;
+
+    /// <summary>
+    /// A boolean that determines if Customer have reach their target as they move.
+    /// 
+    /// Defualt: False
+    /// </summary>
     [HideInInspector] public bool reachedTarget = false;
+
+    /// <summary>
+    /// A boolean that determines if Customer have order food.
+    /// 
+    /// Defualt: False
+    /// </summary>
     [HideInInspector] public bool orderedFood = false;
+
+    /// <summary>
+    /// A reference to store the food ordered by customer.
+    /// </summary>
     [HideInInspector] public FoodSO foodOrdered;
+
+    /// <summary>
+    /// A boolean that determines if Customer is fighting.
+    /// 
+    /// Defualt: False
+    /// </summary>
     [HideInInspector] public bool fighting = false;
+
+    /// <summary>
+    /// A boolean that determines if other Customer is fighting.
+    /// 
+    /// Defualt: False
+    /// </summary>
     [HideInInspector] public bool othersFighting = false;
+
+    /// <summary>
+    /// A boolean that determines if Customer is leaving.
+    /// 
+    /// Defualt: False
+    /// </summary>
     [HideInInspector] public bool leaving = false;
+
+    /// <summary>
+    /// A reference to the Transform of Player.
+    /// </summary>
     [HideInInspector] public Transform player;
 
-    private Vector3 dir;
-    private Vector3 targetPosition;
-    private Vector3 leavingPosition;
-    private float customerSizeX;
-    private float customerSizeZ;
-    private Gradient greenYellowGradient;
-    private Gradient yellowRedGradient;
-    private float timer = 0f;
-    private GameObject clockHand;
-    private Animator anim;
-    private AudioSource audio;
-    private Pointer1 playerLHand;
-    private Pointer1 playerRHand;
+    /// <summary>
+    /// A String reference to the Customer State.
+    /// 
+    /// Default: IsIdle
+    /// </summary>
     [HideInInspector] public string idle = "IsIdle";
+
+    /// <summary>
+    /// A String reference to the Customer State.
+    /// 
+    /// Default: IsWalking
+    /// </summary>
     [HideInInspector] public string walking = "IsWalking";
+
+    /// <summary>
+    /// A String reference to the Customer State.
+    /// 
+    /// Default: IsHappy
+    /// </summary>
     [HideInInspector] public string happy = "IsHappy";
+
+    /// <summary>
+    /// A String reference to the Customer State.
+    /// 
+    /// Default: IsAngry
+    /// </summary>
     [HideInInspector] public string angry = "IsAngry";
+
+    /// <summary>
+    /// A String reference to the Customer State.
+    /// 
+    /// Default: IsScared
+    /// </summary>
     [HideInInspector] public string scared = "IsScared";
+
+    /// <summary>
+    /// A String reference to the Customer State.
+    /// 
+    /// Default: IsThrowingStuff
+    /// </summary>
     [HideInInspector] public string throwing = "IsThrowingStuff";
 
-    public object LeavingState { get; private set; }
+    /// <summary>
+    /// A Vector3 that determines where this customer move towards.
+    /// </summary>
+    private Vector3 dir;
 
+    /// <summary>
+    /// A Vector3 Postion for Customer to move towards.
+    /// </summary>
+    private Vector3 targetPosition;
+    
+    /// <summary>
+    /// A Vector3 Postion for Customer to leave towards.
+    /// </summary>
+    private Vector3 leavingPosition;
+
+    /// <summary>
+    /// A float that determines the customer size x.
+    /// </summary>
+    private float customerSizeX;
+
+    /// <summary>
+    /// A float that determines the customer size z.
+    /// </summary>
+    private float customerSizeZ;
+
+    /// <summary>
+    /// A gradient that determines the colour of customer order image.
+    /// </summary>
+    private Gradient greenYellowGradient;
+
+    /// <summary>
+    /// A gradient that determines the colour of customer order image.
+    /// </summary>
+    private Gradient yellowRedGradient;
+
+    /// <summary>
+    /// A float timer of customer throwing stuff.
+    /// </summary>
+    private float timer = 0f;
+
+    /// <summary>
+    /// A GameObject reference to the clock Hand Image of Customer Order Image.
+    /// </summary>
+    private GameObject clockHand;
+
+    /// <summary>
+    /// A Animator reference to cusotmer's animator.
+    /// </summary>
+    private Animator anim;
+
+    /// <summary>
+    /// A AudioSource reference to customer's audio source.
+    /// </summary>
+    private AudioSource audio;
+
+    /// <summary>
+    /// A HandPointer reference to player's left hand.
+    /// </summary>
+    private HandPointer playerLHand;
+
+    /// <summary>
+    /// A HandPointer reference to player's right hand.
+    /// </summary>
+    private HandPointer playerRHand;
+
+    /// <summary>
+    /// Enumeration to determine Leaving States of Customer.
+    /// </summary>
+    private LeavingStates leavingState;
+
+    /// <summary>
+    /// Enumeration to determine Fight Positions.
+    /// </summary>
+    private FightPositions fightPositions;
+
+    /// <summary>
+    /// A boolean that determine if Customer should dodge.
+    /// </summary>
+    private bool dodge = false;
+    
+    /// <summary>
+    /// Initialise Data for customer.
+    /// </summary>
     public void InitiateData()
     {
         customerSizeX = transform.lossyScale.x * 0.275f;
@@ -79,14 +285,14 @@ public class Customer : MonoBehaviour
         var spawnPos = CustomerSpawner.Instance.spawnPoint.position;
         leavingPosition = new Vector3(spawnPos.x + customerSizeX * 0.75f, spawnPos.y, spawnPos.z + customerSizeZ);
 
-        var hands = PauseManager.Instance.GetComponentsInChildren<Pointer1>();
+        var hands = PauseManager.Instance.GetComponentsInChildren<HandPointer>();
         foreach(var hand in hands)
         {
-            if (hand.currentHand == Pointer1.Hands.left)
+            if (hand.currentHand == HandPointer.Hands.left)
             {
                 playerLHand = hand;
             }
-            else if(hand.currentHand == Pointer1.Hands.right)
+            else if(hand.currentHand == HandPointer.Hands.right)
             {
                 playerRHand = hand;
             }
@@ -97,11 +303,20 @@ public class Customer : MonoBehaviour
         AllowHover(false);
     }
     
+    /// <summary>
+    /// Set Animation to play for customer with passed in variables.
+    /// </summary>
+    /// <param name="state"> States of the animation. </param>
+    /// <param name="status"> True or False to determine playing the animation or not. </param>
     public void SetAnim(string state, bool status)
     {
         anim.SetBool(state, status);
     }
 
+    /// <summary>
+    /// Set the Audio Clip of customer's audio source, stop previous clip and start playing current clip.
+    /// </summary>
+    /// <param name="audioClip"></param>
     public void SetClip(AudioClip audioClip)
     {
         audio.Stop();
@@ -109,7 +324,9 @@ public class Customer : MonoBehaviour
         audio.Play();
     }
 
-    // Initiate Gradients, which is used to change color based on fillAmount of timerImage
+    /// <summary>
+    /// Initiate Gradients, which is used to change color based on fillAmount of timerImage.
+    /// </summary>
     private void InitiateColor()
     {
         greenYellowGradient = new Gradient();
@@ -136,8 +353,10 @@ public class Customer : MonoBehaviour
 
         yellowRedGradient.SetKeys(ck2, ak2);
     }
-    
-    // Calculate Direction for customer to move and Record down the Target position based on number of customer
+
+    /// <summary>
+    /// Calculate Direction for customer to move and Record down the Target position based on number of customer.
+    /// </summary>
     public void CalculateDir()
     {
         // Force to false, to allow movement towards target
@@ -165,7 +384,10 @@ public class Customer : MonoBehaviour
         }
     }
 
-    // Order food based on parameter
+    /// <summary>
+    /// Order food based on parameter.
+    /// </summary>
+    /// <param name="food"> The food to order. </param>
     public void OrderFood(FoodSO food)
     {
         // Show Food Bubble Image
@@ -180,14 +402,19 @@ public class Customer : MonoBehaviour
         orderedFood = true;
     }
 
-    // Turn clock hand image in Food Order canvas based on timer fill amount
+    /// <summary>
+    /// Turn clock hand image in Food Order canvas based on timer fill amount.
+    /// </summary>
+    /// <param name="percentage"> Percentage of current timer of waiting. </param>
     private void TurnClockHand(float percentage)
     {
         var angle = percentage * 360f;
         clockHand.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, angle));
     }
 
-    // Set customer gameobject to inactive to simulate GameObject.Destory()
+    /// <summary>
+    /// Deactivates this GameObject and Reset its data for later use through The Object Pool.
+    /// </summary>
     public void Destroy()
     {
         gameObject.SetActive(false);
@@ -208,7 +435,9 @@ public class Customer : MonoBehaviour
         dodge = false;
     }
 
-    // Leave the store
+    /// <summary>
+    /// Leave the store.
+    /// </summary>
     public void Leave()
     {
         transform.GetChild(0).gameObject.SetActive(false);
@@ -217,11 +446,19 @@ public class Customer : MonoBehaviour
         leavingState = LeavingStates.phase1;
     }
 
+    /// <summary>
+    /// Allow interaction with customer.
+    /// </summary>
+    /// <param name="allow"> True or False to determine should allow or not. </param>
     public void AllowHover(bool allow)
     {
         transform.GetChild(1).gameObject.SetActive(allow);
     }
 
+    /// <summary>
+    /// Remove customer from Dictionary and Make the other active customer to move up the queue.
+    /// </summary>
+    /// <param name="customerId"> The Customer ID to remove. </param>
     public void RemoveCustomer(int customerId)
     {
         // Remove Customer with stated customerId
@@ -296,7 +533,11 @@ public class Customer : MonoBehaviour
 
     private void Update()
     {
-        if (PauseManager.Instance != null && PauseManager.Instance.isPaused) return;
+        // If the game is in Pause Status, do not do anything
+        if (PauseManager.Instance != null && PauseManager.Instance.isPaused)
+        {
+            return;
+        }
 
         // Debug Key => 1st customer leaves
         if(Input.GetKeyDown(KeyCode.L))
@@ -308,17 +549,7 @@ public class Customer : MonoBehaviour
                 Leave();
             }
         }
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            if (customerId == 1)
-            {
-                SetAnim(idle, false);
-                SetAnim(scared, true);
-                Leave();
-            }
-        }
-
-
+        
         if (!leaving)
         {
             if (!fighting)
@@ -559,6 +790,11 @@ public class Customer : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// This makes this customer leave when gets hit by Player's Projectile.
+    /// And destroy the projectiles by calling Destroy() in Projectile Script.
+    /// </summary>
+    /// <param name="other"> The collider component in the Projectile. </param>
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Knife")
