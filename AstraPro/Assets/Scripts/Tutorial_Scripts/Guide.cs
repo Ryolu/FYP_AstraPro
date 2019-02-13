@@ -162,6 +162,12 @@ public class Guide : MonoBehaviour
 
     private void Update()
     {
+        // If the game is in Pause Status, do not do anything
+        if (PauseManager.Instance != null && PauseManager.Instance.isPaused)
+        {
+            return;
+        }
+
         // If finished guiding,do not do anything
         if (finishedGuide)
         {
